@@ -1,10 +1,10 @@
+import { useMemo } from "react";
 import Stack from "rsuite/Stack";
 import Button from "rsuite/Button";
 import TrashIcon from "@rsuite/icons/Trash";
-import { useAppSelector } from "../core/redux/hooks";
+import { useAppSelector } from "@core/redux/hooks";
 import { useRemoveMovie } from "./hooks";
-import { makeSelectMovieById } from "../core/movies/movieSlice";
-import { useMemo } from "react";
+import { makeSelectMovieById } from "@core/movies/movieSlice";
 
 const MovieListItem: React.FC<{ id: string }> = (props) => {
   const selectMovieById = useMemo(makeSelectMovieById, []);

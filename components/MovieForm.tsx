@@ -3,8 +3,8 @@ import Panel from "rsuite/Panel";
 import Button from "rsuite/Button";
 import Form from "rsuite/Form";
 import PlusIcon from "@rsuite/icons/Plus";
-import MovieList from "./MovieList";
 import { useAddMovie } from "./hooks";
+import MovieList from "./MovieList";
 
 const MovieForm: React.FC = () => {
   const addMovie = useAddMovie();

@@ -1,5 +1,5 @@
-import { useAppSelector } from "../core/redux/hooks";
-import { selectMovieIds } from "../core/movies/movieSlice";
+import { useAppSelector } from "@core/redux/hooks";
+import { selectMovieIds } from "@core/movies/movieSlice";
 
 const getSectorPath = (
   innerRadius: number,

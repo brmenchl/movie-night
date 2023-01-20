@@ -1,7 +1,6 @@
-import { flow } from "@mobily/ts-belt";
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Movie } from "../../models/Movie";
-import { getSlice } from "../redux/types";
+import { getSlice } from "../redux/utils";
+import { Movie } from "./models/Movie";
 
 type MovieState = Movie[];
 
