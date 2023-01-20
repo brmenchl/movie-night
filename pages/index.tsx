@@ -1,38 +1,21 @@
-import Head from "next/head";
 import FlexboxGrid from "rsuite/FlexboxGrid";
-import Container from "rsuite/Container";
-import { Content, Header } from "rsuite";
-import { MovieProvider } from "../hooks/movies";
 import MovieForm from "../components/MovieForm";
 import Wheel from "../components/Wheel";
+import { Layout } from "../components/Layout";
 
-const MinionFavicon =
-  "data:image/x-icon;base64,AAABAAEAEBAAAAEACABoBQAAFgAAACgAAAAQAAAAIAAAAAEACAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAASUc+AFdQPQCum28AWLvoAPP39wCGcE0AYE84ALCsrABm2/oAQUNLABYzQACG1OMAgmpGAK6TbgBs2/oAZ939APT+9QCsqqoAcl06AFlbYgCy4+kAkJORAIt2VgCYf1UAW0s0AL27vAAvNz0AXUw6AERBOQBwVjYAR1hkAMfz9gC0090Ablk2AG1eQQBsc+YAxb7FAG99fwBd1voAn4dpAGS/8ABr2/wAmaynAOv29QBs3PEAXsztAF/O+ABmq84AuLO0AJqKewBRuO0A+/v4ANHS0ADV390Asa2tAGHb9gAmNEkAf7zQAJuGZgBm2vkAKzMzADNCbACbhm8Ab3PhADUnEwAVGhgADxIWAIx8YwBazfYAFoK7AK2pqgDq+v4A5+LWAKOXggBVy/QApNPzAOXm5ACKxt8AedryAINpRwAAPGAANJnVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQkMSCDdHMQAAAAAAABRBARwZAh0AAAAAAAAAAAAAI0QNBj8wACAAAAAAAAAAOw4yKBcHCj0AAAAAAAAAABsYSgNQHhMLAAAAAAAAAC05IgxLJwlFTAAAAAAAAAAAAA8kQDNGUikAAAAAAAAAAAAQTlElNCsfTQAAAAAAAAAAGhE+FgU2BEgAAAAAAAAAAAAsITpJTy8AAAAAAAAAAAAAFSo8OC41AAAAAAAAAAAAAAAAJgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP//AAD//wAA/gMAAPAfAAD4FwAA8A8AAPAPAADgDwAA+A8AAPgHAAD4BwAA/A8AAPwPAAD/fwAA//8AAP//AAA=";
+const Home: React.FC = () => (
+  <Layout>
+    <FlexboxGrid justify="space-around">
+      <FlexboxGrid.Item colspan={16}>
+        <div style={{ width: 200, height: 200, margin: "auto" }}>
+          <Wheel />
+        </div>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={7}>
+        <MovieForm />
+      </FlexboxGrid.Item>
+    </FlexboxGrid>
+  </Layout>
+);
 
-export default function Home() {
-  return (
-    <MovieProvider>
-      <Head>
-        <title>Movie night | Spin the Wheel!</title>
-        <link href={MinionFavicon} rel="icon" type="image/x-icon" />
-      </Head>
-      <Container style={{ backgroundColor: "white", position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}>
-        <Header>
-          <h1>Movie Night!</h1>
-        </Header>
-        <Content>
-          <FlexboxGrid justify="space-around">
-            <FlexboxGrid.Item colspan={16}>
-              <div style={{ width: 200, height: 200, margin: "auto" }}>
-                <Wheel />
-              </div>
-            </FlexboxGrid.Item>
-            <FlexboxGrid.Item colspan={7}>
-              <MovieForm />
-            </FlexboxGrid.Item>
-          </FlexboxGrid>
-        </Content>
-      </Container>
-    </MovieProvider>
-  );
-}
+export default Home;

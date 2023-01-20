@@ -1,4 +1,5 @@
-import { useMovieIds } from "../hooks/movies";
+import { useAppSelector } from "../core/redux/hooks";
+import { selectMovieIds } from "../core/movies/movieSlice";
 
 const getSectorPath = (
   innerRadius: number,
@@ -42,7 +43,7 @@ const Sector: React.FC<{ sectorCount: number; sectorIndex: number }> = ({
 };
 
 const Wheel: React.FC = () => {
-  const movieIds = useMovieIds();
+  const movieIds = useAppSelector(selectMovieIds);
   return (
     <svg viewBox="0 0 200 200" preserveAspectRatio="XMidYMid meet">
       <g transform="translate(100, 100)" stroke="#000" strokeWidth={1}>

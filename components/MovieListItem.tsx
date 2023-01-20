@@ -1,13 +1,17 @@
 import Stack from "rsuite/Stack";
 import Button from "rsuite/Button";
 import TrashIcon from "@rsuite/icons/Trash";
-import { useMovieById, useRemoveMovieById } from "../hooks/movies";
+import { useAppSelector } from "../core/redux/hooks";
+import { useRemoveMovie } from "./hooks";
+import { makeSelectMovieById } from "../core/movies/movieSlice";
+import { useMemo } from "react";
 
 const MovieListItem: React.FC<{ id: string }> = (props) => {
-  const movie = useMovieById(props.id);
-  const removeMovie = useRemoveMovieById(props.id);
-  if (movie === undefined) return null;
-  return (
+  const selectMovieById = useMemo(makeSelectMovieById, []);
+  const movie = useAppSelector((state) => selectMovieById(state, props.id));
+  const removeMovie = useRemoveMovie(props.id);
+
+  return movie ? (
     <Stack>
       <Stack.Item flex={1}>
         <p>{movie.title}</p>
@@ -16,7 +20,7 @@ const MovieListItem: React.FC<{ id: string }> = (props) => {
         <TrashIcon />
       </Button>
     </Stack>
-  );
+  ) : null;
 };
 
 export default MovieListItem;

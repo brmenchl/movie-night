@@ -1,9 +1,10 @@
 import List from "rsuite/List";
-import { useMovieIds } from "../hooks/movies";
+import { useAppSelector } from "../core/redux/hooks";
+import { selectMovieIds } from "../core/movies/movieSlice";
 import MovieListItem from "./MovieListItem";
 
 const MovieList: React.FC = () => {
-  const movieIds = useMovieIds();
+  const movieIds = useAppSelector(selectMovieIds);
   return (
     <List size="md">
       {movieIds.map((movieId, index) => (
