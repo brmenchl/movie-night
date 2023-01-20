@@ -15,7 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@core/*": ["./core/*"],
+      "@redux/*": ["./redux/*"],
+      "@movies/*": ["./movies/*"],
       "@components/*": ["./components/*"]
     }
   },

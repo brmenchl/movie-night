@@ -1,14 +1,14 @@
 import FlexboxGrid from "rsuite/FlexboxGrid";
-import MovieForm from "@components/MovieForm";
-import Wheel from "@components/Wheel";
 import { Layout } from "@components/Layout";
+import WheelPane from "@movies/WheelPane";
+import MovieForm from "@movies/MovieListPane";
 
 const Home: React.FC = () => (
   <Layout>
     <FlexboxGrid justify="space-around">
       <FlexboxGrid.Item colspan={16}>
         <div style={{ width: 200, height: 200, margin: "auto" }}>
-          <Wheel />
+          <WheelPane />
         </div>
       </FlexboxGrid.Item>
       <FlexboxGrid.Item colspan={7}>
