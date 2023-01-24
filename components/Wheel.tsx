@@ -1,10 +1,7 @@
-import { A } from "@mobily/ts-belt";
 import { useEffect, useRef } from "react";
+import { makeColorGenerator } from "./wheelColorGenerator";
 
 type WheelOption = { id: string; displayName: string };
-
-// FUTURE PROPS
-const defaultColors = ["#fcb25c", "#00FFFF", "#0F0F"];
 
 const fontStyle = {
   weight: "bold",
@@ -12,30 +9,10 @@ const fontStyle = {
   size: "14px",
 };
 
-const pickRandom = <T,>(xs: T[]): T =>
-  xs[Math.floor(Math.random() * xs.length)];
-
-const getColors = (colorTheme: string[], count: number) =>
-  A.range(0, count).reduce(
-    ({ last, colors }, i) => {
-      const color = pickRandom(
-        colorTheme.filter(
-          (c) => c !== last && !(i === count - 1 && c === colors[0])
-        )
-      );
-      return {
-        last: color,
-        colors: [...colors, color],
-      };
-    },
-    { last: "", colors: [] as string[] }
-  ).colors;
-
 const Wheel: React.FC<{
   options: WheelOption[];
   radius: number;
-  colors?: string[];
-}> = ({ options, radius, colors: colorTheme = defaultColors }) => {
+}> = ({ options, radius }) => {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -45,17 +22,17 @@ const Wheel: React.FC<{
       const context = ref.current.getContext("2d")!;
       const arcAngle = (2 * Math.PI) / options.length;
       const renderOption = wheelOptionRenderer(context, radius, arcAngle);
-      context.font = `${fontStyle.weight} ${fontStyle.size} ${fontStyle.family}`;
-      context.textBaseline = "middle";
-      context.strokeStyle = "#FFFFFF";
+      const renderOptionText = wheelTextRenderer(context, radius, arcAngle);
 
       context.translate(radius, radius);
       context.rotate(-Math.PI / 2);
       renderWheelBackground(context, radius);
 
-      const optionColors = getColors(colorTheme, options.length);
+      const getColorForIndex = makeColorGenerator(/* using defaults */);
       for (const [i, option] of options.entries()) {
-        renderOption(option, optionColors[i]);
+        renderOption(getColorForIndex(i));
+        renderOptionText(option.displayName);
+
         context.rotate(arcAngle);
       }
     }
@@ -66,7 +43,7 @@ const Wheel: React.FC<{
 
 const wheelOptionRenderer =
   (context: CanvasRenderingContext2D, radius: number, arcAngle: number) =>
-  (option: WheelOption, color: string) => {
+  (color: string) => {
     context.save();
     context.beginPath();
     context.fillStyle = color;
@@ -76,13 +53,20 @@ const wheelOptionRenderer =
     context.fill();
     context.stroke();
     context.restore();
+  };
 
+const wheelTextRenderer =
+  (context: CanvasRenderingContext2D, radius: number, arcAngle: number) =>
+  (text: string) => {
     context.save();
     context.beginPath();
+    context.font = `${fontStyle.weight} ${fontStyle.size} ${fontStyle.family}`;
+    context.textBaseline = "middle";
+    context.strokeStyle = "#FFFFFF";
     context.fillStyle = "#000000";
     context.moveTo(0, 0);
     context.rotate(arcAngle / 2);
-    context.fillText(option.displayName, radius / 2, 0);
+    context.fillText(text, radius / 2, 0);
     context.restore();
   };
 
