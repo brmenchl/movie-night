@@ -27,6 +27,8 @@ export const selectMovieIds = createSelector(selectMovieSlice, (slice) =>
   slice.map((m) => m.id)
 );
 
+export const selectMovies = createSelector(selectMovieSlice, (slice) => slice);
+
 export const makeSelectMovieById = () =>
   createSelector([selectMovieSlice, (_, id: string) => id], (slice, id) =>
     slice.find((m) => m.id === id)

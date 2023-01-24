@@ -1,8 +1,8 @@
-import { selectMovieIds } from "@movies/movieSlice";
+import { selectMovies } from "@movies/movieSlice";
 import { useAppSelector } from "@redux/hooks";
 
 export const useGetMovieWheelOptions = () =>
-  useAppSelector(selectMovieIds).map((id) => ({
-    id,
-    displayName: id,
+  useAppSelector(selectMovies).map((movie) => ({
+    id: movie.id,
+    displayName: movie.title,
   }));

@@ -13,8 +13,10 @@ const MovieForm: React.FC = () => {
   const addMovieFromInput = useCallback(
     (_: Boolean, e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      addMovie(movie);
-      setMovie("");
+      if (movie.trim() !== "") {
+        addMovie(movie.trim());
+        setMovie("");
+      }
     },
     [movie, addMovie, setMovie]
   );
