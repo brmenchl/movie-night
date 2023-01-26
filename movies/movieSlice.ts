@@ -1,5 +1,5 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getSlice } from "../redux/utils";
+import { getSlice } from "@redux/utils";
 import { Movie } from "./models/Movie";
 
 type MovieState = Movie[];

@@ -1,83 +1,141 @@
-import { useEffect, useRef } from "react";
+import { A, F } from "@mobily/ts-belt";
+import { useEffect, useMemo, useRef } from "react";
+import { degToRad } from "../utils/angles";
 import { makeColorGenerator } from "./wheelColorGenerator";
+import { useWheelRotation } from "./useWheelRotation";
 
+type Bounds = [start: number, end: number];
 type WheelOption = { id: string; displayName: string };
-
-const fontStyle = {
-  weight: "bold",
-  family: "sans-serif",
-  size: "14px",
+type WheelOptionView = {
+  option: WheelOption;
+  path: Path2D;
+  bounds: Bounds;
 };
 
-const Wheel: React.FC<{
+// Start 0 at top rather than right
+const rotationOffset = -90;
+
+export const Wheel: React.FC<{
   options: WheelOption[];
   radius: number;
 }> = ({ options, radius }) => {
   const ref = useRef<HTMLCanvasElement>(null);
+  const ctx = useRef<CanvasRenderingContext2D>();
 
   useEffect(() => {
     if (ref.current) {
-      ref.current.width = radius * 2;
-      ref.current.height = radius * 2;
-      const context = ref.current.getContext("2d")!;
-      const arcAngle = (2 * Math.PI) / options.length;
-      const renderOption = wheelOptionRenderer(context, radius, arcAngle);
-      const renderOptionText = wheelTextRenderer(context, radius, arcAngle);
-
-      context.translate(radius, radius);
-      context.rotate(-Math.PI / 2);
-      renderWheelBackground(context, radius);
-
-      const getColorForIndex = makeColorGenerator(/* using defaults */);
-      for (const [i, option] of options.entries()) {
-        renderOption(getColorForIndex(i));
-        renderOptionText(option.displayName);
-
-        context.rotate(arcAngle);
-      }
+      ctx.current = ref.current.getContext("2d")!;
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.height = radius * 2;
+      ref.current.width = radius * 2;
+    }
+  }, [radius]);
+
+  const cb = useMemo(() => draw(radius, options), [radius, options]);
+
+  useWheelRotation(ctx.current, cb);
 
   return <canvas ref={ref}></canvas>;
 };
 
-const wheelOptionRenderer =
-  (context: CanvasRenderingContext2D, radius: number, arcAngle: number) =>
-  (color: string) => {
-    context.save();
-    context.beginPath();
-    context.fillStyle = color;
-    context.moveTo(0, 0);
-    context.arc(0, 0, radius, 0, arcAngle, false);
-    context.closePath();
-    context.fill();
-    context.stroke();
-    context.restore();
+const draw =
+  (radius: number, options: WheelOption[]) =>
+  (ctx: CanvasRenderingContext2D, rotation: number) => {
+    ctx.clearRect(0, 0, radius * 2, radius * 2);
+    const center = [radius, radius] as const;
+
+    ctx.textBaseline = "middle";
+    ctx.font = "14px sans-serif";
+
+    ctx.save();
+
+    // Build paths:
+    const bounds = getItemBounds(options.length, rotation);
+    const optionViews = A.zipWith(bounds, options, ([start, end], option) => {
+      const path = new Path2D();
+      path.moveTo(...center);
+      path.arc(...center, radius, degToRad(start), degToRad(end));
+      return { option, path, bounds: [start, end] as Bounds };
+    });
+
+    const getColor = makeColorGenerator(/* using defaults */);
+
+    drawItemBackgrounds(ctx, getColor, optionViews);
+    drawItemLines(ctx, center, radius, optionViews);
+    drawItemLabels(ctx, center, radius, optionViews);
   };
 
-const wheelTextRenderer =
-  (context: CanvasRenderingContext2D, radius: number, arcAngle: number) =>
-  (text: string) => {
-    context.save();
-    context.beginPath();
-    context.font = `${fontStyle.weight} ${fontStyle.size} ${fontStyle.family}`;
-    context.textBaseline = "middle";
-    context.strokeStyle = "#FFFFFF";
-    context.fillStyle = "#000000";
-    context.moveTo(0, 0);
-    context.rotate(arcAngle / 2);
-    context.fillText(text, radius / 2, 0);
-    context.restore();
-  };
-
-const renderWheelBackground = (
-  context: CanvasRenderingContext2D,
-  radius: number
+const drawItemBackgrounds = (
+  ctx: CanvasRenderingContext2D,
+  getColor: (idx: number) => string,
+  viewOptions: readonly WheelOptionView[]
 ) => {
-  context.beginPath();
-  context.arc(0, 0, radius, 0, 2 * Math.PI, false);
-  context.fillStyle = "#ccc";
-  context.fill();
+  for (const [i, { path }] of viewOptions.entries()) {
+    ctx.fillStyle = getColor(i);
+    ctx.fill(path);
+  }
 };
 
-export default Wheel;
+const drawItemLines = (
+  ctx: CanvasRenderingContext2D,
+  center: readonly [number, number],
+  radius: number,
+  optionViews: readonly WheelOptionView[]
+) => {
+  ctx.translate(...center);
+
+  optionViews.forEach(({ bounds: [start] }) => {
+    ctx.save();
+    ctx.rotate(degToRad(start));
+
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(radius, 0);
+
+    ctx.strokeStyle = "#FFFFFF";
+    ctx.stroke();
+
+    ctx.restore();
+  });
+
+  ctx.resetTransform();
+};
+
+const drawItemLabels = (
+  ctx: CanvasRenderingContext2D,
+  center: readonly [x: number, y: number],
+  radius: number,
+  optionViews: readonly WheelOptionView[]
+) => {
+  for (const { option, path, bounds } of optionViews) {
+    ctx.save();
+
+    ctx.translate(...center);
+    ctx.rotate(degToRad(getMidAngle(bounds)));
+
+    ctx.fillStyle = "#000000";
+
+    const { width: textWidth } = ctx.measureText(option.displayName);
+    const textX = radius / 2 - textWidth / 2;
+    ctx.fillText(option.displayName, textX, 0);
+    ctx.rotate(-degToRad(getMidAngle(bounds)));
+
+    ctx.restore();
+  }
+};
+
+const getItemBounds = (count: number, lastRotation: number) => {
+  const itemAngle = 360 / count;
+
+  // Maybe check floating point if you see weird stuff
+  return A.range(0, count).map((i) => {
+    const startAngle = rotationOffset + lastRotation + itemAngle * i;
+    return [startAngle, startAngle + itemAngle];
+  });
+};
+
+const getMidAngle = ([start, end]: Bounds) => start + (end - start) / 2;
