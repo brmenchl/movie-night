@@ -90,7 +90,7 @@ const drawWheel =
       return { option, path, bounds: [start, end] as Bounds };
     });
 
-    const getColor = makeColorGenerator(/* using defaults */);
+    const getColor = makeColorGenerator(options.length /* using defaults */);
 
     drawItemBackgrounds(ctx, getColor, optionViews);
     drawItemLines(ctx, dimensions, optionViews);
