@@ -1,6 +1,6 @@
 import List from "rsuite/List";
 import { useAppSelector } from "@redux/hooks";
-import { selectMovieIds } from "../movieSlice";
+import { selectMovieIds } from "../movies/movieSlice";
 import MovieListItem from "./MovieListItem";
 
 const MovieList: React.FC = () => {

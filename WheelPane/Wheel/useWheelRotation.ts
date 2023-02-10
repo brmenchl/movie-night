@@ -1,4 +1,8 @@
-import { selectIsWheelSpinning, stopSpin } from "@movies/WheelPane/wheelSlice";
+import {
+  selectIsWheelSpinning,
+  selectWheelSpinProperties,
+  stopSpin,
+} from "../wheelSlice";
 import {
   useAppDispatch,
   useAppSelector,
@@ -6,59 +10,70 @@ import {
 } from "@redux/hooks";
 import { useCallback, useEffect, useRef } from "react";
 
-const drag = 35;
-
 type RotationState = { speed: number; rotation: number };
-const initialSpeed = 100;
 
-export const useWheelRotation = (
+export const useWheelSpin = (
   ctx: CanvasRenderingContext2D | undefined,
-  drawWheel: (ctx: CanvasRenderingContext2D, rotation: number) => void
+  drawWheel: (ctx: CanvasRenderingContext2D, rotation: number) => void,
+  onWheelSpinComplete: (rotation: number) => void
 ) => {
   const dispatch = useAppDispatch();
   const isWheelSpinning = useAppSelector(selectIsWheelSpinning);
+  const { initialSpeed, duration } = useAppSelector(selectWheelSpinProperties);
 
   const stateRef = useRef<{ speed: number; rotation: number }>({
     speed: 0,
     rotation: 0,
   });
 
+  const drag = -initialSpeed / duration;
+
+  const rotate = useCallback(
+    (delta: number) => {
+      stateRef.current = getRotation(drag, delta, stateRef.current);
+    },
+    [drag]
+  );
+
   const draw = useCallback(
     (delta: number) => {
       if (ctx) {
-        stateRef.current = getRotation(delta, stateRef.current);
+        rotate(delta);
         drawWheel(ctx, stateRef.current.rotation);
         if (stateRef.current.speed === 0) {
           dispatch(stopSpin());
+          onWheelSpinComplete(stateRef.current.rotation);
         }
       }
     },
-    [ctx, drawWheel, dispatch]
+    [dispatch, ctx, drawWheel, onWheelSpinComplete, rotate]
   );
 
   // Set initial state on draw state change (initial draw, option change)
   useEffect(() => {
     if (ctx) {
       stateRef.current = { speed: 0, rotation: 0 };
-      draw(0);
+      drawWheel(ctx, 0);
+      dispatch(stopSpin());
     }
-  }, [ctx, draw]);
+  }, [dispatch, ctx, drawWheel]);
 
   useEffect(() => {
     if (isWheelSpinning) {
       stateRef.current.speed = initialSpeed;
     }
-  }, [isWheelSpinning]);
+  }, [isWheelSpinning, initialSpeed]);
 
   useRequestAnimationFrame(draw, !!ctx && isWheelSpinning);
 };
 
 const getRotation = (
+  drag: number,
   delta: number,
   currentState: RotationState
 ): RotationState => {
   const deltaSec = delta / 1000;
-  const newSpeed = Math.max(currentState.speed - drag * deltaSec, 0);
+  const newSpeed = Math.max(currentState.speed + drag * deltaSec, 0);
 
   return {
     speed: newSpeed,

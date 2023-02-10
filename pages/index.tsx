@@ -1,7 +1,7 @@
 import FlexboxGrid from "rsuite/FlexboxGrid";
 import { Layout } from "@components/Layout";
-import WheelPane from "@movies/WheelPane";
-import MovieForm from "@movies/MovieListPane";
+import WheelPane from "../WheelPane";
+import MovieForm from "../MovieListPane";
 
 const Home: React.FC = () => (
   <Layout>

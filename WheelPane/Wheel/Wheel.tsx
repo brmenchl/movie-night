@@ -1,10 +1,17 @@
 import { A, F } from "@mobily/ts-belt";
 import { useEffect, useMemo, useRef } from "react";
-import { degToRad } from "../utils/angles";
+import { degToRad } from "../../utils/angles";
 import { makeColorGenerator } from "./wheelColorGenerator";
-import { useWheelRotation } from "./useWheelRotation";
+import { useWheelSpin } from "./useWheelRotation";
+import { useOnWheelSpinComplete } from "./useWheelSelection";
 
 type Bounds = [start: number, end: number];
+type Position = [x: number, y: number];
+type Dimensions = {
+  bounds: Bounds;
+  center: Position;
+  radius: number;
+};
 type WheelOption = { id: string; displayName: string };
 type WheelOptionView = {
   option: WheelOption;
@@ -16,7 +23,7 @@ type WheelOptionView = {
 const rotationOffset = -90;
 
 export const Wheel: React.FC<{
-  options: WheelOption[];
+  options: readonly WheelOption[];
   radius: number;
 }> = ({ options, radius }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -28,25 +35,41 @@ export const Wheel: React.FC<{
     }
   }, []);
 
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.height = radius * 2;
-      ref.current.width = radius * 2;
-    }
+  const dimensions = useMemo<Dimensions>(() => {
+    const margin = 50;
+    const bound = radius * 2 + margin * 2;
+    return {
+      bounds: [bound, bound],
+      center: [margin + radius, margin + radius],
+      radius,
+    };
   }, [radius]);
 
-  const cb = useMemo(() => draw(radius, options), [radius, options]);
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.height = dimensions.bounds[0];
+      ref.current.width = dimensions.bounds[1];
+    }
+  }, [dimensions]);
 
-  useWheelRotation(ctx.current, cb);
+  const draw = useMemo(
+    () => drawWheel(dimensions, options),
+    [dimensions, options]
+  );
+
+  const handleWheelSpinComplete = useOnWheelSpinComplete(
+    getItemAngle(options.length)
+  );
+
+  useWheelSpin(ctx.current, draw, handleWheelSpinComplete);
 
   return <canvas ref={ref}></canvas>;
 };
 
-const draw =
-  (radius: number, options: WheelOption[]) =>
+const drawWheel =
+  (dimensions: Dimensions, options: readonly WheelOption[]) =>
   (ctx: CanvasRenderingContext2D, rotation: number) => {
-    ctx.clearRect(0, 0, radius * 2, radius * 2);
-    const center = [radius, radius] as const;
+    ctx.clearRect(0, 0, ...dimensions.bounds);
 
     ctx.textBaseline = "middle";
     ctx.font = "14px sans-serif";
@@ -57,16 +80,22 @@ const draw =
     const bounds = getItemBounds(options.length, rotation);
     const optionViews = A.zipWith(bounds, options, ([start, end], option) => {
       const path = new Path2D();
-      path.moveTo(...center);
-      path.arc(...center, radius, degToRad(start), degToRad(end));
+      path.moveTo(...dimensions.center);
+      path.arc(
+        ...dimensions.center,
+        dimensions.radius,
+        degToRad(start),
+        degToRad(end)
+      );
       return { option, path, bounds: [start, end] as Bounds };
     });
 
     const getColor = makeColorGenerator(/* using defaults */);
 
     drawItemBackgrounds(ctx, getColor, optionViews);
-    drawItemLines(ctx, center, radius, optionViews);
-    drawItemLabels(ctx, center, radius, optionViews);
+    drawItemLines(ctx, dimensions, optionViews);
+    drawItemLabels(ctx, dimensions, optionViews);
+    drawTicker(ctx, dimensions);
   };
 
 const drawItemBackgrounds = (
@@ -82,11 +111,10 @@ const drawItemBackgrounds = (
 
 const drawItemLines = (
   ctx: CanvasRenderingContext2D,
-  center: readonly [number, number],
-  radius: number,
+  dimensions: Dimensions,
   optionViews: readonly WheelOptionView[]
 ) => {
-  ctx.translate(...center);
+  ctx.translate(...dimensions.center);
 
   optionViews.forEach(({ bounds: [start] }) => {
     ctx.save();
@@ -94,7 +122,7 @@ const drawItemLines = (
 
     ctx.beginPath();
     ctx.moveTo(0, 0);
-    ctx.lineTo(radius, 0);
+    ctx.lineTo(dimensions.radius, 0);
 
     ctx.strokeStyle = "#FFFFFF";
     ctx.stroke();
@@ -107,20 +135,19 @@ const drawItemLines = (
 
 const drawItemLabels = (
   ctx: CanvasRenderingContext2D,
-  center: readonly [x: number, y: number],
-  radius: number,
+  dimensions: Dimensions,
   optionViews: readonly WheelOptionView[]
 ) => {
-  for (const { option, path, bounds } of optionViews) {
+  for (const { option, bounds } of optionViews) {
     ctx.save();
 
-    ctx.translate(...center);
+    ctx.translate(...dimensions.center);
     ctx.rotate(degToRad(getMidAngle(bounds)));
 
     ctx.fillStyle = "#000000";
 
     const { width: textWidth } = ctx.measureText(option.displayName);
-    const textX = radius / 2 - textWidth / 2;
+    const textX = dimensions.radius / 2 - textWidth / 2;
     ctx.fillText(option.displayName, textX, 0);
     ctx.rotate(-degToRad(getMidAngle(bounds)));
 
@@ -128,14 +155,36 @@ const drawItemLabels = (
   }
 };
 
-const getItemBounds = (count: number, lastRotation: number) => {
-  const itemAngle = 360 / count;
+const drawTicker = (ctx: CanvasRenderingContext2D, dimensions: Dimensions) => {
+  const topPoint = [
+    dimensions.center[0],
+    dimensions.center[1] - dimensions.radius,
+  ] as const;
+  const tickerPoint = [topPoint[0], topPoint[1] + 15] as const;
+  ctx.save();
 
+  ctx.fillStyle = "#FFFFFF";
+  ctx.strokeStyle = "#000000";
+
+  ctx.beginPath();
+  ctx.moveTo(...tickerPoint);
+  ctx.arc(...topPoint, 5, degToRad(-180), degToRad(0));
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.restore();
+};
+
+const getItemBounds = (count: number, lastRotation: number) => {
+  const itemAngle = getItemAngle(count);
   // Maybe check floating point if you see weird stuff
   return A.range(0, count).map((i) => {
     const startAngle = rotationOffset + lastRotation + itemAngle * i;
     return [startAngle, startAngle + itemAngle];
   });
 };
+
+const getItemAngle = (count: number) => 360 / count;
 
 const getMidAngle = ([start, end]: Bounds) => start + (end - start) / 2;

@@ -1,4 +1,4 @@
-import { wheelSlice } from "@movies/WheelPane/wheelSlice";
+import { wheelSlice } from "../WheelPane/wheelSlice";
 import { configureStore } from "@reduxjs/toolkit";
 import { movieSlice } from "../movies/movieSlice";
 
