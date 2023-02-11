@@ -1,4 +1,4 @@
-import { Slice } from "@reduxjs/toolkit";
+import { Slice } from '@reduxjs/toolkit';
 
 type SliceState<S extends Slice<any, any, any>> = S extends Slice<
   infer State,

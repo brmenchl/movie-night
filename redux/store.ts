@@ -1,6 +1,6 @@
-import { wheelSlice } from "../WheelPane/wheelSlice";
-import { configureStore } from "@reduxjs/toolkit";
-import { movieSlice } from "../movies/movieSlice";
+import { movieSlice } from '../movies/movieSlice';
+import { wheelSlice } from '../screens/WheelScreen/WheelPane/wheelSlice';
+import { configureStore } from '@reduxjs/toolkit';
 
 export const store = configureStore({
   reducer: {

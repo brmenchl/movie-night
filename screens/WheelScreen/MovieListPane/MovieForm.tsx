@@ -1,21 +1,21 @@
-import React, { useCallback, useState } from "react";
-import Panel from "rsuite/Panel";
-import Button from "rsuite/Button";
-import Form from "rsuite/Form";
-import PlusIcon from "@rsuite/icons/Plus";
-import { useAddMovie } from "./hooks";
-import MovieList from "./MovieList";
+import MovieList from './MovieList';
+import { useAddMovie } from './hooks';
+import PlusIcon from '@rsuite/icons/Plus';
+import React, { useCallback, useState } from 'react';
+import Button from 'rsuite/Button';
+import Form from 'rsuite/Form';
+import Panel from 'rsuite/Panel';
 
 const MovieForm: React.FC = () => {
   const addMovie = useAddMovie();
-  const [movie, setMovie] = useState("");
+  const [movie, setMovie] = useState('');
   const onInputChange = useCallback((v: string) => setMovie(v), [setMovie]);
   const addMovieFromInput = useCallback(
-    (_: Boolean, e: React.FormEvent<HTMLFormElement>) => {
+    (_: boolean, e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      if (movie.trim() !== "") {
+      if (movie.trim() !== '') {
         addMovie(movie.trim());
-        setMovie("");
+        setMovie('');
       }
     },
     [movie, addMovie, setMovie]

@@ -1,7 +1,7 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getSlice } from "@redux/utils";
-import { Movie } from "./models/Movie";
-import { A, D, O, Option } from "@mobily/ts-belt";
+import { Movie } from './models/Movie';
+import { A, D, O, Option } from '@mobily/ts-belt';
+import { getSlice } from '@redux/utils';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type MovieState = {
   byId: Record<string, Movie>;
@@ -14,7 +14,7 @@ const None = O.None as Option<string>;
 const initialState: MovieState = { byId: {}, winnerId: O.None, all: [] };
 
 export const movieSlice = createSlice({
-  name: "movies",
+  name: 'movies',
   initialState,
   reducers: {
     addMovie: (state, action: PayloadAction<Movie>) => ({

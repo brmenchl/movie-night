@@ -1,9 +1,9 @@
-import { A, F } from "@mobily/ts-belt";
-import { useEffect, useMemo, useRef } from "react";
-import { degToRad } from "../../utils/angles";
-import { makeColorGenerator } from "./wheelColorGenerator";
-import { useWheelSpin } from "./useWheelRotation";
-import { useOnWheelSpinComplete } from "./useWheelSelection";
+import { degToRad } from '../../../../utils/angles';
+import { useWheelSpin } from './useWheelRotation';
+import { useOnWheelSpinComplete } from './useWheelSelection';
+import { makeColorGenerator } from './wheelColorGenerator';
+import { A, F } from '@mobily/ts-belt';
+import { useEffect, useMemo, useRef } from 'react';
 
 type Bounds = [start: number, end: number];
 type Position = [x: number, y: number];
@@ -31,7 +31,7 @@ export const Wheel: React.FC<{
 
   useEffect(() => {
     if (ref.current) {
-      ctx.current = ref.current.getContext("2d")!;
+      ctx.current = ref.current.getContext('2d')!;
     }
   }, []);
 
@@ -71,8 +71,8 @@ const drawWheel =
   (ctx: CanvasRenderingContext2D, rotation: number) => {
     ctx.clearRect(0, 0, ...dimensions.bounds);
 
-    ctx.textBaseline = "middle";
-    ctx.font = "14px sans-serif";
+    ctx.textBaseline = 'middle';
+    ctx.font = '14px sans-serif';
 
     ctx.save();
 
@@ -124,7 +124,7 @@ const drawItemLines = (
     ctx.moveTo(0, 0);
     ctx.lineTo(dimensions.radius, 0);
 
-    ctx.strokeStyle = "#FFFFFF";
+    ctx.strokeStyle = '#FFFFFF';
     ctx.stroke();
 
     ctx.restore();
@@ -144,7 +144,7 @@ const drawItemLabels = (
     ctx.translate(...dimensions.center);
     ctx.rotate(degToRad(getMidAngle(bounds)));
 
-    ctx.fillStyle = "#000000";
+    ctx.fillStyle = '#000000';
 
     const { width: textWidth } = ctx.measureText(option.displayName);
     const textX = dimensions.radius / 2 - textWidth / 2;
@@ -163,8 +163,8 @@ const drawTicker = (ctx: CanvasRenderingContext2D, dimensions: Dimensions) => {
   const tickerPoint = [topPoint[0], topPoint[1] + 15] as const;
   ctx.save();
 
-  ctx.fillStyle = "#FFFFFF";
-  ctx.strokeStyle = "#000000";
+  ctx.fillStyle = '#FFFFFF';
+  ctx.strokeStyle = '#000000';
 
   ctx.beginPath();
   ctx.moveTo(...tickerPoint);

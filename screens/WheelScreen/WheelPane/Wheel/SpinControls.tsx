@@ -1,14 +1,14 @@
-import { pipe } from "@mobily/ts-belt";
-import { useAppDispatch, useAppSelector } from "@redux/hooks";
-import { useCallback } from "react";
-import { Slider } from "rsuite";
 import {
   durationRange,
   initialSpeedRange,
   selectWheelSpinProperties,
   setDuration,
   setInitialSpeed,
-} from "../wheelSlice";
+} from '../wheelSlice';
+import { pipe } from '@mobily/ts-belt';
+import { useAppDispatch, useAppSelector } from '@redux/hooks';
+import { useCallback } from 'react';
+import { Slider } from 'rsuite';
 
 const [initialSpeedMin, initialSpeedMax] = initialSpeedRange;
 const [dragMin, dragMax] = durationRange;

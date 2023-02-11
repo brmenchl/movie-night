@@ -1,6 +1,6 @@
-import { A } from "@mobily/ts-belt";
+import { A } from '@mobily/ts-belt';
 
-const defaultTheme = ["#0275d8", "#5cb85c", "#5bc0de", "#f0ad4e", "#d9534f"];
+const defaultTheme = ['#0275d8', '#5cb85c', '#5bc0de', '#f0ad4e', '#d9534f'];
 
 export const makeColorGenerator = (
   count: number,

@@ -2,13 +2,13 @@ import {
   selectIsWheelSpinning,
   selectWheelSpinProperties,
   stopSpin,
-} from "../wheelSlice";
+} from '../wheelSlice';
 import {
   useAppDispatch,
   useAppSelector,
   useRequestAnimationFrame,
-} from "@redux/hooks";
-import { useCallback, useEffect, useRef } from "react";
+} from '@redux/hooks';
+import { useCallback, useEffect, useRef } from 'react';
 
 type RotationState = { speed: number; rotation: number };
 

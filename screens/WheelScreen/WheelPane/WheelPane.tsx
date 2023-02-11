@@ -1,7 +1,7 @@
-import Wheel from "./Wheel";
-import { useGetMovieWheelOptions, useSpinWheel } from "./hooks";
-import { WinnerView } from "./WinnerView";
-import { SpinControls } from "./Wheel/SpinControls";
+import Wheel from './Wheel';
+import { SpinControls } from './Wheel/SpinControls';
+import { WinnerView } from './WinnerView';
+import { useGetMovieWheelOptions, useSpinWheel } from './hooks';
 
 export const WheelPane: React.FC = () => {
   const options = useGetMovieWheelOptions();
