@@ -1,17 +1,22 @@
-import { addMovie, removeMovie } from '@movies/movieSlice';
+import { addMovie, removeMovie, shuffleMovies } from '@movies/movieSlice';
 import { useAppDispatch } from '@redux/hooks';
 import { nanoid } from '@reduxjs/toolkit';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export const useRemoveMovie = (id: string) => {
   const dispatch = useAppDispatch();
   return useCallback(() => dispatch(removeMovie(id)), [id, dispatch]);
 };
 
-export const useAddMovie = () => {
+export const useMovieMutations = () => {
   const dispatch = useAppDispatch();
-  return useCallback(
-    (title: string) => dispatch(addMovie({ id: nanoid(), title })),
+
+  return useMemo(
+    () => ({
+      addMovie: (title: string) => dispatch(addMovie({ id: nanoid(), title })),
+      removeMovie: (id: string) => dispatch(removeMovie(id)),
+      shuffleMovies: () => dispatch(shuffleMovies()),
+    }),
     [dispatch]
   );
 };

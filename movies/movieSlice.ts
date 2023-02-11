@@ -29,6 +29,10 @@ export const movieSlice = createSlice({
       all: A.filter(state.all, (id) => id !== action.payload),
       winnerId: None,
     }),
+    shuffleMovies: (state) => ({
+      ...state,
+      all: A.shuffle(state.all),
+    }),
     setMovieWinnerByIndex: (state, action: PayloadAction<number>) => ({
       ...state,
       winnerId: state.all[action.payload],
@@ -43,6 +47,7 @@ export const movieSlice = createSlice({
 export const {
   addMovie,
   removeMovie,
+  shuffleMovies,
   setMovieWinnerByIndex,
   resetMovieWinner,
 } = movieSlice.actions;
