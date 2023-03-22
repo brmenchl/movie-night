@@ -1,7 +1,9 @@
-import { addMovie, removeMovie, shuffleMovies } from '@movies/movieSlice';
-import { useAppDispatch } from '@redux/hooks';
 import { nanoid } from '@reduxjs/toolkit';
 import { useCallback, useMemo } from 'react';
+
+import { useAppDispatch } from '@core/redux/hooks';
+
+import { addMovie, removeMovie, shuffleMovies } from '@packages/movies';
 
 export const useRemoveMovie = (id: string) => {
   const dispatch = useAppDispatch();

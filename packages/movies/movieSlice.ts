@@ -1,7 +1,9 @@
+import { A, D, F, O, Option } from '@mobily/ts-belt';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+
+import { getSlice } from '@core/redux/utils';
+
 import { Movie } from './models/Movie';
-import { A, D, O, Option } from '@mobily/ts-belt';
-import { getSlice } from '@redux/utils';
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type MovieState = {
   byId: Record<string, Movie>;
@@ -29,6 +31,17 @@ export const movieSlice = createSlice({
       all: A.filter(state.all, (id) => id !== action.payload),
       winnerId: None,
     }),
+    updateMovie: (
+      state,
+      action: PayloadAction<{ id: string; title: string }>
+    ) => ({
+      ...state,
+      byId: D.update(
+        state.byId,
+        action.payload.id,
+        O.map(F.always(action.payload))
+      ),
+    }),
     shuffleMovies: (state) => ({
       ...state,
       all: A.shuffle(state.all),
@@ -47,6 +60,7 @@ export const movieSlice = createSlice({
 export const {
   addMovie,
   removeMovie,
+  updateMovie,
   shuffleMovies,
   setMovieWinnerByIndex,
   resetMovieWinner,

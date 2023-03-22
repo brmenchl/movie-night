@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import { PropsWithChildren } from 'react';
 import { Content, Header } from 'rsuite';
 
-export const Layout: React.FC<PropsWithChildren> = (props) => (
+export const Layout = (props: { children: React.ReactNode }) => (
   <>
     <Head>
       <title>Movie night | Spin the Wheel!</title>

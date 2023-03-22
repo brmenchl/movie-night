@@ -10,4 +10,7 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   root: true,
   ignorePatterns: ['*.config.js'],
+  rules: {
+    'react/display-name': 'off',
+  },
 };

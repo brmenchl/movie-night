@@ -1,13 +1,14 @@
-import { setMovieWinnerByIndex } from '@movies/movieSlice';
-import { useAppDispatch } from '@redux/hooks';
 import { useCallback } from 'react';
+
+import { useAppDispatch } from '@core/redux/hooks';
+
+import { setMovieWinnerByIndex } from '@packages/movies';
 
 export const useOnWheelSpinComplete = (itemAngle: number) => {
   const dispatch = useAppDispatch();
 
   return useCallback(
     (rotation: number) => {
-      console.log(rotation);
       const selectedIndex = getItemIndexFromRotation(itemAngle, rotation);
       dispatch(setMovieWinnerByIndex(selectedIndex));
     },

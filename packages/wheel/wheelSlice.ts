@@ -1,7 +1,8 @@
-import { Range } from '../../../utils/range';
 import { N } from '@mobily/ts-belt';
-import { getSlice } from '@redux/utils';
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+
+import { getSlice } from '@core/redux/utils';
+import { Range } from '@core/utils/range';
 
 type WheelState = {
   isSpinning: boolean;
@@ -14,8 +15,8 @@ export const durationRange: Range = [3, 30];
 
 const initialState: WheelState = {
   isSpinning: false,
-  initialSpeed: 0,
-  duration: 0,
+  initialSpeed: 1000,
+  duration: 30,
 };
 
 export const wheelSlice = createSlice({

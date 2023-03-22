@@ -1,5 +1,3 @@
-import MovieList from './MovieList';
-import { useMovieMutations } from './hooks';
 import XIcon from '@rsuite/icons/Close';
 import PlusIcon from '@rsuite/icons/Plus';
 import ShuffleIcon from '@rsuite/icons/Random';
@@ -9,6 +7,9 @@ import { Schema } from 'rsuite';
 import Button from 'rsuite/Button';
 import Form, { FormInstance } from 'rsuite/Form';
 import Panel from 'rsuite/Panel';
+
+import MovieList from './MovieList';
+import { useMovieMutations } from './hooks';
 
 const MovieForm: React.FC = () => {
   const formRef = useRef<FormInstance>(null);

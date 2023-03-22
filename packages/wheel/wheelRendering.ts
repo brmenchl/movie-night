@@ -1,74 +1,20 @@
-import { degToRad } from '../../../../utils/angles';
-import { useWheelSpin } from './useWheelRotation';
-import { useOnWheelSpinComplete } from './useWheelSelection';
-import { makeColorGenerator } from './wheelColorGenerator';
-import { A, F } from '@mobily/ts-belt';
-import { useEffect, useMemo, useRef } from 'react';
+import { A } from '@mobily/ts-belt';
 
-type Bounds = [start: number, end: number];
-type Position = [x: number, y: number];
-type Dimensions = {
-  bounds: Bounds;
-  center: Position;
-  radius: number;
-};
-type WheelOption = { id: string; displayName: string };
-type WheelOptionView = {
-  option: WheelOption;
-  path: Path2D;
-  bounds: Bounds;
-};
+import { degToRad } from '@core/utils/angles';
+
+import { Bounds, Dimensions, WheelOption, WheelOptionView } from './models';
+import { makeColorGenerator } from './wheelColorGenerator';
 
 // Start 0 at top rather than right
 const rotationOffset = -90;
 
-export const Wheel: React.FC<{
-  options: readonly WheelOption[];
-  radius: number;
-}> = ({ options, radius }) => {
-  const ref = useRef<HTMLCanvasElement>(null);
-  const ctx = useRef<CanvasRenderingContext2D>();
-
-  useEffect(() => {
-    if (ref.current) {
-      ctx.current = ref.current.getContext('2d')!;
-    }
-  }, []);
-
-  const dimensions = useMemo<Dimensions>(() => {
-    const margin = 50;
-    const bound = radius * 2 + margin * 2;
-    return {
-      bounds: [bound, bound],
-      center: [margin + radius, margin + radius],
-      radius,
-    };
-  }, [radius]);
-
-  useEffect(() => {
-    if (ref.current) {
-      ref.current.height = dimensions.bounds[0];
-      ref.current.width = dimensions.bounds[1];
-    }
-  }, [dimensions]);
-
-  const draw = useMemo(
-    () => drawWheel(dimensions, options),
-    [dimensions, options]
-  );
-
-  const handleWheelSpinComplete = useOnWheelSpinComplete(
-    getItemAngle(options.length)
-  );
-
-  useWheelSpin(ctx.current, draw, handleWheelSpinComplete);
-
-  return <canvas ref={ref}></canvas>;
-};
-
-const drawWheel =
-  (dimensions: Dimensions, options: readonly WheelOption[]) =>
-  (ctx: CanvasRenderingContext2D, rotation: number) => {
+export const drawWheel =
+  (
+    ctx: CanvasRenderingContext2D,
+    dimensions: Dimensions,
+    options: readonly WheelOption[]
+  ) =>
+  (rotation: number) => {
     ctx.clearRect(0, 0, ...dimensions.bounds);
 
     ctx.textBaseline = 'middle';
@@ -185,6 +131,6 @@ const getItemBounds = (count: number, lastRotation: number) => {
   });
 };
 
-const getItemAngle = (count: number) => 360 / count;
+export const getItemAngle = (count: number) => 360 / count;
 
 const getMidAngle = ([start, end]: Bounds) => start + (end - start) / 2;
