@@ -380,6 +380,11 @@
     javascript-natural-sort "0.7.1"
     lodash "^4.17.21"
 
+"@tsconfig/next@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@tsconfig/next/-/next-1.0.5.tgz#045d4d95839829e31d928404ab43a3c5b5169ee7"
+  integrity sha512-ZpAlWqSGE3ZWFqKmI3FiQEu8WcBF3uii1z1ovedMcALflsRoJnExp3YzWQ/fU7lzGmYtfX1CWFpf1Gl8aEC6GQ==
+
 "@types/chai@^4.3.3":
   version "4.3.4"
   resolved "https://registry.npmjs.org/@types/chai/-/chai-4.3.4.tgz"

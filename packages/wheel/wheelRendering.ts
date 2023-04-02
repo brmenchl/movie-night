@@ -48,12 +48,11 @@ const drawItemBackgrounds = (
   ctx: CanvasRenderingContext2D,
   getColor: (idx: number) => string,
   viewOptions: readonly WheelOptionView[]
-) => {
-  for (const [i, { path }] of viewOptions.entries()) {
+) =>
+  A.forEachWithIndex(viewOptions, (i, { path }) => {
     ctx.fillStyle = getColor(i);
     ctx.fill(path);
-  }
-};
+  });
 
 const drawItemLines = (
   ctx: CanvasRenderingContext2D,
