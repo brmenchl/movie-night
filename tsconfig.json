@@ -4,7 +4,8 @@
     "paths": {
       "@core/*": ["./core/*"],
       "@packages/*": ["./packages/*"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@server": ["./server"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
