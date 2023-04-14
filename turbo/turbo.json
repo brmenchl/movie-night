@@ -1,14 +1,39 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["**/.env.*local"],
+  "globalDependencies": [
+    "**/.env.*local"
+  ],
   "pipeline": {
     "build": {
-      "outputs": [".next/**", "!.next/cache/**"]
+      "dependsOn": [
+        "^codegen"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**"
+      ]
     },
     "lint": {},
     "dev": {
+      "dependsOn": [
+        "^codegen"
+      ],
       "cache": false,
       "persistent": true
+    },
+    "codegen": {
+      "dependsOn": [
+        "^db:generate"
+      ],
+      "outputs": [
+        "generated/**"
+      ]
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:push": {
+      "cache": false
     }
   }
 }

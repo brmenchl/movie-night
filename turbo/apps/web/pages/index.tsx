@@ -1,10 +1,22 @@
-import { Button } from 'ui';
+import { Layout } from '@components/Layout';
+import FlexboxGrid from 'rsuite/FlexboxGrid';
 
-export default function Web() {
-  return (
-    <div>
-      <h1>Web</h1>
-      <Button />
-    </div>
-  );
-}
+import MovieForm from '../screens/WheelScreen/MovieListPane';
+import WheelPane from '../screens/WheelScreen/WheelPane';
+
+const Home: React.FC = () => (
+  <Layout>
+    <FlexboxGrid justify="space-around">
+      <FlexboxGrid.Item colspan={16}>
+        <div style={{ width: 200, height: 200, margin: 'auto' }}>
+          <WheelPane />
+        </div>
+      </FlexboxGrid.Item>
+      <FlexboxGrid.Item colspan={7}>
+        <MovieForm />
+      </FlexboxGrid.Item>
+    </FlexboxGrid>
+  </Layout>
+);
+
+export default Home;

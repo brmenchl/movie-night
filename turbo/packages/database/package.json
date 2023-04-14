@@ -1,0 +1,19 @@
+{
+  "name": "database",
+  "version": "0.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push --skip-generate"
+  },
+  "dependencies": {
+    "@pothos/core": "^3.29.0",
+    "@pothos/plugin-prisma": "^3.47.2",
+    "@pothos/plugin-with-input": "^3.10.0",
+    "@prisma/client": "latest"
+  },
+  "devDependencies": {
+    "prisma": "latest"
+  }
+}
