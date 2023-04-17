@@ -1,6 +1,6 @@
 import { O } from '@mobily/ts-belt';
 
-import { useAppSelector } from '../../../core/redux/hooks';
+import { useAppSelector } from '@core/redux/hooks';
 
 import { selectWinnerMovie } from '@packages/movies';
 

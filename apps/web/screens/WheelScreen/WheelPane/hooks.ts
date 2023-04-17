@@ -1,11 +1,10 @@
 import { A } from '@mobily/ts-belt';
 import { useCallback } from 'react';
 
-import { useAppDispatch, useAppSelector } from '../../../core/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@core/redux/hooks';
 
 import { resetMovieWinner, selectMovies } from '@packages/movies';
-
-import { spin } from '../../../../../../packages/wheel/wheelSlice';
+import { spin } from '@packages/wheel/wheelSlice';
 
 export const useGetMovieWheelOptions = () =>
   A.map(

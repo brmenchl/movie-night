@@ -1,6 +1,6 @@
 import List from 'rsuite/List';
 
-import { useAppSelector } from '../../../core/redux/hooks';
+import { useAppSelector } from '@core/redux/hooks';
 
 import { selectMovieIds } from '@packages/movies';
 

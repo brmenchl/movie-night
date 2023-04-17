@@ -1,6 +1,6 @@
 import { A } from '@mobily/ts-belt';
 
-import { degToRad } from '../../turbo/apps/web/core/utils/angles';
+import { degToRad } from '@core/utils/angles';
 
 import { Bounds, Dimensions, WheelOption, WheelOptionView } from './models';
 import { makeColorGenerator } from './wheelColorGenerator';

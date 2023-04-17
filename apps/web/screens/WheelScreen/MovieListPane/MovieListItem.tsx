@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { ButtonGroup, IconButton, Input } from 'rsuite';
 import Stack from 'rsuite/Stack';
 
-import { useAppSelector } from '../../../core/redux/hooks';
+import { useAppSelector } from '@core/redux/hooks';
 
 import { Movie, makeSelectMovieById, updateMovie } from '@packages/movies';
 

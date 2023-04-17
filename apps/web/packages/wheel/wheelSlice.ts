@@ -1,8 +1,8 @@
 import { N } from '@mobily/ts-belt';
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { getSlice } from '../../turbo/apps/web/core/redux/utils';
-import { Range } from '../../turbo/apps/web/core/utils/range';
+import { getSlice } from '@core/redux/utils';
+import { Range } from '@core/utils/range';
 
 type WheelState = {
   isSpinning: boolean;

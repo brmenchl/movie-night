@@ -1,7 +1,7 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { useCallback, useMemo } from 'react';
 
-import { useAppDispatch } from '../../../core/redux/hooks';
+import { useAppDispatch } from '@core/redux/hooks';
 
 import { addMovie, removeMovie, shuffleMovies } from '@packages/movies';
 

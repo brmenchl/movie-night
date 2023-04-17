@@ -1,8 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
 import { movieSlice } from '@packages/movies';
-
-import { wheelSlice } from '../../../../../packages/wheel/wheelSlice';
+import { wheelSlice } from '@packages/wheel/wheelSlice';
 
 export const store = configureStore({
   reducer: {

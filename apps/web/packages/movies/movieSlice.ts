@@ -1,7 +1,7 @@
 import { A, D, F, O, Option } from '@mobily/ts-belt';
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
-import { getSlice } from '../../turbo/apps/web/core/redux/utils';
+import { getSlice } from '@core/redux/utils';
 
 import { Movie } from './models/Movie';
 

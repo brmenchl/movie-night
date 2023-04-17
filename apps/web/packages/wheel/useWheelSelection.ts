@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-import { useAppDispatch } from '../../turbo/apps/web/core/redux/hooks';
+import { useAppDispatch } from '@core/redux/hooks';
 
 import { setMovieWinnerByIndex } from '@packages/movies';
 

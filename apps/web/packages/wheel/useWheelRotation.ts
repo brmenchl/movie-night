@@ -4,7 +4,7 @@ import {
   useAppDispatch,
   useAppSelector,
   useRequestAnimationFrame,
-} from '../../turbo/apps/web/core/redux/hooks';
+} from '@core/redux/hooks';
 
 import {
   selectIsWheelSpinning,
