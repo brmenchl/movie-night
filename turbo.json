@@ -23,11 +23,21 @@
     },
     "codegen": {
       "dependsOn": [
-        "db:generate"
+        "^db:generate"
       ],
       "outputs": [
-        "generated/**"
+        "gql/**"
       ]
+    },
+    "codegen:watch": {
+      "dependsOn": [
+        "^db:generate"
+      ],
+      "outputs": [
+        "gql/**"
+      ],
+      "cache": true,
+      "persistent": true
     },
     "db:generate": {
       "cache": false

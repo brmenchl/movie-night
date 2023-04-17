@@ -26,5 +26,10 @@ builder.queryType({
           },
         }),
     }),
+    movies: t.prismaField({
+      type: [Movie],
+      nullable: true,
+      resolve: async (query) => prisma.movie.findMany(query),
+    }),
   }),
 });

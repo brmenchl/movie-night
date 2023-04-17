@@ -1,14 +1,14 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 import { lexicographicSortSchema, printSchema } from 'graphql';
-import schema from 'server/schema';
+import { schema } from 'server';
 
 const config: CodegenConfig = {
   overwrite: true,
   schema: printSchema(lexicographicSortSchema(schema)),
-  documents: ['screens/**/*.tsx', "packages/**/*.tsx"],
-  ignoreNoDocuments: true, // for better experience with the watcher
+  documents: ['**/*.tsx'],
+  ignoreNoDocuments: false, // for better experience with the watcher
   generates: {
-    'generated/': {
+    'gql/': {
       preset: 'client',
     },
   },

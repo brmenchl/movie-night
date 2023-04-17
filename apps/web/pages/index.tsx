@@ -4,7 +4,7 @@ import FlexboxGrid from 'rsuite/FlexboxGrid';
 import MovieForm from '../screens/WheelScreen/MovieListPane';
 import WheelPane from '../screens/WheelScreen/WheelPane';
 
-const Home: React.FC = () => (
+const Home = () => (
   <Layout>
     <FlexboxGrid justify="space-around">
       <FlexboxGrid.Item colspan={16}>
