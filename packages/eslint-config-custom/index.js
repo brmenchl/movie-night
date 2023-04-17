@@ -13,8 +13,5 @@ module.exports = {
   ignorePatterns: ['*.config.js'],
   rules: {
     'react/display-name': 'off',
-  },
-  babelOptions: {
-    presets: [require.resolve("next/babel")],
-  },
+  }
 };

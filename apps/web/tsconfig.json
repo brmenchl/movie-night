@@ -6,7 +6,8 @@
     "**/*.tsx"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "generated/*"
   ],
   "compilerOptions": {
     "paths": {
@@ -18,7 +19,8 @@
       ],
       "@components/*": [
         "./components/*"
-      ],
-    }
-  },
+      ]
+    },
+    "noEmit": true
+  }
 }

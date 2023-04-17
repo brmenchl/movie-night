@@ -6,7 +6,7 @@
   "pipeline": {
     "build": {
       "dependsOn": [
-        "^codegen"
+        "codegen"
       ],
       "outputs": [
         ".next/**",
@@ -16,14 +16,14 @@
     "lint": {},
     "dev": {
       "dependsOn": [
-        "^codegen"
+        "codegen"
       ],
       "cache": false,
       "persistent": true
     },
     "codegen": {
       "dependsOn": [
-        "^db:generate"
+        "db:generate"
       ],
       "outputs": [
         "generated/**"
