@@ -1,9 +1,4 @@
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  gql,
-} from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import type { AppProps } from 'next/app';
 import 'normalize.css/normalize.css';
 import { Provider } from 'react-redux';
@@ -12,7 +7,7 @@ import 'rsuite/dist/rsuite.min.css';
 import { store } from '@core/redux/store';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:3000/api/graphql',
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,
   cache: new InMemoryCache(),
 });
 

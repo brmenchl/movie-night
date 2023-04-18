@@ -13,5 +13,6 @@ module.exports = {
   ignorePatterns: ['*.config.js'],
   rules: {
     'react/display-name': 'off',
+    'turbo/no-undeclared-env-vars': 'off'
   }
 };

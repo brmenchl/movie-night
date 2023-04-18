@@ -1,6 +1,6 @@
 import { G } from '@mobily/ts-belt';
+import { prismaClient } from 'database';
 
-import prisma from '../../database/prisma/client';
 import builder from '../builder';
 
 export const Movie = builder.prismaObject('Movie', {
@@ -19,7 +19,7 @@ builder.queryType({
       },
       nullable: true,
       resolve: async (query, _, { input: { id } }) =>
-        prisma.movie.findUnique({
+        prismaClient.movie.findUnique({
           ...query,
           where: {
             id: G.isString(id) ? Number.parseInt(id) : id,
@@ -29,7 +29,7 @@ builder.queryType({
     movies: t.prismaField({
       type: [Movie],
       nullable: true,
-      resolve: async (query) => prisma.movie.findMany(query),
+      resolve: async (query) => prismaClient.movie.findMany(query),
     }),
   }),
 });
