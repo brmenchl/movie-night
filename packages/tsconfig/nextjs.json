@@ -3,6 +3,7 @@
   "display": "Next.js",
   "extends": "./base.json",
   "compilerOptions": {
+    "noEmit": true,
     "allowJs": true,
     "incremental": true,
     "jsx": "preserve",
@@ -15,7 +16,8 @@
     "target": "es5"
   },
   "include": [
-    "src",
+    "**/*.ts",
+    "**/*.tsx",
     "next-env.d.ts"
   ],
   "exclude": [
