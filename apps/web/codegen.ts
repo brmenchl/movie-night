@@ -6,7 +6,7 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: printSchema(lexicographicSortSchema(schema)),
   documents: ['**/*.tsx'],
-  ignoreNoDocuments: false, // for better experience with the watcher
+  ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
     'gql/': {
       preset: 'client',

@@ -16,8 +16,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-/// A movie chosen for movie night (could show up on multiple movie nights)
+/// A movie chosen for a night
 model Movie {
-  id    Int    @id @default(autoincrement())
-  title String
+  id              String           @id @default(uuid())
+  title           String           @unique
+  movieSelections MovieSelection[]
+}
+
+/// A movie night goer
+model Friend {
+  id              String           @id @default(uuid())
+  name            String           @unique
+  movieSelections MovieSelection[]
+}
+
+/// A past or scheduled movie night with theme
+model Night {
+  id              String           @id @default(uuid())
+  date            String           @unique /// ISO string
+  theme           String
+  movieSelections MovieSelection[] @relation("MovieSelections")
+
+  winningSelection         MovieSelection? @relation("WinningSelection", fields: [winningSelectionMovieId, winningSelectionFriendId, winningSelectionNightId], references: [movieId, friendId, nightId])
+  winningSelectionMovieId  String?
+  winningSelectionFriendId String?
+  winningSelectionNightId  String?
+
+  @@unique([winningSelectionMovieId, winningSelectionFriendId, winningSelectionNightId])
+}
+
+/// A selection of a movie from a friend on a specific night. Contains an optional friend name override
+model MovieSelection {
+  movieId String
+  movie   Movie  @relation(fields: [movieId], references: [id])
+
+  friend            Friend  @relation(fields: [friendId], references: [id])
+  friendId          String
+  friendDisplayName String?
+
+  night   Night  @relation("MovieSelections", fields: [nightId], references: [id])
+  nightId String
+  winningNight Night? @relation("WinningSelection")
+
+  @@id([movieId, friendId, nightId])
 }

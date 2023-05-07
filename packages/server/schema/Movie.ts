@@ -1,35 +1,32 @@
-import { G } from '@mobily/ts-belt';
 import { prismaClient } from 'database';
 
 import builder from '../builder';
 
 export const Movie = builder.prismaObject('Movie', {
   fields: (t) => ({
-    id: t.exposeID('id'),
+    id: t.exposeString('id'),
     title: t.exposeString('title'),
   }),
 });
 
-builder.queryType({
-  fields: (t) => ({
-    movie: t.prismaFieldWithInput({
-      type: Movie,
-      input: {
-        id: t.input.id({ required: true }),
-      },
-      nullable: true,
-      resolve: async (query, _, { input: { id } }) =>
-        prismaClient.movie.findUnique({
-          ...query,
-          where: {
-            id: G.isString(id) ? Number.parseInt(id) : id,
-          },
-        }),
-    }),
-    movies: t.prismaField({
-      type: [Movie],
-      nullable: true,
-      resolve: async (query) => prismaClient.movie.findMany(query),
-    }),
+builder.queryFields((t) => ({
+  movie: t.prismaFieldWithInput({
+    type: Movie,
+    input: {
+      title: t.input.string({ required: true }),
+    },
+    nullable: true,
+    resolve: async (query, _, { input: { title } }) =>
+      prismaClient.movie.findUnique({
+        ...query,
+        where: {
+          title,
+        },
+      }),
   }),
-});
+  movies: t.prismaField({
+    type: [Movie],
+    nullable: true,
+    resolve: prismaClient.movie.findMany,
+  }),
+}));

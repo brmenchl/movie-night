@@ -5,13 +5,15 @@
   "types": "./index.ts",
   "scripts": {
     "db:generate": "prisma generate",
-    "db:push": "prisma db push --skip-generate"
+    "db:push": "prisma db push --skip-generate",
+    "db:seed": "prisma db seed"
   },
   "dependencies": {
     "@pothos/core": "^3.29.0",
     "@pothos/plugin-prisma": "^3.47.2",
     "@pothos/plugin-with-input": "^3.10.0",
-    "@prisma/client": "latest"
+    "@prisma/client": "latest",
+    "date-fns": "^2.30.0"
   },
   "devDependencies": {
     "prisma": "latest",

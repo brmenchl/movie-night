@@ -13,4 +13,7 @@ const builder = new SchemaBuilder<{ PrismaTypes: PrismaTypes }>({
   },
 });
 
+builder.queryType();
+builder.mutationType();
+
 export default builder;
