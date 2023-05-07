@@ -19,7 +19,7 @@ builder.queryFields((t) => ({
       date: t.input.string({ required: true }),
     },
     nullable: true,
-    resolve: async (query, _, { input: { date } }) =>
+    resolve: (query, _, { input: { date } }) =>
       prismaClient.night.findUnique({
         ...query,
         where: { date },

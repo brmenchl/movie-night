@@ -17,7 +17,7 @@ builder.queryFields((t) => ({
       name: t.input.string({ required: true }),
     },
     nullable: true,
-    resolve: async (query, _, { input: { name } }) =>
+    resolve: (query, _, { input: { name } }) =>
       prismaClient.friend.findUnique({
         ...query,
         where: { name },
@@ -36,7 +36,7 @@ builder.mutationFields((t) => ({
     input: {
       name: t.input.string({ required: true }),
     },
-    resolve: async (mutation, _, { input: { name } }) =>
+    resolve: (mutation, _, { input: { name } }) =>
       prismaClient.friend.create({
         ...mutation,
         data: { name },

@@ -16,7 +16,7 @@ builder.queryFields((t) => ({
       title: t.input.string({ required: true }),
     },
     nullable: true,
-    resolve: async (query, _, { input: { title } }) =>
+    resolve: (query, _, { input: { title } }) =>
       prismaClient.movie.findUnique({
         ...query,
         where: {

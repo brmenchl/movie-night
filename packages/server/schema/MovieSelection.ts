@@ -20,12 +20,12 @@ builder.mutationFields((t) => ({
       nightId: t.input.string({ required: true }),
       friendDisplayName: t.input.string(),
     },
-    resolve: async (
+    resolve: (
       mutation,
       _,
       { input: { title, friendId, nightId, friendDisplayName } }
-    ) => {
-      return await prismaClient.movieSelection.create({
+    ) =>
+      prismaClient.movieSelection.create({
         ...mutation,
         data: {
           friendDisplayName,
@@ -46,7 +46,6 @@ builder.mutationFields((t) => ({
             },
           },
         },
-      });
-    },
+      }),
   }),
 }));
