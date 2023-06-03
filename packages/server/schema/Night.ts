@@ -45,6 +45,30 @@ builder.mutationFields((t) => ({
         data: { date, theme },
       }),
   }),
+  removeSelection: t.prismaFieldWithInput({
+    type: Night,
+    input: {
+      movieId: t.input.string({ required: true }),
+      friendId: t.input.string({ required: true }),
+      nightId: t.input.string({ required: true }),
+    },
+    resolve: (mutation, _, { input: { movieId, friendId, nightId } }) =>
+      prismaClient.night.update({
+        ...mutation,
+        where: { id: nightId },
+        data: {
+          movieSelections: {
+            delete: {
+              movieId_friendId_nightId: {
+                movieId,
+                friendId,
+                nightId,
+              },
+            },
+          },
+        },
+      }),
+  }),
   pickWinner: t.prismaFieldWithInput({
     type: Night,
     input: {
