@@ -45,7 +45,7 @@ builder.mutationFields((t) => ({
         data: { date, theme },
       }),
   }),
-  removeSelection: t.prismaFieldWithInput({
+  deselectMovie: t.prismaFieldWithInput({
     type: Night,
     input: {
       movieId: t.input.string({ required: true }),

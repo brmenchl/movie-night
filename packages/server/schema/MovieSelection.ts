@@ -7,7 +7,6 @@ export const MovieSelection = builder.prismaObject('MovieSelection', {
     movie: t.relation('movie'),
     friend: t.relation('friend'),
     night: t.relation('night'),
-    friendDisplayName: t.exposeString('friendDisplayName', { nullable: true }),
   }),
 });
 
@@ -18,17 +17,15 @@ builder.mutationFields((t) => ({
       title: t.input.string({ required: true }),
       friendId: t.input.string({ required: true }),
       nightId: t.input.string({ required: true }),
-      friendDisplayName: t.input.string(),
     },
     resolve: (
       mutation,
       _,
-      { input: { title, friendId, nightId, friendDisplayName } }
+      { input: { title, friendId, nightId } }
     ) =>
       prismaClient.movieSelection.create({
         ...mutation,
         data: {
-          friendDisplayName,
           friend: {
             connect: {
               id: friendId,

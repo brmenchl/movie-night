@@ -57,7 +57,6 @@ const main = async () => {
       movie: { connect: { id: matrix.id } },
       friend: { connect: { id: brad.id } },
       night: { connect: { id: night.id } },
-      friendDisplayName: 'BRADD!!',
     },
   });
 

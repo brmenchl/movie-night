@@ -45,14 +45,13 @@ model Night {
   @@unique([winningSelectionMovieId, winningSelectionFriendId, winningSelectionNightId])
 }
 
-/// A selection of a movie from a friend on a specific night. Contains an optional friend name override
+/// A selection of a movie from a friend on a specific night
 model MovieSelection {
   movieId String
   movie   Movie  @relation(fields: [movieId], references: [id])
 
   friend            Friend  @relation(fields: [friendId], references: [id])
   friendId          String
-  friendDisplayName String?
 
   night   Night  @relation("MovieSelections", fields: [nightId], references: [id])
   nightId String
