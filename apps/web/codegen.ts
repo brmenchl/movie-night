@@ -5,13 +5,14 @@ import { schema } from 'server';
 const config: CodegenConfig = {
   overwrite: true,
   schema: printSchema(lexicographicSortSchema(schema)),
-  documents: ['**/*.tsx'],
+  documents: ['**/queries.ts'],
   ignoreNoDocuments: true, // for better experience with the watcher
   generates: {
-    'gql/': {
+    './gql/': {
       preset: 'client',
     },
   },
+  hooks: { afterAllFileWrite: ['prettier --write'] },
 };
 
 export default config;
