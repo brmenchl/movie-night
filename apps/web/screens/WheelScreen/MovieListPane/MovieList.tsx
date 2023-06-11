@@ -1,10 +1,11 @@
 import List from 'rsuite/List';
 
+import { useMovieSelections } from '@packages/movies';
+
 import { MovieListItem } from './MovieListItem';
-import { useGetMovieSelections } from './hooks/queryHooks';
 
 export const MovieList = () => {
-  const movieSelections = useGetMovieSelections();
+  const movieSelections = useMovieSelections();
   return (
     <List size="md">
       {movieSelections.map((movieSelection, index) => (

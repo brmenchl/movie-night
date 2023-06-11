@@ -16,13 +16,13 @@ builder.queryFields((t) => ({
   night: t.prismaFieldWithInput({
     type: Night,
     input: {
-      date: t.input.string({ required: true }),
+      id: t.input.string({ required: true }),
     },
     nullable: true,
-    resolve: (query, _, { input: { date } }) =>
+    resolve: (query, _, { input: { id } }) =>
       prismaClient.night.findUnique({
         ...query,
-        where: { date },
+        where: { id },
       }),
   }),
   nights: t.prismaField({

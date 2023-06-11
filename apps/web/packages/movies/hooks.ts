@@ -8,6 +8,7 @@ import { createInput } from '@core/apollo';
 import {
   deselectMovieMutation,
   getMovieSelectionsQuery,
+  getWinnerQuery,
   pickWinnerMutation,
   selectMovieMutation,
   updateMovieSelectionMutation,
@@ -16,11 +17,13 @@ import {
 export const useSelectMovie = (title: string) =>
   useMutation(selectMovieMutation, {
     variables: { input: { friendId: TESTFRIEND, nightId: TESTNIGHT, title } },
+    refetchQueries: [getMovieSelectionsQuery],
   });
 
 export const useDeselectMovie = (friendId: string) =>
   useMutation(deselectMovieMutation, {
     variables: { input: { friendId, nightId: TESTNIGHT } },
+    refetchQueries: [getMovieSelectionsQuery],
   });
 
 export const useUpdateMovieSelection = () => {
@@ -32,6 +35,7 @@ export const useUpdateMovieSelection = () => {
           variables: {
             input: { ...input, nightId: TESTNIGHT },
           },
+          refetchQueries: [getMovieSelectionsQuery],
         }),
       [mutate]
     ),
@@ -39,7 +43,7 @@ export const useUpdateMovieSelection = () => {
   ] as const;
 };
 
-export const useGetMovieSelections = () => {
+export const useMovieSelections = () => {
   const { data } = useQuery(
     getMovieSelectionsQuery,
     createInput({ nightId: TESTNIGHT })
@@ -59,7 +63,7 @@ export const useGetMovieSelections = () => {
 
 export const usePickWinnerByIndex = () => {
   const [pickWinner] = useMutation(pickWinnerMutation);
-  const movieSelections = useGetMovieSelections();
+  const movieSelections = useMovieSelections();
   return useCallback(
     (index: number) => {
       const winningSelection = movieSelections[index];
@@ -67,8 +71,19 @@ export const usePickWinnerByIndex = () => {
         variables: {
           input: { nightId: TESTNIGHT, friendId: winningSelection.friendId },
         },
+        refetchQueries: [getWinnerQuery],
       });
     },
     [movieSelections, pickWinner]
   );
+};
+
+export const useWinner = () => {
+  const { data } = useQuery(getWinnerQuery, {
+    variables: { input: { id: TESTNIGHT } },
+  });
+  return O.map(data?.night?.winningSelection, (selection) => ({
+    friendId: selection.friend.id,
+    title: selection.movie.title,
+  }));
 };

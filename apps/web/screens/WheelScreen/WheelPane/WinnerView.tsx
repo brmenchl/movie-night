@@ -1,9 +1,9 @@
 import { O } from '@mobily/ts-belt';
 
-import { useGetWinner } from './hooks';
+import { useWinner } from '@packages/movies';
 
 export const WinnerView = () => {
-  const winner = useGetWinner();
+  const winner = useWinner();
   return O.match(
     winner,
     (movie) => <h1>{movie.title}</h1>,

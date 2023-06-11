@@ -6,8 +6,9 @@ import Button from 'rsuite/Button';
 import Form, { FormInstance } from 'rsuite/Form';
 import Panel from 'rsuite/Panel';
 
+import { useSelectMovie } from '@packages/movies';
+
 import { MovieList } from './MovieList';
-import { useSelectMovie } from './hooks/queryHooks';
 
 const movieRule = Schema.Types.StringType().isRequired("C'mon, add a movie");
 
