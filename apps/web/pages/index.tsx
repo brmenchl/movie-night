@@ -1,8 +1,8 @@
 import { Layout } from '@components/Layout';
 import FlexboxGrid from 'rsuite/FlexboxGrid';
 
-import MovieForm from '../screens/WheelScreen/MovieListPane';
-import WheelPane from '../screens/WheelScreen/WheelPane';
+import { MovieForm } from '../screens/WheelScreen/MovieListPane';
+import { WheelPane } from '../screens/WheelScreen/WheelPane';
 
 const Home = () => (
   <Layout>

@@ -1,20 +1,17 @@
 import { graphql } from '../../gql';
 
-// const wheelOrderVar = makeVar<readonly string[]>([]);
-
-// export const shuffleMovieSelections = () =>
-//   wheelOrderVar(A.shuffle(wheelOrderVar()));
-
 export const selectMovieMutation = graphql(`
   mutation SelectMovie($input: MutationSelectMovieInput!) {
     selectMovie(input: $input) {
       friend {
-        name
+        id
+      }
+      night {
         id
       }
       movie {
-        title
         id
+        title
       }
     }
   }
@@ -26,10 +23,11 @@ export const deselectMovieMutation = graphql(`
       selections {
         friend {
           id
-          name
+        }
+        night {
+          id
         }
         movie {
-          title
           id
         }
       }
@@ -43,9 +41,12 @@ export const updateMovieSelectionMutation = graphql(`
       friend {
         id
       }
-      movie {
-        title
+      night {
         id
+      }
+      movie {
+        id
+        title
       }
     }
   }
@@ -55,41 +56,35 @@ export const pickWinnerMutation = graphql(`
   mutation PickWinner($input: MutationPickWinnerInput!) {
     pickWinner(input: $input) {
       winningSelection {
+        friend {
+          id
+        }
+        night {
+          id
+        }
         movie {
           id
           title
-        }
-        friend {
-          name
-          id
         }
       }
     }
   }
 `);
 
-export const getMovieIdsQuery = graphql(`
-  query GetMovieIds {
-    movies {
-      id
-    }
-  }
-`);
-
-export const getMoviesQuery = graphql(`
-  query GetMovies {
-    movies {
-      id
-      title
-    }
-  }
-`);
-
-export const getMovieQuery = graphql(`
-  query GetMovie($input: QueryMovieInput!) {
-    movie(input: $input) {
-      id
-      title
+export const getMovieSelectionsQuery = graphql(`
+  query GetMovieSelections($input: QueryMovieSelectionsInput!) {
+    movieSelections(input: $input) {
+      night {
+        id
+      }
+      friend {
+        id
+        name
+      }
+      movie {
+        id
+        title
+      }
     }
   }
 `);
@@ -103,8 +98,8 @@ export const getWinnerQuery = graphql(`
           title
         }
         friend {
-          name
           id
+          name
         }
       }
     }

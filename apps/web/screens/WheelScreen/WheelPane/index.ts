@@ -1,3 +1,1 @@
-import { WheelPane } from './WheelPane';
-
-export default WheelPane;
+export { WheelPane } from './WheelPane';

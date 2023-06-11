@@ -37,12 +37,11 @@ model Night {
   theme           String
   movieSelections MovieSelection[] @relation("MovieSelections")
 
-  winningSelection         MovieSelection? @relation("WinningSelection", fields: [winningSelectionMovieId, winningSelectionFriendId, winningSelectionNightId], references: [movieId, friendId, nightId])
-  winningSelectionMovieId  String?
+  winningSelection         MovieSelection? @relation("WinningSelection", fields: [winningSelectionFriendId, winningSelectionNightId], references: [friendId, nightId])
   winningSelectionFriendId String?
   winningSelectionNightId  String?
 
-  @@unique([winningSelectionMovieId, winningSelectionFriendId, winningSelectionNightId])
+  @@unique([winningSelectionFriendId, winningSelectionNightId])
 }
 
 /// A selection of a movie from a friend on a specific night
@@ -50,12 +49,12 @@ model MovieSelection {
   movieId String
   movie   Movie  @relation(fields: [movieId], references: [id])
 
-  friend            Friend  @relation(fields: [friendId], references: [id])
-  friendId          String
+  friend   Friend @relation(fields: [friendId], references: [id])
+  friendId String
 
-  night   Night  @relation("MovieSelections", fields: [nightId], references: [id])
-  nightId String
+  night        Night  @relation("MovieSelections", fields: [nightId], references: [id])
+  nightId      String
   winningNight Night? @relation("WinningSelection")
 
-  @@id([movieId, friendId, nightId])
+  @@id([friendId, nightId])
 }

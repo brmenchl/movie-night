@@ -1,3 +1,1 @@
-import MovieForm from './MovieForm';
-
-export default MovieForm;
+export { MovieForm } from './MovieForm';

@@ -10,6 +10,38 @@ export const MovieSelection = builder.prismaObject('MovieSelection', {
   }),
 });
 
+builder.queryFields((t) => ({
+  movieSelection: t.prismaFieldWithInput({
+    type: MovieSelection,
+    input: {
+      nightId: t.input.string({ required: true }),
+      friendId: t.input.string({ required: true }),
+    },
+    nullable: true,
+    resolve: (query, _, { input: { friendId, nightId } }) =>
+      prismaClient.movieSelection.findUnique({
+        ...query,
+        where: {
+          friendId_nightId: {
+            friendId,
+            nightId,
+          },
+        },
+      }),
+  }),
+  movieSelections: t.prismaFieldWithInput({
+    type: [MovieSelection],
+    input: {
+      nightId: t.input.string({ required: true }),
+    },
+    resolve: (query, _, { input: { nightId } }) =>
+      prismaClient.movieSelection.findMany({
+        ...query,
+        where: { nightId },
+      }),
+  }),
+}));
+
 builder.mutationFields((t) => ({
   selectMovie: t.prismaFieldWithInput({
     type: MovieSelection,
@@ -47,20 +79,14 @@ builder.mutationFields((t) => ({
       title: t.input.string({ required: true }),
       friendId: t.input.string({ required: true }),
       nightId: t.input.string({ required: true }),
-      previousMovieId: t.input.string({ required: true }),
     },
-    resolve: (
-      mutation,
-      _,
-      { input: { title, friendId, nightId, previousMovieId } }
-    ) =>
+    resolve: (mutation, _, { input: { title, friendId, nightId } }) =>
       prismaClient.movieSelection.update({
         ...mutation,
         where: {
-          movieId_friendId_nightId: {
+          friendId_nightId: {
             friendId,
             nightId,
-            movieId: previousMovieId,
           },
         },
         data: {

@@ -1,13 +1,11 @@
 import { O } from '@mobily/ts-belt';
 
-import { useAppSelector } from '@core/redux/hooks';
+import { useGetWinner } from './hooks';
 
-import { selectWinnerMovie } from '@packages/movies';
-
-export const WinnerView: React.FC = () => {
-  const winnerMovie = useAppSelector(selectWinnerMovie);
+export const WinnerView = () => {
+  const winner = useGetWinner();
   return O.match(
-    winnerMovie,
+    winner,
     (movie) => <h1>{movie.title}</h1>,
     () => null
   );

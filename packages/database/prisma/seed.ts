@@ -46,8 +46,7 @@ const main = async () => {
 
   await prisma.movieSelection.upsert({
     where: {
-      movieId_friendId_nightId: {
-        movieId: matrix.id,
+      friendId_nightId: {
         friendId: brad.id,
         nightId: night.id,
       },
@@ -62,8 +61,7 @@ const main = async () => {
 
   await prisma.movieSelection.upsert({
     where: {
-      movieId_friendId_nightId: {
-        movieId: incredibles.id,
+      friendId_nightId: {
         friendId: ben.id,
         nightId: night.id,
       },

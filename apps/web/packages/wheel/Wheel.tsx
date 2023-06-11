@@ -1,16 +1,16 @@
 import { F } from '@mobily/ts-belt';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Dimensions, WheelOption } from './models';
+import { Dimensions } from './models';
+import { useOnWheelSpinComplete } from './useOnWheelSpinComplete';
 import { useWheelSpin } from './useWheelRotation';
-import { useOnWheelSpinComplete } from './useWheelSelection';
 import { drawWheel, getItemAngle } from './wheelRendering';
 
 export const Wheel = ({
   options,
   radius,
 }: {
-  options: readonly WheelOption[];
+  options: readonly string[];
   radius: number;
 }) => {
   const ref = useRef<HTMLCanvasElement>(null);

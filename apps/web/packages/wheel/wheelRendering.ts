@@ -2,7 +2,7 @@ import { A } from '@mobily/ts-belt';
 
 import { degToRad } from '@core/utils/angles';
 
-import { Bounds, Dimensions, WheelOption, WheelOptionView } from './models';
+import { Bounds, Dimensions, WheelOptionView } from './models';
 import { makeColorGenerator } from './wheelColorGenerator';
 
 // Start 0 at top rather than right
@@ -12,7 +12,7 @@ export const drawWheel =
   (
     ctx: CanvasRenderingContext2D,
     dimensions: Dimensions,
-    options: readonly WheelOption[]
+    options: readonly string[]
   ) =>
   (rotation: number) => {
     ctx.clearRect(0, 0, ...dimensions.bounds);
@@ -91,9 +91,9 @@ const drawItemLabels = (
 
     ctx.fillStyle = '#000000';
 
-    const { width: textWidth } = ctx.measureText(option.displayName);
+    const { width: textWidth } = ctx.measureText(option);
     const textX = dimensions.radius / 2 - textWidth / 2;
-    ctx.fillText(option.displayName, textX, 0);
+    ctx.fillText(option, textX, 0);
     ctx.rotate(-degToRad(getMidAngle(bounds)));
 
     ctx.restore();

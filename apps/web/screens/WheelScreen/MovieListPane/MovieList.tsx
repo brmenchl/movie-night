@@ -1,22 +1,21 @@
 import List from 'rsuite/List';
 
-import { useAppSelector } from '@core/redux/hooks';
+import { MovieListItem } from './MovieListItem';
+import { useGetMovieSelections } from './hooks/queryHooks';
 
-import { selectMovieIds } from '@packages/movies';
-
-import MovieListItem from './MovieListItem';
-
-const MovieList: React.FC = () => {
-  const movieIds = useAppSelector(selectMovieIds);
+export const MovieList = () => {
+  const movieSelections = useGetMovieSelections();
   return (
     <List size="md">
-      {movieIds.map((movieId, index) => (
-        <List.Item key={movieId} index={index} style={{ color: 'black' }}>
-          <MovieListItem id={movieId} />
+      {movieSelections.map((movieSelection, index) => (
+        <List.Item
+          key={movieSelection.friendId}
+          index={index}
+          style={{ color: 'black' }}
+        >
+          <MovieListItem movieSelection={movieSelection} />
         </List.Item>
       ))}
     </List>
   );
 };
-
-export default MovieList;

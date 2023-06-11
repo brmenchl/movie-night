@@ -1,85 +1,27 @@
 import TrashIcon from '@rsuite/icons/Trash';
-import {
-  KeyboardEventHandler,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
 import { ButtonGroup, IconButton, Input } from 'rsuite';
 import Stack from 'rsuite/Stack';
 
-import { useAppSelector } from '@core/redux/hooks';
+import { useDeselectMovie } from '@packages/movies';
 
-import { Movie, makeSelectMovieById, updateMovie } from '@packages/movies';
+import { useMovieEditing } from './useMovieEditing';
 
-import { useRemoveMovie } from './hooks';
-
-const useMovieEditing = (savedMovie: Movie) => {
-  const dispatch = useDispatch();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [title, setTitle] = useState(savedMovie.title);
-
-  const save = useCallback(
-    () => dispatch(updateMovie({ id: savedMovie.id, title })),
-    [dispatch, savedMovie.id, title]
-  );
-
-  const cancel = useCallback(() => {
-    inputRef.current?.blur();
-    setTitle(savedMovie.title);
-  }, [savedMovie.title]);
-
-  const handleKeyPress = useCallback<KeyboardEventHandler<HTMLInputElement>>(
-    (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        save();
-      }
-    },
-    [save]
-  );
-
-  const escFunction = useCallback(
-    (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        cancel();
-      }
-    },
-    [cancel]
-  );
-
-  useEffect(() => {
-    if (isEditing) {
-      document.addEventListener('keydown', escFunction, true);
-    }
-    return () => {
-      document.removeEventListener('keydown', escFunction, true);
-    };
-  }, [escFunction, isEditing]);
-
-  return {
-    isEditing,
-    startEditing: useCallback(() => setIsEditing(true), [setIsEditing]),
-    title,
-    setTitle,
-    handleKeyPress,
-    inputRef,
-  };
-};
-
-const MovieListItem = (props: { id: string }) => {
-  const selectMovieById = useMemo(makeSelectMovieById, []);
-  const movie = useAppSelector((state) => selectMovieById(state, props.id));
-  const removeMovie = useRemoveMovie(props.id);
+export const MovieListItem = ({
+  movieSelection,
+}: {
+  movieSelection: { friendId: string; title: string };
+}) => {
+  const [deselectMovie] = useDeselectMovie(movieSelection.friendId);
 
   const { inputRef, startEditing, title, setTitle, handleKeyPress } =
-    useMovieEditing(movie);
+    useMovieEditing(movieSelection);
 
-  return movie ? (
+  const handleDeselectClick = useCallback(() => {
+    deselectMovie();
+  }, [deselectMovie]);
+
+  return movieSelection ? (
     <Stack>
       <Stack.Item flex={1}>
         <Input
@@ -94,12 +36,10 @@ const MovieListItem = (props: { id: string }) => {
         <IconButton
           color="red"
           appearance="primary"
-          onClick={removeMovie}
+          onClick={handleDeselectClick}
           icon={<TrashIcon />}
         />
       </ButtonGroup>
     </Stack>
   ) : null;
 };
-
-export default MovieListItem;

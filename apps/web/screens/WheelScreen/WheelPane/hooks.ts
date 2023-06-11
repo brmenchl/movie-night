@@ -1,27 +1,18 @@
-import { A } from '@mobily/ts-belt';
-import { useCallback } from 'react';
+import { useQuery } from '@apollo/client';
+import { A, O, pipe } from '@mobily/ts-belt';
 
-import { useAppDispatch, useAppSelector } from '@core/redux/hooks';
-
-import { resetMovieWinner, selectMovies } from '@packages/movies';
-import { spin } from '@packages/wheel/wheelSlice';
+import { getWinnerQuery, useGetMovieSelections } from '@packages/movies';
 
 export const useGetMovieWheelOptions = () =>
-  A.map(
-    useAppSelector(selectMovies, (as, ab) =>
-      A.eq(as, ab, (a, b) => a.id === b.id)
-    ),
-    (movie) => ({
-      id: movie.id,
-      displayName: movie.title,
-    })
+  pipe(
+    useGetMovieSelections(),
+    A.map(({ title }) => title)
   );
 
-export const useSpinWheel = () => {
-  const dispatch = useAppDispatch();
-
-  return useCallback(() => {
-    dispatch(spin());
-    dispatch(resetMovieWinner());
-  }, [dispatch]);
+export const useGetWinner = () => {
+  const { data } = useQuery(getWinnerQuery);
+  return O.map(data?.night?.winningSelection, (selection) => ({
+    friendId: selection.friend.id,
+    title: selection.movie.title,
+  }));
 };

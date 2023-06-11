@@ -1,16 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import {
-  useAppDispatch,
-  useAppSelector,
-  useRequestAnimationFrame,
-} from '@core/redux/hooks';
+import { useRequestAnimationFrame } from '@core/utils/hooks';
 
-import {
-  selectIsWheelSpinning,
-  selectWheelSpinProperties,
-  stopSpin,
-} from './wheelSlice';
+import { stopSpin, useIsWheelSpinning, useWheelProperties } from './state';
 
 type RotationState = { speed: number; rotation: number };
 
@@ -18,9 +10,8 @@ export const useWheelSpin = (
   drawWheel: (rotation: number) => void,
   onWheelSpinComplete: (rotation: number) => void
 ) => {
-  const dispatch = useAppDispatch();
-  const isWheelSpinning = useAppSelector(selectIsWheelSpinning);
-  const { initialSpeed, duration } = useAppSelector(selectWheelSpinProperties);
+  const isWheelSpinning = useIsWheelSpinning();
+  const { initialSpeed, duration } = useWheelProperties();
 
   const lastIsWheelSpinning = useRef(false);
   const stateRef = useRef<{ speed: number; rotation: number }>({
@@ -41,11 +32,11 @@ export const useWheelSpin = (
       drawWheel(stateRef.current.rotation);
       if (stateRef.current.speed === 0) {
         lastIsWheelSpinning.current = false;
-        dispatch(stopSpin());
+        stopSpin();
         onWheelSpinComplete(stateRef.current.rotation);
       }
     },
-    [dispatch, drag, drawWheel, onWheelSpinComplete]
+    [drag, drawWheel, onWheelSpinComplete]
   );
 
   useRequestAnimationFrame(drawWheelFrame, isWheelSpinning);
@@ -54,8 +45,8 @@ export const useWheelSpin = (
   useEffect(() => {
     stateRef.current = { speed: 0, rotation: 0 };
     drawWheel(0);
-    dispatch(stopSpin());
-  }, [dispatch, drawWheel]);
+    stopSpin();
+  }, [drawWheel]);
 };
 
 const getRotation = (

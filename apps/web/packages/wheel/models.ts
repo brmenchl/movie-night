@@ -5,9 +5,8 @@ export type Dimensions = {
   center: Position;
   radius: number;
 };
-export type WheelOption = { id: string; displayName: string };
 export type WheelOptionView = {
-  option: WheelOption;
+  option: string;
   path: Path2D;
   bounds: Bounds;
 };

@@ -1,41 +1,38 @@
 import XIcon from '@rsuite/icons/Close';
 import PlusIcon from '@rsuite/icons/Plus';
-import ShuffleIcon from '@rsuite/icons/Random';
-import { useCallback, useRef } from 'react';
-import React from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { Schema } from 'rsuite';
 import Button from 'rsuite/Button';
 import Form, { FormInstance } from 'rsuite/Form';
 import Panel from 'rsuite/Panel';
 
-import MovieList from './MovieList';
-import { useMovieMutations } from './hooks';
+import { MovieList } from './MovieList';
+import { useSelectMovie } from './hooks/queryHooks';
 
-const MovieForm: React.FC = () => {
+const movieRule = Schema.Types.StringType().isRequired("C'mon, add a movie");
+
+export const MovieForm = () => {
   const formRef = useRef<FormInstance>(null);
-  const movieRule = Schema.Types.StringType().isRequired("C'mon, add a movie");
-  const [movie, setMovie] = React.useState('');
-
-  const { addMovie, shuffleMovies } = useMovieMutations();
-
+  const [title, setMovie] = useState('');
   const clearMovieInput = useCallback(() => setMovie(''), [setMovie]);
+  const [selectMovie] = useSelectMovie(title);
 
-  const addMovieFromInput = useCallback(() => {
+  const addMovieSelectionFromInput = useCallback(() => {
     if (formRef.current && formRef.current.check()) {
-      addMovie(movie);
+      selectMovie();
       clearMovieInput();
     }
-  }, [addMovie, clearMovieInput, movie]);
+  }, [clearMovieInput, selectMovie]);
 
   return (
     <Panel header="Movies" bordered>
-      <Form ref={formRef} layout="inline" onSubmit={addMovieFromInput}>
+      <Form ref={formRef} layout="inline" onSubmit={addMovieSelectionFromInput}>
         <Form.Group>
           <Form.Control
             name="title"
             rule={movieRule}
             onChange={setMovie}
-            value={movie}
+            value={title}
             placeholder="Add a movie!"
           />
           <Button onClick={clearMovieInput}>
@@ -45,13 +42,11 @@ const MovieForm: React.FC = () => {
         <Button type="submit">
           <PlusIcon />
         </Button>
-        <Button onClick={shuffleMovies}>
+        {/* <Button onClick={shuffleMovies}>
           <ShuffleIcon />
-        </Button>
+        </Button> */}
       </Form>
       <MovieList />
     </Panel>
   );
 };
-
-export default MovieForm;

@@ -1,17 +1,17 @@
-import Wheel from '@packages/wheel';
+import { Wheel } from '@packages/wheel';
+import { spin } from '@packages/wheel/state';
 
 import { WinnerView } from './WinnerView';
-import { useGetMovieWheelOptions, useSpinWheel } from './hooks';
+import { useGetMovieWheelOptions } from './hooks';
 
-export const WheelPane: React.FC = () => {
-  const options = useGetMovieWheelOptions();
-  const onClick = useSpinWheel();
+export const WheelPane = () => {
+  const movieSelections = useGetMovieWheelOptions();
 
-  return options.length > 0 ? (
+  return movieSelections.length > 0 ? (
     <>
-      <Wheel options={options} radius={200} />
+      <Wheel options={movieSelections} radius={200} />
       <WinnerView />
-      <button onClick={onClick}>Spin</button>
+      <button onClick={spin}>Spin</button>
     </>
   ) : null;
 };

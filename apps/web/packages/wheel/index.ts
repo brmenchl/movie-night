@@ -1,3 +1,2 @@
-import { Wheel } from './Wheel';
-
-export default Wheel;
+export { Wheel } from './Wheel';
+export * from './state';
