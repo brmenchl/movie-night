@@ -7,10 +7,10 @@ import Panel from 'rsuite/Panel';
 import Schema from 'rsuite/Schema';
 
 import { useSelectMovie } from '@packages/movies';
+import { useNightId } from '@packages/nights';
 
 import { FriendDropdown } from './FriendDropdown';
 import { MovieList } from './MovieList';
-import { useNightId } from '@packages/nights/context';
 
 const movieRule = Schema.Types.StringType().isRequired("C'mon, add a movie");
 

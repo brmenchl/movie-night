@@ -1,9 +1,10 @@
 import { Layout } from '@components/Layout';
 import FlexboxGrid from 'rsuite/FlexboxGrid';
 
+import { NightIdGuard } from '@packages/nights';
+
 import { MovieForm } from '../../screens/WheelScreen/MovieListPane';
 import { WheelPane } from '../../screens/WheelScreen/WheelPane';
-import { NightIdGuard } from '@packages/nights/context';
 
 const Home = () => (
   <NightIdGuard>
