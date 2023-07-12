@@ -6,7 +6,8 @@
   "scripts": {
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "lint": "tsc"
   },
   "dependencies": {
     "@pothos/core": "^3.30.0",

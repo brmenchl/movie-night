@@ -1,7 +1,4 @@
 {
   "singleQuote": true,
-  "semi": true,
-  "importOrder": ["^@core/(.*)$", "^@packages/(.*)$", "^[./]"],
-  "importOrderSeparation": true,
-  "importOrderSortSpecifiers": true
+  "semi": true
 }

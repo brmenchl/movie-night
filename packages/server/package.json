@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "main": "./index.ts",
   "types": "./index.ts",
+  "scripts": {
+    "lint": "tsc"
+  },
   "dependencies": {},
   "devDependencies": {
     "@apollo/server": "^4.7.5",
