@@ -1,19 +1,19 @@
 module.exports = {
+  root: true,
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'next',
-    'next/core-web-vitals',
     'turbo',
     'prettier',
   ],
-  parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint'],
-  root: true,
+  parser: '@typescript-eslint/parser',
+  env: {
+    node: true,
+    es6: true,
+  },
   ignorePatterns: ['*.config.js'],
   rules: {
-    'react/display-name': 'off',
-    'turbo/no-undeclared-env-vars': 'off',
     'sort-imports': ['error', {
       ignoreDeclarationSort: true,
       allowSeparatedGroups: true,

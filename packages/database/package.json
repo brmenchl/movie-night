@@ -2,12 +2,13 @@
   "name": "database",
   "version": "0.0.0",
   "main": "./index.ts",
+  "license": "MIT",
   "types": "./index.ts",
   "scripts": {
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "db:seed": "prisma db seed",
-    "lint": "tsc"
+    "lint": "tsc && eslint ."
   },
   "dependencies": {
     "@pothos/core": "^3.30.0",
@@ -16,6 +17,7 @@
     "@prisma/client": "5.0.0"
   },
   "devDependencies": {
+    "eslint-config-custom-server": "*",
     "prisma": "5.0.0",
     "ts-node": "^10.9.1"
   },

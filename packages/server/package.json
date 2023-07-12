@@ -4,11 +4,12 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "scripts": {
-    "lint": "tsc"
+    "lint": "tsc && eslint ."
   },
   "dependencies": {},
   "devDependencies": {
     "@apollo/server": "^4.7.5",
+    "eslint-config-custom-server": "*",
     "graphql": "^16.7.1"
   }
 }
