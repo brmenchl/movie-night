@@ -2,11 +2,13 @@ import { useMutation, useQuery } from '@apollo/client';
 import { A, O, pipe } from '@mobily/ts-belt';
 import { useCallback } from 'react';
 
-import { TESTFRIEND, TESTNIGHT } from '@core/TESTNIGHT';
+import { TESTNIGHT } from '@core/TESTNIGHT';
 import { createInput } from '@core/apollo';
 
 import {
+  createFriendMutation,
   deselectMovieMutation,
+  getFriendsQuery,
   getMovieSelectionsQuery,
   getWinnerQuery,
   pickWinnerMutation,
@@ -14,9 +16,12 @@ import {
   updateMovieSelectionMutation,
 } from './queries';
 
-export const useSelectMovie = (title: string) =>
+export const useSelectMovie = (selection: {
+  friendId: string;
+  title: string;
+}) =>
   useMutation(selectMovieMutation, {
-    variables: { input: { friendId: TESTFRIEND, nightId: TESTNIGHT, title } },
+    variables: { input: { ...selection, nightId: TESTNIGHT } },
     refetchQueries: [getMovieSelectionsQuery],
   });
 
@@ -37,27 +42,46 @@ export const useUpdateMovieSelection = () => {
           },
           refetchQueries: [getMovieSelectionsQuery],
         }),
-      [mutate]
+      [mutate],
     ),
     result,
   ] as const;
 };
 
+export const useFriends = () => {
+  const { data } = useQuery(getFriendsQuery);
+  return O.mapWithDefault(
+    data?.friends,
+    [],
+    A.map(({ id, name }) => ({ id, name })),
+  );
+};
+
+export const useCreateFriend = () => {
+  const [createFriend] = useMutation(createFriendMutation);
+  return useCallback(
+    (name: string) => {
+      createFriend({
+        variables: { input: { name } },
+        refetchQueries: [getFriendsQuery],
+      });
+    },
+    [createFriend],
+  );
+};
+
 export const useMovieSelections = () => {
   const { data } = useQuery(
     getMovieSelectionsQuery,
-    createInput({ nightId: TESTNIGHT })
+    createInput({ nightId: TESTNIGHT }),
   );
-  return pipe(
+  return O.mapWithDefault(
     data?.movieSelections,
-    O.fromNullable,
-    O.mapWithDefault(
-      [],
-      A.map(({ friend, movie }) => ({
-        friendId: friend.id,
-        title: movie.title,
-      }))
-    )
+    [],
+    A.map(({ friend, movie }) => ({
+      friendId: friend.id,
+      title: movie.title,
+    })),
   );
 };
 
@@ -74,7 +98,7 @@ export const usePickWinnerByIndex = () => {
         refetchQueries: [getWinnerQuery],
       });
     },
-    [movieSelections, pickWinner]
+    [movieSelections, pickWinner],
   );
 };
 
@@ -82,8 +106,15 @@ export const useWinner = () => {
   const { data } = useQuery(getWinnerQuery, {
     variables: { input: { id: TESTNIGHT } },
   });
-  return O.map(data?.night?.winningSelection, (selection) => ({
-    friendId: selection.friend.id,
-    title: selection.movie.title,
-  }));
+  return pipe(
+    data?.night?.winningSelection,
+    O.fromNullable,
+    O.map((selection) => {
+      console.log(selection);
+      return {
+        friendId: selection.friend.id,
+        title: selection.movie.title,
+      };
+    }),
+  );
 };
