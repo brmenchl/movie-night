@@ -1,2 +1,2 @@
 export { Wheel } from './Wheel';
-export * from './state';
+export { spin } from './state';

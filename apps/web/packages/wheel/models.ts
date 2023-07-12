@@ -1,5 +1,5 @@
 export type Bounds = [start: number, end: number];
-export type Position = [x: number, y: number];
+type Position = [x: number, y: number];
 export type Dimensions = {
   bounds: Bounds;
   center: Position;

@@ -1,5 +1,4 @@
-import { Wheel } from '@packages/wheel';
-import { spin } from '@packages/wheel/state';
+import { Wheel, spin } from '@packages/wheel';
 
 import { WinnerView } from './WinnerView';
 import { useGetMovieWheelOptions } from './hooks';

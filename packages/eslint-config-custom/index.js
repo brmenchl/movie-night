@@ -12,6 +12,7 @@ module.exports = {
   root: true,
   ignorePatterns: ['*.config.js'],
   rules: {
+    '@typescript-eslint/no-unused-vars': ['error', { "argsIgnorePattern": "^_" }],
     'react/display-name': 'off',
     'turbo/no-undeclared-env-vars': 'off',
     'sort-imports': ['error', {

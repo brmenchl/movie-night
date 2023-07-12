@@ -1,6 +1,8 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ["ui"],
+  eslint: {
+    dirs: ['pages', 'screens', 'packages', 'core', 'components'],
+  },
   async redirects() {
     return [{
       source: '/',
