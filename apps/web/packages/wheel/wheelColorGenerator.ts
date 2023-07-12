@@ -4,7 +4,7 @@ const defaultTheme = ['#0275d8', '#5cb85c', '#5bc0de', '#f0ad4e', '#d9534f'];
 
 export const makeColorGenerator = (
   count: number,
-  theme: readonly string[] = []
+  theme: readonly string[] = [],
 ) => {
   if (A.isEmpty(theme)) theme = defaultTheme;
   const [head, ...rest] = theme;

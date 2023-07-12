@@ -11,9 +11,11 @@ import { useUpdateMovieSelection } from '@packages/movies';
 export const useMovieEditing = ({
   friendId,
   title: savedTitle,
+  nightId,
 }: {
   friendId: string;
   title: string;
+  nightId: string;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -23,8 +25,8 @@ export const useMovieEditing = ({
 
   const save = useCallback(() => {
     inputRef.current?.blur();
-    updateMovieSelection({ friendId, title });
-  }, [friendId, title, updateMovieSelection]);
+    updateMovieSelection({ friendId, title, nightId });
+  }, [friendId, nightId, title, updateMovieSelection]);
 
   const cancel = useCallback(() => {
     inputRef.current?.blur();
@@ -38,7 +40,7 @@ export const useMovieEditing = ({
         save();
       }
     },
-    [save]
+    [save],
   );
 
   const escFunction = useCallback(
@@ -47,7 +49,7 @@ export const useMovieEditing = ({
         cancel();
       }
     },
-    [cancel]
+    [cancel],
   );
 
   useEffect(() => {

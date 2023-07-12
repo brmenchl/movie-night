@@ -1,16 +1,18 @@
 import { useCallback } from 'react';
 
 import { usePickWinnerByIndex } from '@packages/movies';
+import { useNightId } from '@packages/nights';
 
 export const useOnWheelSpinComplete = (itemAngle: number) => {
-  const pickWinnerByIndex = usePickWinnerByIndex();
+  const nightId = useNightId();
+  const pickWinnerByIndex = usePickWinnerByIndex(nightId);
 
   return useCallback(
     (rotation: number) => {
       const selectedIndex = getItemIndexFromRotation(itemAngle, rotation);
       pickWinnerByIndex(selectedIndex);
     },
-    [itemAngle, pickWinnerByIndex]
+    [itemAngle, pickWinnerByIndex],
   );
 };
 

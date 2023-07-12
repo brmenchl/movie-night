@@ -41,12 +41,12 @@ export const Wheel = ({
   }, [dimensions]);
 
   const handleWheelSpinComplete = useOnWheelSpinComplete(
-    getItemAngle(options.length)
+    getItemAngle(options.length),
   );
 
   const draw = useMemo(
     () => (ctx ? drawWheel(ctx, dimensions, options) : F.ignore),
-    [ctx, dimensions, options]
+    [ctx, dimensions, options],
   );
 
   useWheelSpin(draw, handleWheelSpinComplete);

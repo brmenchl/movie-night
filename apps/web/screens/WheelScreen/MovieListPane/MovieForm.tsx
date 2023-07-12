@@ -10,6 +10,7 @@ import { useSelectMovie } from '@packages/movies';
 
 import { FriendDropdown } from './FriendDropdown';
 import { MovieList } from './MovieList';
+import { useNightId } from '@packages/nights/context';
 
 const movieRule = Schema.Types.StringType().isRequired("C'mon, add a movie");
 
@@ -17,17 +18,18 @@ export const MovieForm = () => {
   const formRef = useRef<FormInstance>(null);
   const [title, setMovie] = useState('');
   const [friendId, setFriendId] = useState('');
+  const nightId = useNightId();
   const clearMovieInput = useCallback(() => setMovie(''), [setMovie]);
   const clearFriendInput = useCallback(() => setFriendId(''), [setFriendId]);
-  const [selectMovie] = useSelectMovie({ friendId, title });
+  const selectMovie = useSelectMovie(nightId);
 
   const addMovieSelectionFromInput = useCallback(() => {
     if (formRef.current && formRef.current.check()) {
-      selectMovie();
+      selectMovie({ friendId, title });
       clearMovieInput();
       clearFriendInput();
     }
-  }, [clearFriendInput, clearMovieInput, selectMovie]);
+  }, [clearFriendInput, clearMovieInput, friendId, selectMovie, title]);
 
   return (
     <Panel header="Movies" bordered>

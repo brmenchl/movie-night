@@ -2,7 +2,6 @@ import { useMutation, useQuery } from '@apollo/client';
 import { A, O, pipe } from '@mobily/ts-belt';
 import { useCallback } from 'react';
 
-import { TESTNIGHT } from '@core/TESTNIGHT';
 import { createInput } from '@core/apollo';
 
 import {
@@ -16,30 +15,32 @@ import {
   updateMovieSelectionMutation,
 } from './queries';
 
-export const useSelectMovie = (selection: {
-  friendId: string;
-  title: string;
-}) =>
-  useMutation(selectMovieMutation, {
-    variables: { input: { ...selection, nightId: TESTNIGHT } },
+export const useSelectMovie = (nightId: string) => {
+  const [mutate] = useMutation(selectMovieMutation, {
     refetchQueries: [getMovieSelectionsQuery],
   });
+  return useCallback(
+    (selection: { friendId: string; title: string }) =>
+      mutate(createInput({ ...selection, nightId })),
+    [mutate, nightId],
+  );
+};
 
-export const useDeselectMovie = (friendId: string) =>
-  useMutation(deselectMovieMutation, {
-    variables: { input: { friendId, nightId: TESTNIGHT } },
+export const useDeselectMovie = (nightId: string, friendId: string) => {
+  const [mutate] = useMutation(deselectMovieMutation, {
+    ...createInput({ nightId, friendId }),
     refetchQueries: [getMovieSelectionsQuery],
   });
+  return mutate;
+};
 
 export const useUpdateMovieSelection = () => {
   const [mutate, result] = useMutation(updateMovieSelectionMutation);
   return [
     useCallback(
-      (input: { friendId: string; title: string }) =>
+      (input: { nightId: string; friendId: string; title: string }) =>
         mutate({
-          variables: {
-            input: { ...input, nightId: TESTNIGHT },
-          },
+          ...createInput(input),
           refetchQueries: [getMovieSelectionsQuery],
         }),
       [mutate],
@@ -70,42 +71,36 @@ export const useCreateFriend = () => {
   );
 };
 
-export const useMovieSelections = () => {
-  const { data } = useQuery(
-    getMovieSelectionsQuery,
-    createInput({ nightId: TESTNIGHT }),
-  );
+export const useMovieSelections = (nightId: string) => {
+  const { data } = useQuery(getMovieSelectionsQuery, createInput({ nightId }));
   return O.mapWithDefault(
     data?.movieSelections,
     [],
-    A.map(({ friend, movie }) => ({
+    A.map(({ friend, movie, night }) => ({
+      nightId: night.id,
       friendId: friend.id,
       title: movie.title,
     })),
   );
 };
 
-export const usePickWinnerByIndex = () => {
+export const usePickWinnerByIndex = (nightId: string) => {
   const [pickWinner] = useMutation(pickWinnerMutation);
-  const movieSelections = useMovieSelections();
+  const movieSelections = useMovieSelections(nightId);
   return useCallback(
     (index: number) => {
       const winningSelection = movieSelections[index];
       pickWinner({
-        variables: {
-          input: { nightId: TESTNIGHT, friendId: winningSelection.friendId },
-        },
+        ...createInput({ nightId, friendId: winningSelection.friendId }),
         refetchQueries: [getWinnerQuery],
       });
     },
-    [movieSelections, pickWinner],
+    [movieSelections, nightId, pickWinner],
   );
 };
 
-export const useWinner = () => {
-  const { data } = useQuery(getWinnerQuery, {
-    variables: { input: { id: TESTNIGHT } },
-  });
+export const useWinner = (nightId: string) => {
+  const { data } = useQuery(getWinnerQuery, createInput({ id: nightId }));
   return pipe(
     data?.night?.winningSelection,
     O.fromNullable,

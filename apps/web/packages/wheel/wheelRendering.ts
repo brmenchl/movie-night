@@ -12,7 +12,7 @@ export const drawWheel =
   (
     ctx: CanvasRenderingContext2D,
     dimensions: Dimensions,
-    options: readonly string[]
+    options: readonly string[],
   ) =>
   (rotation: number) => {
     ctx.clearRect(0, 0, ...dimensions.bounds);
@@ -31,7 +31,7 @@ export const drawWheel =
         ...dimensions.center,
         dimensions.radius,
         degToRad(start),
-        degToRad(end)
+        degToRad(end),
       );
       return { option, path, bounds: [start, end] as Bounds };
     });
@@ -47,7 +47,7 @@ export const drawWheel =
 const drawItemBackgrounds = (
   ctx: CanvasRenderingContext2D,
   getColor: (idx: number) => string,
-  viewOptions: readonly WheelOptionView[]
+  viewOptions: readonly WheelOptionView[],
 ) =>
   A.forEachWithIndex(viewOptions, (i, { path }) => {
     ctx.fillStyle = getColor(i);
@@ -57,7 +57,7 @@ const drawItemBackgrounds = (
 const drawItemLines = (
   ctx: CanvasRenderingContext2D,
   dimensions: Dimensions,
-  optionViews: readonly WheelOptionView[]
+  optionViews: readonly WheelOptionView[],
 ) => {
   ctx.translate(...dimensions.center);
 
@@ -81,7 +81,7 @@ const drawItemLines = (
 const drawItemLabels = (
   ctx: CanvasRenderingContext2D,
   dimensions: Dimensions,
-  optionViews: readonly WheelOptionView[]
+  optionViews: readonly WheelOptionView[],
 ) => {
   for (const { option, bounds } of optionViews) {
     ctx.save();

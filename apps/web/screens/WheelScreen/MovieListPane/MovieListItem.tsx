@@ -10,16 +10,24 @@ import { useMovieEditing } from './useMovieEditing';
 export const MovieListItem = ({
   movieSelection,
 }: {
-  movieSelection: { friendId: string; title: string };
+  movieSelection: {
+    nightId: string;
+    friendId: string;
+    title: string;
+  };
 }) => {
-  const [deselectMovie] = useDeselectMovie(movieSelection.friendId);
+  const deselectMovie = useDeselectMovie(
+    movieSelection.nightId,
+    movieSelection.friendId,
+  );
 
   const { inputRef, startEditing, title, setTitle, handleKeyPress } =
     useMovieEditing(movieSelection);
 
-  const handleDeselectClick = useCallback(() => {
-    deselectMovie();
-  }, [deselectMovie]);
+  const handleDeselectMovieClick = useCallback(
+    () => deselectMovie(),
+    [deselectMovie],
+  );
 
   return movieSelection ? (
     <Stack>
@@ -29,14 +37,14 @@ export const MovieListItem = ({
           value={title}
           onFocus={startEditing}
           onChange={setTitle}
-          onKeyPress={handleKeyPress}
+          onKeyUp={handleKeyPress}
         />
       </Stack.Item>
       <ButtonGroup>
         <IconButton
           color="red"
           appearance="primary"
-          onClick={handleDeselectClick}
+          onClick={handleDeselectMovieClick}
           icon={<TrashIcon />}
         />
       </ButtonGroup>

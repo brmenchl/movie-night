@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 
 export const useRequestAnimationFrame = (
   callback: (delta: number) => void,
-  isRunning: boolean
+  isRunning: boolean,
 ) => {
   const requestRef = useRef<number>();
   const previousTimeRef = useRef<number>();
@@ -19,7 +19,7 @@ export const useRequestAnimationFrame = (
       previousTimeRef.current = time;
       requestRef.current = requestAnimationFrame(animate);
     },
-    [callback]
+    [callback],
   );
 
   useEffect(() => {

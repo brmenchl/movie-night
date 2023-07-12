@@ -1,7 +1,9 @@
 import { useFriends, useMovieSelections } from '@packages/movies';
+import { useNightId } from '@packages/nights';
 
 export const useFriendsFormData = () => {
-  const alreadySelectedFriendIds = useMovieSelections().map(
+  const nightId = useNightId();
+  const alreadySelectedFriendIds = useMovieSelections(nightId).map(
     (selection) => selection.friendId,
   );
 

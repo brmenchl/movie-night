@@ -8,7 +8,7 @@ type RotationState = { speed: number; rotation: number };
 
 export const useWheelSpin = (
   drawWheel: (rotation: number) => void,
-  onWheelSpinComplete: (rotation: number) => void
+  onWheelSpinComplete: (rotation: number) => void,
 ) => {
   const isWheelSpinning = useIsWheelSpinning();
   const { initialSpeed, duration } = useWheelProperties();
@@ -36,7 +36,7 @@ export const useWheelSpin = (
         onWheelSpinComplete(stateRef.current.rotation);
       }
     },
-    [drag, drawWheel, onWheelSpinComplete]
+    [drag, drawWheel, onWheelSpinComplete],
   );
 
   useRequestAnimationFrame(drawWheelFrame, isWheelSpinning);
@@ -52,7 +52,7 @@ export const useWheelSpin = (
 const getRotation = (
   drag: number,
   delta: number,
-  currentState: RotationState
+  currentState: RotationState,
 ) => {
   const deltaSec = delta / 1000;
   const newSpeed = Math.max(currentState.speed + drag * deltaSec, 0);
