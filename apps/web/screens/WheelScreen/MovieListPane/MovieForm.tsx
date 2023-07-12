@@ -36,14 +36,14 @@ export const MovieForm = () => {
           <Form.Control
             name="title"
             rule={movieRule}
-            onChange={setMovie}
             value={title}
+            onChange={setMovie}
             placeholder="Add a movie!"
           />
           <Button onClick={clearMovieInput}>
             <XIcon />
           </Button>
-          <FriendDropdown onChange={setFriendId} friendId={friendId} />
+          <FriendDropdown friendId={friendId} onChange={setFriendId} />
         </Form.Group>
         <Button type="submit">
           <PlusIcon />
