@@ -19,6 +19,7 @@
   "devDependencies": {
     "eslint-config-custom-server": "*",
     "prisma": "5.0.0",
+    "tsconfig": "*",
     "ts-node": "^10.9.1"
   },
   "prisma": {
