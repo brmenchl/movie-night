@@ -28,7 +28,7 @@ builder.queryFields((t) => ({
   nights: t.prismaField({
     type: [Night],
     nullable: true,
-    resolve: prismaClient.night.findMany,
+    resolve: () => prismaClient.night.findMany(),
   }),
 }));
 

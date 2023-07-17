@@ -24,12 +24,11 @@ export const MovieListItem = ({
   const { inputRef, startEditing, title, setTitle, handleKeyPress } =
     useMovieEditing(movieSelection);
 
-  const handleDeselectMovieClick = useCallback(
-    () => deselectMovie(),
-    [deselectMovie],
-  );
+  const handleDeselectMovieClick = useCallback(() => {
+    deselectMovie();
+  }, [deselectMovie]);
 
-  return movieSelection ? (
+  return (
     <Stack>
       <Stack.Item flex={1}>
         <Input
@@ -49,5 +48,5 @@ export const MovieListItem = ({
         />
       </ButtonGroup>
     </Stack>
-  ) : null;
+  );
 };

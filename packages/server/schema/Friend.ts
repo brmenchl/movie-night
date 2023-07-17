@@ -26,7 +26,7 @@ builder.queryFields((t) => ({
   friends: t.prismaField({
     type: [Friend],
     nullable: true,
-    resolve: prismaClient.friend.findMany,
+    resolve: () => prismaClient.friend.findMany(),
   }),
 }));
 

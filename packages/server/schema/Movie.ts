@@ -27,6 +27,6 @@ builder.queryFields((t) => ({
   movies: t.prismaField({
     type: [Movie],
     nullable: true,
-    resolve: prismaClient.movie.findMany,
+    resolve: () => prismaClient.movie.findMany(),
   }),
 }));
