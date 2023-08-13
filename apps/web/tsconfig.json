@@ -1,15 +1,23 @@
 {
-  "extends": "tsconfig/nextjs.json",
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "generated/*"
-  ],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "tsconfig/base.json",
   "compilerOptions": {
+    "strict": true,
+    "allowJs": true,
+    "incremental": true,
+    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "module": "esnext",
+    "target": "es5",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@gql/*": [
         "./gql/*"
@@ -24,5 +32,15 @@
         "./components/*"
       ]
     }
-  }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "generated/*"
+  ]
 }

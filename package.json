@@ -7,10 +7,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint": "^8.45.0",
-    "prettier": "^3.0.0",
-    "turbo": "^1.10.8",
-    "typescript": "^5.1.6"
+    "eslint": "latest",
+    "prettier": "latest",
+    "turbo": "^1.10.12",
+    "typescript": "latest"
   },
   "name": "turbo",
   "workspaces": [
