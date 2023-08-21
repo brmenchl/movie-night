@@ -4,7 +4,7 @@ import 'normalize.css/normalize.css';
 import 'rsuite/dist/rsuite.min.css';
 
 const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_URI,
+  uri: '/api/graphql',
   cache: new InMemoryCache(),
 });
 
