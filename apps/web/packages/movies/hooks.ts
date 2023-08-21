@@ -5,9 +5,7 @@ import { useCallback } from 'react';
 import { createInput } from '@core/apollo';
 
 import {
-  createFriendMutation,
   deselectMovieMutation,
-  getFriendsQuery,
   getMovieSelectionsQuery,
   getWinnerQuery,
   pickWinnerMutation,
