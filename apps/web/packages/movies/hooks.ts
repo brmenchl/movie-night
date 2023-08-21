@@ -49,28 +49,6 @@ export const useUpdateMovieSelection = () => {
   ] as const;
 };
 
-export const useFriends = () => {
-  const { data } = useQuery(getFriendsQuery);
-  return O.mapWithDefault(
-    data?.friends,
-    [],
-    A.map(({ id, name }) => ({ id, name })),
-  );
-};
-
-export const useCreateFriend = () => {
-  const [createFriend] = useMutation(createFriendMutation);
-  return useCallback(
-    (name: string) => {
-      createFriend({
-        variables: { input: { name } },
-        refetchQueries: [getFriendsQuery],
-      });
-    },
-    [createFriend],
-  );
-};
-
 export const useMovieSelections = (nightId: string) => {
   const { data } = useQuery(getMovieSelectionsQuery, createInput({ nightId }));
   return O.mapWithDefault(
@@ -104,12 +82,9 @@ export const useWinner = (nightId: string) => {
   return pipe(
     data?.night?.winningSelection,
     O.fromNullable,
-    O.map((selection) => {
-      console.log(selection);
-      return {
-        friendId: selection.friend.id,
-        title: selection.movie.title,
-      };
-    }),
+    O.map((selection) => ({
+      friendId: selection.friend.id,
+      title: selection.movie.title,
+    })),
   );
 };

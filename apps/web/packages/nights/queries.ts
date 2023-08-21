@@ -9,3 +9,13 @@ export const createNightMutation = graphql(`
     }
   }
 `);
+
+export const getNightsQuery = graphql(`
+  query GetNights {
+    nights {
+      date
+      id
+      theme
+    }
+  }
+`);

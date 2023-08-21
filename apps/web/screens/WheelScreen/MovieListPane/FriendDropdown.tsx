@@ -1,6 +1,6 @@
 import { InputPicker } from 'rsuite';
 import { useFriendsFormData } from './useFriendsFormData';
-import { useCreateFriend } from '@packages/movies';
+import { useCreateFriend } from '@packages/friends';
 
 export const FriendDropdown = (props: {
   friendId: string;

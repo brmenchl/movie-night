@@ -1,4 +1,5 @@
-import { useFriends, useMovieSelections } from '@packages/movies';
+import { useFriends } from '@packages/friends';
+import { useMovieSelections } from '@packages/movies';
 import { useNightId } from '@packages/nights';
 
 export const useFriendsFormData = () => {
