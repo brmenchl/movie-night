@@ -17,6 +17,9 @@ export const useOnWheelSpinComplete = (itemAngle: number) => {
 };
 
 const getItemIndexFromRotation = (itemAngle: number, rotation: number) => {
+  const lastIndex = 360 / itemAngle - 1;
+  // Rotation is going backwards through the array indices
   const normalizedRotation = rotation % 360;
-  return Math.floor(normalizedRotation / itemAngle);
+  const backwardsIndices = Math.floor(normalizedRotation / itemAngle);
+  return lastIndex - backwardsIndices;
 };
