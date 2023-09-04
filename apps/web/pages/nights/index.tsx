@@ -1,4 +1,4 @@
-import { useNights } from '@packages/nights/hooks';
+import { useNights } from '@packages/nights';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 import Link from 'next/link';

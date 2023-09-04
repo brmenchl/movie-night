@@ -1,25 +1,25 @@
-import { F, O } from '@mobily/ts-belt';
-import { getNextNightId } from '@packages/nights';
-import { type GetServerSideProps, type GetServerSidePropsResult } from 'next';
+import { O } from '@mobily/ts-belt';
+import { useNextNightId } from '@packages/nights';
+import { useRouter } from 'next/router';
 
 const nightUrl = (nightId: string) => `/nights/${nightId}`;
 
-export const getServerSideProps: GetServerSideProps<
-  Record<string, never>
-> = async () => {
-  const nightId = await getNextNightId();
-  return O.match<string, GetServerSidePropsResult<Record<string, never>>>(
-    nightId,
-    (id) => ({
-      redirect: {
-        permanent: false,
-        destination: nightUrl(id),
-      },
-    }),
-    F.always({ props: {} }),
+const HomePage = () => {
+  const router = useRouter();
+  const { loading, nextNightId } = useNextNightId();
+
+  if (loading) {
+    return null;
+  }
+
+  return O.match(
+    nextNightId,
+    (id) => {
+      router.replace(nightUrl(id));
+      return null;
+    },
+    () => <h1>NO SCHEDULED NIGHT</h1>,
   );
 };
 
-const NoScheduleNightHomePage = () => <h1>NO SCHEDULED NIGHT</h1>;
-
-export default NoScheduleNightHomePage;
+export default HomePage;
