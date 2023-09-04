@@ -72,16 +72,16 @@ export default interface PrismaTypes {
         Where: Prisma.MovieSelectionWhereInput;
         Create: {};
         Update: {};
-        RelationName: "movie" | "friend" | "night" | "winningNight";
+        RelationName: "friend" | "movie" | "night" | "winningNight";
         ListRelations: never;
         Relations: {
-            movie: {
-                Shape: Movie;
-                Name: "Movie";
-            };
             friend: {
                 Shape: Friend;
                 Name: "Friend";
+            };
+            movie: {
+                Shape: Movie;
+                Name: "Movie";
             };
             night: {
                 Shape: Night;

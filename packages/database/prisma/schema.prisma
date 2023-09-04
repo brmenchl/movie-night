@@ -1,14 +1,11 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 generator pothos {
   provider     = "prisma-pothos-types"
-  clientOutput = "@prisma/client"
   output       = "./pothos-types.ts"
+  clientOutput = "@prisma/client"
 }
 
 datasource db {
@@ -33,28 +30,26 @@ model Friend {
 
 /// A past or scheduled movie night with theme
 model Night {
-  id              String           @id @default(uuid())
-  date            String           @unique /// ISO string
-  theme           String
-  movieSelections MovieSelection[] @relation("MovieSelections")
-
-  winningSelection         MovieSelection? @relation("WinningSelection", fields: [winningSelectionFriendId, winningSelectionNightId], references: [friendId, nightId])
+  id                       String           @id @default(uuid())
+  /// ISO string
+  date                     String           @unique
+  theme                    String
   winningSelectionFriendId String?
   winningSelectionNightId  String?
+  movieSelections          MovieSelection[] @relation("MovieSelections")
+  winningSelection         MovieSelection?  @relation("WinningSelection", fields: [winningSelectionFriendId, winningSelectionNightId], references: [friendId, nightId])
 
   @@unique([winningSelectionFriendId, winningSelectionNightId])
 }
 
 /// A selection of a movie from a friend on a specific night
 model MovieSelection {
-  movieId String
-  movie   Movie  @relation(fields: [movieId], references: [id])
-
-  friend   Friend @relation(fields: [friendId], references: [id])
-  friendId String
-
-  night        Night  @relation("MovieSelections", fields: [nightId], references: [id])
+  movieId      String
+  friendId     String
   nightId      String
+  friend       Friend @relation(fields: [friendId], references: [id])
+  movie        Movie  @relation(fields: [movieId], references: [id])
+  night        Night  @relation("MovieSelections", fields: [nightId], references: [id])
   winningNight Night? @relation("WinningSelection")
 
   @@id([friendId, nightId])
