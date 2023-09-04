@@ -1,6 +1,7 @@
 import { prismaClient } from 'database';
 
 import builder from '../builder';
+import isFuture from 'date-fns/isFuture';
 
 export const Night = builder.prismaObject('Night', {
   fields: (t) => ({
@@ -28,7 +29,30 @@ builder.queryFields((t) => ({
   nights: t.prismaField({
     type: [Night],
     nullable: true,
-    resolve: () => prismaClient.night.findMany(),
+    resolve: (query) => prismaClient.night.findMany({ ...query }),
+  }),
+  nextNight: t.prismaField({
+    type: Night,
+    nullable: true,
+    resolve: async (query) => {
+      const nextNight = await prismaClient.night.findFirst({
+        ...query,
+        orderBy: {
+          date: 'desc',
+        },
+      });
+      if (nextNight)
+        console.log(
+          nextNight,
+          new Date(nextNight.date),
+          isFuture(new Date(nextNight.date)),
+        );
+      if (nextNight && isFuture(new Date(nextNight.date))) {
+        return nextNight;
+      } else {
+        return null;
+      }
+    },
   }),
 }));
 

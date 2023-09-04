@@ -6,6 +6,10 @@
   "scripts": {
     "lint": "tsc && eslint ."
   },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "@mobily/ts-belt": "^3.13.1"
+  },
   "devDependencies": {
     "@apollo/server": "^4.9.3",
     "@pothos/core": "^3.33.1",

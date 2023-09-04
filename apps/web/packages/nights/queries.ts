@@ -19,3 +19,13 @@ export const getNightsQuery = graphql(`
     }
   }
 `);
+
+export const getNextNightQuery = graphql(`
+  query GetNextNight {
+    nextNight {
+      date
+      id
+      theme
+    }
+  }
+`);
