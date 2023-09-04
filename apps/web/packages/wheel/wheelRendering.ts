@@ -69,7 +69,7 @@ const drawItemLines = (
     ctx.moveTo(0, 0);
     ctx.lineTo(dimensions.radius, 0);
 
-    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeStyle = '#000000';
     ctx.stroke();
 
     ctx.restore();

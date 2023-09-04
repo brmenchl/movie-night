@@ -2,7 +2,7 @@ import { makeVar, useReactiveVar } from '@apollo/client';
 
 const wheelPropertiesVar = makeVar({
   initialSpeed: 1000,
-  duration: 10,
+  duration: 3,
 });
 
 const isSpinningVar = makeVar(false);
