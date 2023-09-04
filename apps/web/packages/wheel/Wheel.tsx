@@ -1,7 +1,7 @@
 import { F } from '@mobily/ts-belt';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Dimensions } from './models';
+import { type Dimensions } from './models';
 import { useOnWheelSpinComplete } from './useOnWheelSpinComplete';
 import { useWheelSpin } from './useWheelRotation';
 import { drawWheel, getItemAngle } from './wheelRendering';

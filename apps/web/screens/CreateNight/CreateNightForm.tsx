@@ -1,10 +1,10 @@
 import { useCreateNight } from '@packages/nights';
 import Link from 'next/link';
-import { ComponentProps, useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import Schema from 'rsuite/Schema';
 import Form from 'rsuite/Form';
-import type { FormInstance } from 'rsuite/Form';
-import Button from 'rsuite/Button';
+import { type FormInstance } from 'rsuite/Form';
+import Button, { type ButtonProps } from 'rsuite/Button';
 import ButtonToolbar from 'rsuite/ButtonToolbar';
 
 const themeRule = Schema.Types.StringType().isRequired('Gotta add a theme!');
@@ -72,11 +72,8 @@ export const CreateNightForm = () => {
 const LinkButton = ({
   href,
   ...buttonProps
-}: { href: string } & Pick<
-  ComponentProps<typeof Button>,
-  'children' | 'appearance'
->) => (
+}: { href: string } & Pick<ButtonProps, 'children' | 'appearance'>) => (
   <Link href={href} passHref legacyBehavior>
-    <Button as={'a'} {...buttonProps} />
+    <Button as="a" {...buttonProps} />
   </Link>
 );

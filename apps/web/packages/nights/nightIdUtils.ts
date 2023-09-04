@@ -1,5 +1,5 @@
 import { O, pipe } from '@mobily/ts-belt';
-import { NextRouter, useRouter } from 'next/router';
+import { type NextRouter, useRouter } from 'next/router';
 
 const parseNightIdFromRouter = ({ query: { id } }: NextRouter) => {
   if (Array.isArray(id)) return id[0];

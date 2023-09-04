@@ -1,4 +1,4 @@
-import type { CodegenConfig } from '@graphql-codegen/cli';
+import { type CodegenConfig } from '@graphql-codegen/cli';
 import { lexicographicSortSchema, printSchema } from 'graphql';
 import { schema } from 'server';
 

@@ -1,5 +1,5 @@
 import {
-  KeyboardEventHandler,
+  type KeyboardEventHandler,
   useCallback,
   useEffect,
   useRef,

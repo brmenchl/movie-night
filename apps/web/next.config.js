@@ -5,7 +5,7 @@
  **/
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ["server"],
+  transpilePackages: ['server'],
   eslint: {
     dirs: ['pages', 'screens', 'packages', 'core', 'components'],
   },

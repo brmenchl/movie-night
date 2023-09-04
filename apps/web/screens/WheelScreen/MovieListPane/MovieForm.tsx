@@ -2,7 +2,7 @@ import XIcon from '@rsuite/icons/Close';
 import PlusIcon from '@rsuite/icons/Plus';
 import { useCallback, useRef, useState } from 'react';
 import Button from 'rsuite/Button';
-import Form, { FormInstance } from 'rsuite/Form';
+import Form, { type FormInstance } from 'rsuite/Form';
 import Panel from 'rsuite/Panel';
 import Schema from 'rsuite/Schema';
 

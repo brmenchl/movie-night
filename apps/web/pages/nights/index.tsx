@@ -14,9 +14,7 @@ const NightsList = () => {
           <List.Item key={night.id}>
             <Stack direction="column" alignItems="flex-start">
               <Stack.Item>
-                <Link href={`/nights/${night.id}`}>
-                  {night.id}
-                </Link>
+                <Link href={`/nights/${night.id}`}>{night.id}</Link>
               </Stack.Item>
               <Stack.Item>
                 {format(parseISO(night.date), 'MMM d yyyy')}

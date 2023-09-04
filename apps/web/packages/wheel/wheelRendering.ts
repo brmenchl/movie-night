@@ -2,7 +2,7 @@ import { A } from '@mobily/ts-belt';
 
 import { degToRad } from '@core/utils/angles';
 
-import { Bounds, Dimensions, WheelOptionView } from './models';
+import { type Bounds, type Dimensions, type WheelOptionView } from './models';
 import { makeColorGenerator } from './wheelColorGenerator';
 
 // Start 0 at top rather than right
