@@ -10,12 +10,11 @@ const Home = () => (
   <NightIdGuard>
     <Layout>
       <FlexboxGrid justify="space-around">
-        <FlexboxGrid.Item colspan={16}>
-          <div style={{ width: 200, height: 200, margin: 'auto' }}>
-            <WheelPane />
-          </div>
+        <FlexboxGrid.Item colspan={8} />
+        <FlexboxGrid.Item colspan={8}>
+          <WheelPane />
         </FlexboxGrid.Item>
-        <FlexboxGrid.Item colspan={7}>
+        <FlexboxGrid.Item colspan={8}>
           <MovieForm />
         </FlexboxGrid.Item>
       </FlexboxGrid>
