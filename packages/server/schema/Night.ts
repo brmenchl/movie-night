@@ -2,6 +2,8 @@ import { prismaClient } from 'database';
 
 import builder from '../builder';
 import isFuture from 'date-fns/isFuture';
+import isToday from 'date-fns/isToday';
+import { O, pipe } from '@mobily/ts-belt';
 
 export const Night = builder.prismaObject('Night', {
   fields: (t) => ({
@@ -35,23 +37,22 @@ builder.queryFields((t) => ({
     type: Night,
     nullable: true,
     resolve: async (query) => {
-      const nextNight = await prismaClient.night.findFirst({
+      const maybeNextNight = await prismaClient.night.findFirst({
         ...query,
         orderBy: {
           date: 'desc',
         },
       });
-      if (nextNight)
-        console.log(
-          nextNight,
-          new Date(nextNight.date),
-          isFuture(new Date(nextNight.date)),
-        );
-      if (nextNight && isFuture(new Date(nextNight.date))) {
-        return nextNight;
-      } else {
-        return null;
-      }
+      return pipe(
+        O.fromNullable(maybeNextNight),
+        O.flatMap((nextNight) => {
+          const nextDate = new Date(nextNight.date);
+          return isFuture(nextDate) || isToday(nextDate)
+            ? O.Some(nextNight)
+            : O.None;
+        }),
+        O.toNullable,
+      );
     },
   }),
 }));
