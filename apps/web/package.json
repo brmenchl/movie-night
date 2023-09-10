@@ -11,7 +11,7 @@
     "codegen:watch": "yarn codegen --watch"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.2",
+    "@apollo/client": "^3.8.3",
     "@as-integrations/next": "^2.0.2",
     "@mobily/ts-belt": "^3.13.1",
     "date-fns": "^2.30.0",
@@ -19,7 +19,7 @@
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rsuite": "^5.39.0",
+    "rsuite": "^5.40.0",
     "server": "*"
   },
   "devDependencies": {
@@ -27,10 +27,11 @@
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
-    "@types/node": "^20.5.9",
+    "@types/node": "^20.6.0",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "eslint-config-custom": "*",
+    "sass": "^1.66.1",
     "tsconfig": "*"
   }
 }
