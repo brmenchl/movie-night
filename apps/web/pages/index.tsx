@@ -1,6 +1,7 @@
 import { O } from '@mobily/ts-belt';
 import { useNextNightId } from '@packages/nights';
 import { useRouter } from 'next/router';
+import { NoScheduledNight } from '../screens/NoScheduledNight';
 
 const nightUrl = (nightId: string) => `/nights/${nightId}`;
 
@@ -18,7 +19,7 @@ const HomePage = () => {
       router.replace(nightUrl(id));
       return null;
     },
-    () => <h1>NO SCHEDULED NIGHT</h1>,
+    NoScheduledNight,
   );
 };
 

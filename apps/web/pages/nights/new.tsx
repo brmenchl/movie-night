@@ -1,11 +1,5 @@
-import { Layout } from '@components/Layout';
+import { CreateNight } from '../../screens/CreateNight';
 
-import { CreateNightForm } from '../../screens/CreateNight/CreateNightForm';
+const CreateNightPage = () => <CreateNight />;
 
-const CreateNight = () => (
-  <Layout>
-    <CreateNightForm />
-  </Layout>
-);
-
-export default CreateNight;
+export default CreateNightPage;
