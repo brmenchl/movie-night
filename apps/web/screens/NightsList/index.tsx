@@ -4,6 +4,8 @@ import parseISO from 'date-fns/parseISO';
 import Link from 'next/link';
 import { List, Stack } from 'rsuite';
 
+import styles from './NightsList.module.sass';
+
 export const NightsList = () => {
   const nights = useNights();
 
@@ -14,12 +16,13 @@ export const NightsList = () => {
           <List.Item key={night.id}>
             <Stack direction="column" alignItems="flex-start">
               <Stack.Item>
-                <Link href={`/nights/${night.id}`}>{night.id}</Link>
+                <Link href={`/nights/${night.id}`}>
+                  {format(parseISO(night.date), 'MMM d yyyy')}
+                </Link>
               </Stack.Item>
               <Stack.Item>
-                {format(parseISO(night.date), 'MMM d yyyy')}
+                <p className={styles.themeText}>Theme: {night.theme}</p>
               </Stack.Item>
-              <Stack.Item>Theme: {night.theme}</Stack.Item>
             </Stack>
           </List.Item>
         ))}

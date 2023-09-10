@@ -18,7 +18,9 @@
       "@gql/*": ["./gql/*"],
       "@core/*": ["./core/*"],
       "@packages/*": ["./packages/*"],
-      "@components/*": ["./components/*"]
+      "@components/*": ["./components/*"],
+      "@screens/*": ["./screens/*"],
+      "@styles/*": ["./styles/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
