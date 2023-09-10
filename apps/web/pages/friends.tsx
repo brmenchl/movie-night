@@ -1,4 +1,4 @@
-import { FriendsList } from '../screens/FriendsList';
+import { FriendsList } from '@screens/FriendsList';
 
 const FriendsListPage = () => <FriendsList />;
 

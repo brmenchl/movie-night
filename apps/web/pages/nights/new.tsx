@@ -1,4 +1,4 @@
-import { CreateNight } from '../../screens/CreateNight';
+import { CreateNight } from '@screens/CreateNight';
 
 const CreateNightPage = () => <CreateNight />;
 
