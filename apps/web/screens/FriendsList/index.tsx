@@ -25,7 +25,7 @@ export const FriendsList = () => {
   }, [createFriend, name]);
 
   return (
-    <div className="container mx-auto">
+    <div>
       <h1>Friends</h1>
       <Form ref={formRef}>
         <Form.Group controlId="name">
