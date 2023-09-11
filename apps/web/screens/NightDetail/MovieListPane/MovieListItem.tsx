@@ -1,7 +1,6 @@
 import TrashIcon from '@rsuite/icons/Trash';
 import { useCallback } from 'react';
-import { ButtonGroup, IconButton, Input } from 'rsuite';
-import Stack from 'rsuite/Stack';
+import { IconButton, Input } from 'rsuite';
 
 import { useDeselectMovie } from '@packages/movies';
 
@@ -29,8 +28,8 @@ export const MovieListItem = ({
   }, [deselectMovie]);
 
   return (
-    <Stack>
-      <Stack.Item flex={1}>
+    <div className="flex flex-row">
+      <div className="flex-1">
         <Input
           ref={inputRef}
           value={title}
@@ -38,15 +37,13 @@ export const MovieListItem = ({
           onChange={setTitle}
           onKeyUp={handleKeyPress}
         />
-      </Stack.Item>
-      <ButtonGroup>
-        <IconButton
-          color="red"
-          appearance="primary"
-          onClick={handleDeselectMovieClick}
-          icon={<TrashIcon />}
-        />
-      </ButtonGroup>
-    </Stack>
+      </div>
+      <IconButton
+        color="red"
+        appearance="primary"
+        onClick={handleDeselectMovieClick}
+        icon={<TrashIcon />}
+      />
+    </div>
   );
 };

@@ -31,9 +31,12 @@ module.exports = {
         prefer: 'type-imports',
       },
     ],
-    '@typescript-eslint/consistent-type-exports': ['error', {
-      fixMixedExportsWithInlineTypeSpecifier: true
-    }],
+    '@typescript-eslint/consistent-type-exports': [
+      'error',
+      {
+        fixMixedExportsWithInlineTypeSpecifier: true,
+      },
+    ],
     'sort-imports': [
       'error',
       {

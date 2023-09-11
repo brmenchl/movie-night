@@ -23,8 +23,10 @@ export const FriendsList = () => {
       setName('');
     }
   }, [createFriend, name]);
+
   return (
-    <div style={{ margin: 'auto', marginTop: 50, width: '80%' }}>
+    <div className="container mx-auto">
+      <h1>Friends</h1>
       <Form ref={formRef}>
         <Form.Group controlId="name">
           <Form.ControlLabel>Name</Form.ControlLabel>
