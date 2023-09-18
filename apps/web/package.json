@@ -13,24 +13,31 @@
   "dependencies": {
     "@apollo/client": "^3.8.3",
     "@as-integrations/next": "^2.0.2",
+    "@hookform/resolvers": "^3.3.1",
     "@mobily/ts-belt": "^3.13.1",
+    "classnames": "^2.3.2",
     "date-fns": "^2.30.0",
     "next": "^13.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rsuite": "^5.40.0",
-    "server": "*"
+    "react-hook-form": "^7.46.1",
+    "server": "*",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
+    "@tailwindcss/forms": "^0.5.6",
     "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "autoprefixer": "^10.4.15",
     "eslint-config-custom": "*",
-    "sass": "^1.67.0",
+    "postcss": "^8.4.29",
+    "preline": "^1.9.0",
+    "tailwindcss": "^3.3.3",
     "tsconfig": "*"
   }
 }

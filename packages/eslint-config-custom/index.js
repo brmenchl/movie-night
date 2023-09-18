@@ -24,6 +24,15 @@ module.exports = {
     '@typescript-eslint/no-floating-promises': 'off',
     'react/display-name': 'off',
     'turbo/no-undeclared-env-vars': 'off',
+    '@typescript-eslint/no-misused-promises': [
+      'error',
+      {
+        checksVoidReturn: {
+          arguments: false,
+          attributes: false,
+        },
+      },
+    ],
     '@typescript-eslint/consistent-type-imports': [
       'error',
       {
