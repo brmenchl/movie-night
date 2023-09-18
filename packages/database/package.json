@@ -11,11 +11,11 @@
     "lint": "tsc && eslint ."
   },
   "dependencies": {
-    "@prisma/client": "^5.2.0"
+    "@prisma/client": "^5.3.1"
   },
   "devDependencies": {
     "eslint-config-custom-server": "*",
-    "prisma": "^5.2.0",
+    "prisma": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsconfig": "*"
   },

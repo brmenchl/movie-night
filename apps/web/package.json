@@ -26,11 +26,11 @@
     "@graphql-codegen/client-preset": "^4.1.0",
     "@graphql-codegen/typescript-operations": "^4.0.1",
     "@graphql-codegen/typescript-react-apollo": "^3.3.7",
-    "@types/node": "^20.6.0",
+    "@types/node": "^20.6.2",
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "eslint-config-custom": "*",
-    "sass": "^1.66.1",
+    "sass": "^1.67.0",
     "tsconfig": "*"
   }
 }
