@@ -1,58 +1,65 @@
+import { Button } from '@components/Button';
+import { Input } from '@components/Input';
+import { Layout } from '@components/Layout';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useCreateFriend, useFriends } from '@packages/friends';
-import { useCallback, useRef, useState } from 'react';
-import {
-  Button,
-  ButtonToolbar,
-  Form,
-  type FormInstance,
-  List,
-  Schema,
-} from 'rsuite';
+import { useCallback } from 'react';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-const dateRule = Schema.Types.StringType().isRequired('Enter a name!');
+const addFriendFormSchema = z.object({
+  name: z.string({ required_error: 'Enter a name!' }),
+});
+type AddFriendFormValues = z.infer<typeof addFriendFormSchema>;
 
 export const FriendsList = () => {
-  const formRef = useRef<FormInstance>(null);
   const friends = useFriends();
-  const [name, setName] = useState('');
   const createFriend = useCreateFriend();
 
-  const createFriendFromInput = useCallback(() => {
-    if (formRef.current?.check()) {
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<AddFriendFormValues>({
+    resolver: zodResolver(addFriendFormSchema),
+  });
+
+  const createFriendFromInput: SubmitHandler<AddFriendFormValues> = useCallback(
+    ({ name }) => {
       createFriend(name);
-      setName('');
-    }
-  }, [createFriend, name]);
+      reset();
+    },
+    [createFriend, reset],
+  );
 
   return (
-    <div>
+    <Layout>
       <h1>Friends</h1>
-      <Form ref={formRef}>
-        <Form.Group controlId="name">
-          <Form.ControlLabel>Name</Form.ControlLabel>
-          <Form.Control
-            name="name"
-            rule={dateRule}
-            value={name}
-            onChange={setName}
-          />
-        </Form.Group>
-        <Form.Group>
-          <ButtonToolbar>
-            <Button appearance="primary" onClick={createFriendFromInput}>
-              Submit
-            </Button>
-          </ButtonToolbar>
-        </Form.Group>
-      </Form>
+      <form onSubmit={handleSubmit(createFriendFromInput)}>
+        <div>
+          <label htmlFor="name">Name</label>
+          <Input id="name" {...register('name')} />
+          {errors.name && (
+            <span className="text-red-800 block mt-2">
+              {errors.name.message}
+            </span>
+          )}
+        </div>
+        <div>
+          <Button.Solid type="submit" disabled={isSubmitting}>
+            Submit
+          </Button.Solid>
+        </div>
+      </form>
 
-      <List>
+      <ul>
         {friends.map((friend) => (
-          <List.Item key={friend.id}>
+          <li key={friend.id}>
             <p>{friend.name}</p>
-          </List.Item>
+          </li>
         ))}
-      </List>
-    </div>
+      </ul>
+    </Layout>
   );
 };

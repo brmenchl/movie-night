@@ -1,57 +1,91 @@
-import XIcon from '@rsuite/icons/Close';
-import PlusIcon from '@rsuite/icons/Plus';
-import { useCallback, useRef, useState } from 'react';
-import Button from 'rsuite/Button';
-import Form, { type FormInstance } from 'rsuite/Form';
-import Panel from 'rsuite/Panel';
-import Schema from 'rsuite/Schema';
+import { useCallback } from 'react';
 
 import { useSelectMovie } from '@packages/movies';
 import { useNightId } from '@packages/nights';
 
 import { FriendDropdown } from './FriendDropdown';
 import { MovieList } from './MovieList';
+import { Button } from '@components/Button';
+import { Icon } from '@components/Icon';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  type Control,
+  type SubmitHandler,
+  useController,
+  useForm,
+} from 'react-hook-form';
+import { Input } from '@components/Input';
 
-const movieRule = Schema.Types.StringType().isRequired("C'mon, add a movie");
+const movieFormSchema = z.object({
+  movie: z.string().min(1, 'Cmon, add a movie'),
+  friendId: z.string({ required_error: 'Wait, who are you?' }),
+});
+type MovieFormValues = z.infer<typeof movieFormSchema>;
 
 export const MovieForm = () => {
-  const formRef = useRef<FormInstance>(null);
-  const [title, setMovie] = useState('');
-  const [friendId, setFriendId] = useState('');
   const nightId = useNightId();
-  const clearMovieInput = useCallback(() => setMovie(''), [setMovie]);
-  const clearFriendInput = useCallback(() => setFriendId(''), [setFriendId]);
   const selectMovie = useSelectMovie(nightId);
 
-  const addMovieSelectionFromInput = useCallback(() => {
-    if (formRef.current && formRef.current.check()) {
-      selectMovie({ friendId, title });
-      clearMovieInput();
-      clearFriendInput();
-    }
-  }, [clearFriendInput, clearMovieInput, friendId, selectMovie, title]);
+  const {
+    control,
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<MovieFormValues>({
+    resolver: zodResolver(movieFormSchema),
+  });
+
+  const addMovieSelectionFromInput: SubmitHandler<MovieFormValues> =
+    useCallback(
+      ({ friendId, movie }) => {
+        selectMovie({ friendId, title: movie });
+        reset();
+      },
+      [reset, selectMovie],
+    );
 
   return (
-    <Panel header="Movies" bordered>
-      <Form ref={formRef} layout="inline" onSubmit={addMovieSelectionFromInput}>
-        <Form.Group>
-          <Form.Control
-            name="title"
-            rule={movieRule}
-            value={title}
-            onChange={setMovie}
-            placeholder="Add a movie!"
-          />
-          <Button onClick={clearMovieInput}>
-            <XIcon />
-          </Button>
-          <FriendDropdown friendId={friendId} onChange={setFriendId} />
-        </Form.Group>
-        <Button type="submit">
-          <PlusIcon />
-        </Button>
-      </Form>
+    <div>
+      <form onSubmit={handleSubmit(addMovieSelectionFromInput)}>
+        <div>
+          <Input placeholder="Add a movie!" {...register('movie')} />
+          <Button.Icon onClick={() => reset()}>
+            <Icon.X />
+          </Button.Icon>
+          {errors.movie && (
+            <span className="text-red-800 block mt-2">
+              {errors.movie.message}
+            </span>
+          )}
+          <div>
+            <FriendDropdownFormControl control={control} />
+            {errors.friendId && (
+              <span className="text-red-800 block mt-2">
+                {errors.friendId.message}
+              </span>
+            )}
+          </div>
+        </div>
+        <Button.Icon type="submit" disabled={isSubmitting}>
+          <Icon.Plus />
+        </Button.Icon>
+      </form>
       <MovieList />
-    </Panel>
+    </div>
   );
+};
+
+const FriendDropdownFormControl = ({
+  control,
+}: {
+  control: Control<MovieFormValues>;
+}) => {
+  const { field } = useController({
+    control,
+    name: 'friendId',
+  });
+
+  return <FriendDropdown friendId={field.value} onChange={field.onChange} />;
 };

@@ -1,10 +1,11 @@
-import TrashIcon from '@rsuite/icons/Trash';
 import { useCallback } from 'react';
-import { IconButton, Input, Stack } from 'rsuite';
 
 import { useDeselectMovie } from '@packages/movies';
 
 import { useMovieEditing } from './useMovieEditing';
+import { Button } from '@components/Button';
+import { Icon } from '@components/Icon';
+import { Input } from '@components/Input';
 
 export const MovieListItem = ({
   movieSelection,
@@ -28,22 +29,19 @@ export const MovieListItem = ({
   }, [deselectMovie]);
 
   return (
-    <Stack>
-      <Stack.Item flex={1}>
+    <div>
+      <div className="flex-1">
         <Input
           ref={inputRef}
           value={title}
           onFocus={startEditing}
-          onChange={setTitle}
+          onChange={(e) => setTitle(e.target.value)}
           onKeyUp={handleKeyPress}
         />
-      </Stack.Item>
-      <IconButton
-        color="red"
-        appearance="primary"
-        onClick={handleDeselectMovieClick}
-        icon={<TrashIcon />}
-      />
-    </Stack>
+      </div>
+      <Button.Icon color="red" onClick={handleDeselectMovieClick}>
+        <Icon.Trash />
+      </Button.Icon>
+    </div>
   );
 };

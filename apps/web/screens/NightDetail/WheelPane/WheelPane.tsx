@@ -2,6 +2,7 @@ import { Wheel, spin } from '@packages/wheel';
 
 import { WinnerView } from './WinnerView';
 import { useGetMovieWheelOptions } from './hooks';
+import { Button } from '@components/Button';
 
 export const WheelPane = () => {
   const movieSelections = useGetMovieWheelOptions();
@@ -10,7 +11,7 @@ export const WheelPane = () => {
     <>
       <Wheel options={movieSelections} radius={200} />
       <WinnerView />
-      <button onClick={spin}>Spin</button>
+      <Button.Solid onClick={spin}>Spin</Button.Solid>
     </>
   ) : null;
 };

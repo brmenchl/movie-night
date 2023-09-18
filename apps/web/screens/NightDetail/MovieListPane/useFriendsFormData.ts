@@ -8,13 +8,13 @@ export const useFriendsFormData = () => {
     (selection) => selection.friendId,
   );
 
-  return {
-    data: useFriends().map(toDataOption),
-    disabledItemValues: alreadySelectedFriendIds,
-  };
+  return useFriends().map(toDataOption(alreadySelectedFriendIds));
 };
 
-const toDataOption = ({ id, name }: { id: string; name: string }) => ({
-  value: id,
-  label: name,
-});
+const toDataOption =
+  (alreadySelectedFriendIds: string[]) =>
+  ({ id, name }: { id: string; name: string }) => ({
+    value: id,
+    label: name,
+    disabled: alreadySelectedFriendIds.includes(id),
+  });

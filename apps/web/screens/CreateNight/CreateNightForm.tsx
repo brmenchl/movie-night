@@ -1,29 +1,41 @@
 import { useCreateNight } from '@packages/nights';
 import Link from 'next/link';
-import { useCallback, useRef, useState } from 'react';
-import Schema from 'rsuite/Schema';
-import Form from 'rsuite/Form';
-import { type FormInstance } from 'rsuite/Form';
-import Button, { type ButtonProps } from 'rsuite/Button';
-import ButtonToolbar from 'rsuite/ButtonToolbar';
+import { useCallback } from 'react';
+import { Button } from '@components/Button';
+import { z } from 'zod';
+import { type SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '@components/Input';
 
-const themeRule = Schema.Types.StringType().isRequired('Gotta add a theme!');
-const dateRule = Schema.Types.DateType().isRequired('Enter a date');
+const createNightSchema = z.object({
+  theme: z.string().min(1, 'Gotta add a theme!'),
+  date: z.coerce.date({ required_error: 'Enter a date' }),
+});
+type CreateNightFormValues = z.infer<typeof createNightSchema>;
 
 export const CreateNightForm = () => {
-  const formRef = useRef<FormInstance>(null);
-  const [theme, setTheme] = useState('');
-  const [date, setDate] = useState('');
   const createNight = useCreateNight();
 
-  const createNightFromInput = useCallback(() => {
-    if (formRef.current?.check()) {
-      createNight({ theme, date: new Date(date) });
-      setDate('');
-      setTheme('');
-    }
-  }, [createNight, date, theme]);
+  const {
+    handleSubmit,
+    register,
+    reset,
+    getValues,
+    formState: { errors, isSubmitting },
+  } = useForm<CreateNightFormValues>({
+    resolver: zodResolver(createNightSchema),
+  });
 
+  const createNightFromInput: SubmitHandler<CreateNightFormValues> =
+    useCallback(
+      ({ date, theme }) => {
+        createNight({ theme, date: new Date(date) });
+        reset();
+      },
+      [createNight, reset],
+    );
+
+  console.log(errors, getValues());
   return (
     <div
       style={{
@@ -33,47 +45,46 @@ export const CreateNightForm = () => {
         marginTop: 80,
       }}
     >
-      <Form ref={formRef}>
-        <Form.Group controlId="date">
-          <Form.ControlLabel>Date</Form.ControlLabel>
-          <Form.Control
-            name="date"
-            type="date"
-            rule={dateRule}
-            value={date}
-            onChange={setDate}
-          />
-        </Form.Group>
-        <Form.Group controlId="theme">
-          <Form.ControlLabel>Theme</Form.ControlLabel>
-          <Form.Control
-            name="theme"
-            rule={themeRule}
-            value={theme}
-            onChange={setTheme}
+      <form onSubmit={handleSubmit(createNightFromInput)}>
+        <div>
+          <label
+            htmlFor="date"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Date
+          </label>
+          <Input type="date" id="date" {...register('date')} />
+          {errors.date && (
+            <span className="text-red-800 block mt-2">
+              {errors.date.message}
+            </span>
+          )}
+        </div>
+        <div>
+          <label
+            htmlFor="theme"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Theme
+          </label>
+          <Input
+            id="theme"
             placeholder="Pick a good one"
+            {...register('theme')}
           />
-        </Form.Group>
-        <Form.Group>
-          <ButtonToolbar>
-            <Button appearance="primary" onClick={createNightFromInput}>
-              Submit
-            </Button>
-            <LinkButton href="/" appearance="default">
-              Cancel
-            </LinkButton>
-          </ButtonToolbar>
-        </Form.Group>
-      </Form>
+          {errors.theme && (
+            <span className="text-red-800 block mt-2">
+              {errors.theme.message}
+            </span>
+          )}
+        </div>
+        <Button.Solid type="submit" disabled={isSubmitting}>
+          Submit
+        </Button.Solid>
+        <Link href="/" passHref>
+          <Button.Solid>Cancel</Button.Solid>
+        </Link>
+      </form>
     </div>
   );
 };
-
-const LinkButton = ({
-  href,
-  ...buttonProps
-}: { href: string } & Pick<ButtonProps, 'children' | 'appearance'>) => (
-  <Link href={href} passHref legacyBehavior>
-    <Button as="a" {...buttonProps} />
-  </Link>
-);

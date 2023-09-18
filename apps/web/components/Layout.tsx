@@ -5,6 +5,6 @@ export const Layout = (props: { children: React.ReactNode }) => (
     <Head>
       <title>Movie night | Spin the Wheel!</title>
     </Head>
-    {props.children}
+    <div className="container mx-auto">{props.children}</div>
   </>
 );

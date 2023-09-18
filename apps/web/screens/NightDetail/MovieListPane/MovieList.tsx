@@ -1,5 +1,3 @@
-import List from 'rsuite/List';
-
 import { useMovieSelections } from '@packages/movies';
 
 import { MovieListItem } from './MovieListItem';
@@ -9,16 +7,12 @@ export const MovieList = () => {
   const nightId = useNightId();
   const movieSelections = useMovieSelections(nightId);
   return (
-    <List size="md">
-      {movieSelections.map((movieSelection, index) => (
-        <List.Item
-          key={movieSelection.friendId}
-          index={index}
-          style={{ color: 'black' }}
-        >
+    <ul>
+      {movieSelections.map((movieSelection) => (
+        <li key={movieSelection.friendId} style={{ color: 'black' }}>
           <MovieListItem movieSelection={movieSelection} />
-        </List.Item>
+        </li>
       ))}
-    </List>
+    </ul>
   );
 };

@@ -1,22 +1,23 @@
-import { InputPicker } from 'rsuite';
+import { Select } from '@components/Select';
 import { useFriendsFormData } from './useFriendsFormData';
-import { useCreateFriend } from '@packages/friends';
 
 export const FriendDropdown = (props: {
   friendId: string;
   onChange: (value: string) => void;
 }) => {
-  const { data, disabledItemValues } = useFriendsFormData();
-  const createFriend = useCreateFriend();
+  const data = useFriendsFormData();
+
   return (
-    <InputPicker
-      data={data}
-      disabledItemValues={disabledItemValues}
-      value={props.friendId}
-      onChange={props.onChange}
-      onCreate={createFriend}
+    <Select
+      onChange={(e) => props.onChange(e.target.value)}
       placeholder="Who are you?"
-      creatable
-    />
+    >
+      <option value="">Who are you?</option>
+      {data.map(({ label, value, disabled }) => (
+        <option key={value} value={value} disabled={disabled}>
+          {label}
+        </option>
+      ))}
+    </Select>
   );
 };
