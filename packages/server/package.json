@@ -12,12 +12,12 @@
   },
   "devDependencies": {
     "@apollo/server": "^4.9.3",
-    "@pothos/core": "^3.35.0",
-    "@pothos/plugin-prisma": "^3.59.3",
+    "@pothos/core": "^3.38.0",
+    "@pothos/plugin-prisma": "^3.60.0",
     "@pothos/plugin-with-input": "^3.10.1",
     "database": "*",
     "eslint-config-custom-server": "*",
-    "graphql": "^16.8.0",
+    "graphql": "^16.8.1",
     "tsconfig": "*"
   }
 }
