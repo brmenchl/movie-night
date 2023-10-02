@@ -8,7 +8,6 @@
     "prepare": "lefthook install"
   },
   "devDependencies": {
-    "@evilmartians/lefthook": "^1.5.0",
     "eslint": "^8.49.0",
     "prettier": "^3.0.3",
     "turbo": "^1.10.14",
