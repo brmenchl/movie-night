@@ -4,7 +4,6 @@ import { useSelectMovie } from '@packages/movies';
 import { useNightId } from '@packages/nights';
 
 import { FriendDropdown } from './FriendDropdown';
-import { MovieList } from './MovieList';
 import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
 import { z } from 'zod';
@@ -47,33 +46,30 @@ export const MovieForm = () => {
     );
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(addMovieSelectionFromInput)}>
+    <form onSubmit={handleSubmit(addMovieSelectionFromInput)}>
+      <div>
+        <Input placeholder="Add a movie!" {...register('movie')} />
+        <Button.Icon onClick={() => reset()}>
+          <Icon.X />
+        </Button.Icon>
+        {errors.movie && (
+          <span className="text-red-800 block mt-2">
+            {errors.movie.message}
+          </span>
+        )}
         <div>
-          <Input placeholder="Add a movie!" {...register('movie')} />
-          <Button.Icon onClick={() => reset()}>
-            <Icon.X />
-          </Button.Icon>
-          {errors.movie && (
+          <FriendDropdownFormControl control={control} />
+          {errors.friendId && (
             <span className="text-red-800 block mt-2">
-              {errors.movie.message}
+              {errors.friendId.message}
             </span>
           )}
-          <div>
-            <FriendDropdownFormControl control={control} />
-            {errors.friendId && (
-              <span className="text-red-800 block mt-2">
-                {errors.friendId.message}
-              </span>
-            )}
-          </div>
         </div>
-        <Button.Icon type="submit" disabled={isSubmitting}>
-          <Icon.Plus />
-        </Button.Icon>
-      </form>
-      <MovieList />
-    </div>
+      </div>
+      <Button.Icon type="submit" disabled={isSubmitting}>
+        <Icon.Plus />
+      </Button.Icon>
+    </form>
   );
 };
 

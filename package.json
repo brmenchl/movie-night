@@ -3,7 +3,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
-    "lint": "turbo run typecheck lint",
+    "validate": "turbo run typecheck lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,js,json}\"",
     "prepare": "lefthook install"
   },

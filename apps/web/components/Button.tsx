@@ -24,7 +24,10 @@ const Icon = ({ className, ...props }: ButtonProps) => (
   />
 );
 
+const Wrapper = (props: ButtonProps) => <button type="button" {...props} />;
+
 export const Button = {
   Solid,
   Icon,
+  Wrapper,
 };

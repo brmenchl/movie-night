@@ -1,5 +1,3 @@
-import preline from 'preline/plugin.js';
-import prelineOverlay from '@preline/overlay';
 import tailwindForms from '@tailwindcss/forms';
 
 export default {
@@ -7,7 +5,7 @@ export default {
     './screens/**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
     './components/**/*.{js,ts,jsx,tsx}',
-    'node_modules/preline/dist/*.js',
+    '../../node_modules/preline/dist/*.js',
   ],
   darkMode: 'class',
   theme: {
@@ -19,5 +17,5 @@ export default {
       },
     },
   },
-  plugins: [tailwindForms, preline],
+  plugins: [tailwindForms, require('preline/plugin')],
 };

@@ -7,7 +7,7 @@ export const MovieList = () => {
   const nightId = useNightId();
   const movieSelections = useMovieSelections(nightId);
   return (
-    <ul>
+    <ul className="flex flex-col gap-3">
       {movieSelections.map((movieSelection) => (
         <li key={movieSelection.friendId} style={{ color: 'black' }}>
           <MovieListItem movieSelection={movieSelection} />

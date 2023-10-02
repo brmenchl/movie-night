@@ -2,6 +2,6 @@ pre-commit:
   commands:
     format:
       glob: "**/*.{ts,tsx,md,js,json}"
-      run: npx prettier --write --log-level error {staged_files}
+      run: npx prettier --write --log-level error {staged_files} && git add {staged_files}
     lint:
-      run: yarn lint
+      run: yarn validate

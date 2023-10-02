@@ -5,7 +5,7 @@ import { useDeselectMovie } from '@packages/movies';
 import { useMovieEditing } from './useMovieEditing';
 import { Button } from '@components/Button';
 import { Icon } from '@components/Icon';
-import { Input } from '@components/Input';
+import { InputWithAddon } from '@components/Input';
 
 export const MovieListItem = ({
   movieSelection,
@@ -29,19 +29,23 @@ export const MovieListItem = ({
   }, [deselectMovie]);
 
   return (
-    <div>
+    <div className="flex flex-row">
       <div className="flex-1">
-        <Input
+        <InputWithAddon
           ref={inputRef}
           value={title}
           onFocus={startEditing}
           onChange={(e) => setTitle(e.target.value)}
           onKeyUp={handleKeyPress}
-        />
+        >
+          <Button.Wrapper
+            className="flex-1 p-2"
+            onClick={handleDeselectMovieClick}
+          >
+            <Icon.Trash />
+          </Button.Wrapper>
+        </InputWithAddon>
       </div>
-      <Button.Icon color="red" onClick={handleDeselectMovieClick}>
-        <Icon.Trash />
-      </Button.Icon>
     </div>
   );
 };
