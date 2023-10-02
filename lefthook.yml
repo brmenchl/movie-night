@@ -1,0 +1,7 @@
+pre-commit:
+  commands:
+    format:
+      glob: "**/*.{ts,tsx,md,js,json}"
+      run: npx prettier --write --log-level error {staged_files}
+    lint:
+      run: yarn lint

@@ -5,11 +5,11 @@
     "dev": "turbo run dev",
     "lint": "turbo run typecheck lint",
     "format": "prettier --write \"**/*.{ts,tsx,md,js,json}\"",
-    "prepare": "husky install"
+    "prepare": "lefthook install"
   },
   "devDependencies": {
+    "@evilmartians/lefthook": "^1.5.0",
     "eslint": "^8.49.0",
-    "husky": "^8.0.3",
     "prettier": "^3.0.3",
     "turbo": "^1.10.14",
     "typescript": "^5.2.2"
