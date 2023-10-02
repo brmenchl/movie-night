@@ -10,6 +10,7 @@ export const Sidebar = ({
   <div
     id={id}
     className="hs-overlay hidden hs-overlay-open:-translate-x-64 translate-x-full transition-all duration-300 transform fixed top-0 -right-64 bottom-0 z-[60] w-64 bg-white pt-2 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:left-auto lg:bottom-0 border-l-2"
+    data-hs-overlay-keyboard="false"
   >
     <button
       type="button"

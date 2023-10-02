@@ -1,7 +1,16 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { A, O } from '@mobily/ts-belt';
 import { useCallback } from 'react';
-import { createFriendMutation, getFriendsQuery } from './queries';
+import {
+  createFriendMutation,
+  getFriendQuery,
+  getFriendsQuery,
+} from './queries';
+
+export const useFriend = (id: string) => {
+  const { data } = useQuery(getFriendQuery, { variables: { input: { id } } });
+  return O.fromNullable(data?.friend);
+};
 
 export const useFriends = () => {
   const { data } = useQuery(getFriendsQuery);

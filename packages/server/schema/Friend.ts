@@ -14,13 +14,13 @@ builder.queryFields((t) => ({
   friend: t.prismaFieldWithInput({
     type: Friend,
     input: {
-      name: t.input.string({ required: true }),
+      id: t.input.string({ required: true }),
     },
     nullable: true,
-    resolve: (query, _, { input: { name } }) =>
+    resolve: (query, _, { input: { id } }) =>
       prismaClient.friend.findUnique({
         ...query,
-        where: { name },
+        where: { id },
       }),
   }),
   friends: t.prismaField({

@@ -1,5 +1,14 @@
 import { graphql } from '../../gql';
 
+export const getFriendQuery = graphql(`
+  query GetFriend($input: QueryFriendInput!) {
+    friend(input: $input) {
+      id
+      name
+    }
+  }
+`);
+
 export const getFriendsQuery = graphql(`
   query GetFriends {
     friends {

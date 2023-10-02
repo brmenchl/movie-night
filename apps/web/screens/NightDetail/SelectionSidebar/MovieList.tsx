@@ -9,7 +9,7 @@ export const MovieList = () => {
   return (
     <ul className="flex flex-col gap-3">
       {movieSelections.map((movieSelection) => (
-        <li key={movieSelection.friendId} style={{ color: 'black' }}>
+        <li key={movieSelection.friendId}>
           <MovieListItem movieSelection={movieSelection} />
         </li>
       ))}
