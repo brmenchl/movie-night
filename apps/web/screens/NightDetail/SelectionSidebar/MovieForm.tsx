@@ -14,7 +14,7 @@ import {
   useController,
   useForm,
 } from 'react-hook-form';
-import { Input } from '@components/Input';
+import { InputWithAddon } from '@components/Input';
 
 const movieFormSchema = z.object({
   movie: z.string().min(1, 'Cmon, add a movie'),
@@ -47,16 +47,19 @@ export const MovieForm = () => {
 
   return (
     <form onSubmit={handleSubmit(addMovieSelectionFromInput)}>
-      <div>
-        <Input placeholder="Add a movie!" {...register('movie')} />
-        <Button.Icon onClick={() => reset()}>
-          <Icon.X />
-        </Button.Icon>
-        {errors.movie && (
-          <span className="text-red-800 block mt-2">
-            {errors.movie.message}
-          </span>
-        )}
+      <div className="flex flex-col gap-2">
+        <div>
+          <InputWithAddon placeholder="Add a movie!" {...register('movie')}>
+            <Button.Wrapper className="flex-1" onClick={() => reset()}>
+              <Icon.X />
+            </Button.Wrapper>
+          </InputWithAddon>
+          {errors.movie && (
+            <span className="text-red-800 block mt-2">
+              {errors.movie.message}
+            </span>
+          )}
+        </div>
         <div>
           <FriendDropdownFormControl control={control} />
           {errors.friendId && (
@@ -65,10 +68,10 @@ export const MovieForm = () => {
             </span>
           )}
         </div>
+        <Button.Solid type="submit" disabled={isSubmitting} className="w-full">
+          Add
+        </Button.Solid>
       </div>
-      <Button.Icon type="submit" disabled={isSubmitting}>
-        <Icon.Plus />
-      </Button.Icon>
     </form>
   );
 };

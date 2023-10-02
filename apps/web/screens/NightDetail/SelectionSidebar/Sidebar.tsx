@@ -20,6 +20,6 @@ export const Sidebar = ({
     >
       <Icon.X />
     </button>
-    <div className="px-3 mt-20">{children}</div>
+    <div className="px-3 mt-8">{children}</div>
   </div>
 );
