@@ -8,7 +8,8 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push --skip-generate",
     "db:migrate": "prisma migrate dev",
-    "lint": "tsc && eslint ."
+    "typecheck": "tsc",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@prisma/client": "^5.3.1"
@@ -18,8 +19,5 @@
     "prisma": "^5.3.1",
     "ts-node": "^10.9.1",
     "tsconfig": "*"
-  },
-  "prisma": {
-    "seed": "ts-node prisma/seed.ts"
   }
 }

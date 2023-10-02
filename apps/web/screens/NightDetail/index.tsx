@@ -1,6 +1,7 @@
 import { NightIdGuard } from '@packages/nights';
 import { MovieForm } from './MovieListPane';
 import { WheelPane } from './WheelPane';
+import { Sidebar } from './MovieListPane/Sidebar';
 
 export const NightDetail = () => (
   <NightIdGuard>
@@ -9,9 +10,12 @@ export const NightDetail = () => (
       <div className="flex-1">
         <WheelPane />
       </div>
-      <div className="flex-2">
+      <button type="button" data-hs-overlay="#hello">
+        Open sidebar
+      </button>
+      <Sidebar id="hello">
         <MovieForm />
-      </div>
+      </Sidebar>
     </div>
   </NightIdGuard>
 );

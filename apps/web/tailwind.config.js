@@ -1,4 +1,5 @@
 import preline from 'preline/plugin.js';
+import prelineOverlay from '@preline/overlay';
 import tailwindForms from '@tailwindcss/forms';
 
 export default {
