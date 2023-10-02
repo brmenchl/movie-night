@@ -3,7 +3,5 @@ pre-commit:
     format:
       glob: "**/*.{ts,tsx,md,js,json}"
       run: npx prettier --write --log-level error {staged_files} && git add {staged_files}
-    lint:
-      run: yarn turbo run lint
-    typecheck:
-      run: yarn turbo run typecheck
+    validate:
+      run: yarn turbo run lint typecheck
