@@ -20,6 +20,16 @@ export const getNightsQuery = graphql(`
   }
 `);
 
+export const getNightQuery = graphql(`
+  query GetNight($input: QueryNightInput!) {
+    night(input: $input) {
+      id
+      theme
+      date
+    }
+  }
+`);
+
 export const getNextNightQuery = graphql(`
   query GetNextNight {
     nextNight {

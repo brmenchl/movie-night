@@ -2,12 +2,14 @@ import { useMutation, useQuery } from '@apollo/client';
 import {
   createNightMutation,
   getNextNightQuery,
+  getNightQuery,
   getNightsQuery,
 } from './queries';
 import { createInput } from '@core/apollo';
 import { formatISO } from 'date-fns';
 import { useCallback } from 'react';
 import { A, D, O, pipe } from '@mobily/ts-belt';
+import { useNightId } from './nightIdUtils';
 
 export const useCreateNight = () => {
   const [mutate] = useMutation(createNightMutation);
@@ -27,6 +29,17 @@ export const useNights = () => {
     O.fromNullable,
     O.mapWithDefault([], A.map(D.selectKeys(['id', 'date', 'theme']))),
   );
+};
+
+export const useNightById = (id: string) => {
+  const { data } = useQuery(getNightQuery, createInput({ id }));
+
+  return pipe(data?.night, O.fromNullable);
+};
+
+export const useNight = () => {
+  const nightId = useNightId();
+  return useNightById(nightId);
 };
 
 export const useNextNightId = () => {

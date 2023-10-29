@@ -6,9 +6,10 @@ import {
   getFriendQuery,
   getFriendsQuery,
 } from './queries';
+import { createInput } from '@core/apollo';
 
 export const useFriend = (id: string) => {
-  const { data } = useQuery(getFriendQuery, { variables: { input: { id } } });
+  const { data } = useQuery(getFriendQuery, createInput({ id }));
   return O.fromNullable(data?.friend);
 };
 
