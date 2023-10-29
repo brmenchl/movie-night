@@ -1,65 +1,56 @@
-import { Button } from '@components/Button';
-import { Input } from '@components/Input';
+import { Icon } from '@components/Icon';
 import { Layout } from '@components/Layout';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreateFriend, useFriends } from '@packages/friends';
-import { useCallback } from 'react';
-import { type SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const addFriendFormSchema = z.object({
-  name: z.string({ required_error: 'Enter a name!' }),
-});
-type AddFriendFormValues = z.infer<typeof addFriendFormSchema>;
+import { useFriends } from '@packages/friends';
+import { type ReactNode } from 'react';
+import { AddFriendModal } from './AddFriendModal';
+import { Button } from '@components/Button';
 
 export const FriendsList = () => {
   const friends = useFriends();
-  const createFriend = useCreateFriend();
-
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<AddFriendFormValues>({
-    resolver: zodResolver(addFriendFormSchema),
-  });
-
-  const createFriendFromInput: SubmitHandler<AddFriendFormValues> = useCallback(
-    ({ name }) => {
-      createFriend(name);
-      reset();
-    },
-    [createFriend, reset],
-  );
 
   return (
     <Layout>
-      <h1>Friends</h1>
-      <form onSubmit={handleSubmit(createFriendFromInput)}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <Input id="name" {...register('name')} />
-          {errors.name && (
-            <span className="text-red-800 block mt-2">
-              {errors.name.message}
-            </span>
-          )}
-        </div>
-        <div>
-          <Button.Solid type="submit" disabled={isSubmitting}>
-            Submit
-          </Button.Solid>
-        </div>
-      </form>
+      <div className="max-w-[60rem] my-10 lg:my-14 mx-auto bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+        <div className="px-6 py-4 grid gap-3 md:flex md:justify-between md:items-center border-b border-gray-200">
+          <h2 className="text-xl font-semibold text-gray-800">Friends</h2>
 
-      <ul>
-        {friends.map((friend) => (
-          <li key={friend.id}>
-            <p>{friend.name}</p>
-          </li>
-        ))}
-      </ul>
+          <Button.Solid type="button" data-hs-overlay="#add-friend">
+            <div className="w-5">
+              <Icon.Plus />
+            </div>
+            Add friend
+          </Button.Solid>
+          <AddFriendModal />
+        </div>
+
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th scope="col" className="px-6 py-3 text-left flex items-center">
+                <span className="text-xs font-semibold uppercase tracking-wide text-gray-800">
+                  Name
+                </span>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="divide-y divide-gray-200">
+            {friends.map((friend) => (
+              <tr key={friend.id}>
+                <Cell>{friend.name}</Cell>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </Layout>
   );
 };
+
+const Cell = (props: { children: ReactNode }) => (
+  <td className="h-px w-px px-6 py-3 whitespace-nowrap items-center">
+    <span className="text-sm font-semibold text-gray-800">
+      {props.children}
+    </span>
+  </td>
+);
