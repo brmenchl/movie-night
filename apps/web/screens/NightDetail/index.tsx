@@ -9,9 +9,6 @@ export const NightDetail = () => (
       <div className="flex-1">
         <WheelPane />
       </div>
-      <button type="button" data-hs-overlay="#sidebar" aria-controls="sidebar">
-        Open sidebar
-      </button>
       <SelectionSidebar />
     </div>
   </NightIdGuard>

@@ -44,7 +44,7 @@ export const MovieListItem = ({
             'py-3 px-4 block w-full rounded-tl-md text-sm focus:z-10 border-0 focus:border-blue-500 focus:ring-blue-500 dark:text-gray-400',
           )}
         />
-        <div className="border-t-2 border-slate-400 px-2">
+        <div className="border-t-2 border-slate-400 px-4">
           <p className="text-gray-400">{friend?.name}</p>
         </div>
       </div>
