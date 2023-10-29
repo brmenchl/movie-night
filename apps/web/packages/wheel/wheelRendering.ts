@@ -18,7 +18,7 @@ export const drawWheel =
     ctx.clearRect(0, 0, ...dimensions.bounds);
 
     ctx.textBaseline = 'middle';
-    ctx.font = '14px sans-serif';
+    ctx.font = '60px sans-serif';
 
     ctx.save();
 
@@ -105,7 +105,10 @@ const drawTicker = (ctx: CanvasRenderingContext2D, dimensions: Dimensions) => {
     dimensions.center[0],
     dimensions.center[1] - dimensions.radius,
   ] as const;
-  const tickerPoint = [topPoint[0], topPoint[1] + 15] as const;
+  const tickerPoint = [
+    topPoint[0],
+    topPoint[1] + dimensions.radius / 10,
+  ] as const;
   ctx.save();
 
   ctx.fillStyle = '#FFFFFF';
@@ -113,7 +116,7 @@ const drawTicker = (ctx: CanvasRenderingContext2D, dimensions: Dimensions) => {
 
   ctx.beginPath();
   ctx.moveTo(...tickerPoint);
-  ctx.arc(...topPoint, 5, degToRad(-180), degToRad(0));
+  ctx.arc(...topPoint, dimensions.radius / 50, degToRad(-180), degToRad(0));
   ctx.closePath();
   ctx.fill();
   ctx.stroke();

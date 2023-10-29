@@ -7,7 +7,7 @@ import { NightHeader } from './NightHeader';
 export const SelectionSidebar = () => (
   <>
     <button
-      className="absolute top-2 right-100 h-8 w-8"
+      className="absolute top-2 right-2 h-8 w-8"
       data-hs-overlay="#sidebar"
       aria-controls="sidebar"
     >
