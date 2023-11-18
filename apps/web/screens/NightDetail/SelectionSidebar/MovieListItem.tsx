@@ -4,9 +4,9 @@ import { useDeselectMovie } from '@packages/movies';
 
 import { useMovieEditing } from './useMovieEditing';
 import { Button } from '@components/Button';
-import { Icon } from '@components/Icon';
 import classNames from 'classnames';
 import { useFriend } from '@packages/friends';
+import { Trash2Icon } from 'lucide-react';
 
 export const MovieListItem = ({
   movieSelection,
@@ -53,7 +53,7 @@ export const MovieListItem = ({
           className="flex-1 p-2"
           onClick={handleDeselectMovieClick}
         >
-          <Icon.Trash />
+          <Trash2Icon />
         </Button.Wrapper>
       </div>
     </div>

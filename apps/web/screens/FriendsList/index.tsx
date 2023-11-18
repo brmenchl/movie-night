@@ -1,7 +1,7 @@
-import { Icon } from '@components/Icon';
 import { Layout } from '@components/Layout';
 import { useFriends } from '@packages/friends';
 import { type ReactNode } from 'react';
+import { PlusIcon } from 'lucide-react';
 import { AddFriendModal } from './AddFriendModal';
 import { Button } from '@components/Button';
 
@@ -16,7 +16,7 @@ export const FriendsList = () => {
 
           <Button.Solid type="button" data-hs-overlay="#add-friend">
             <div className="w-5">
-              <Icon.Plus />
+              <PlusIcon />
             </div>
             Add friend
           </Button.Solid>

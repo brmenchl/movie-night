@@ -5,7 +5,6 @@ import { useNightId } from '@packages/nights';
 
 import { FriendDropdown } from './FriendDropdown';
 import { Button } from '@components/Button';
-import { Icon } from '@components/Icon';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -15,6 +14,7 @@ import {
   useForm,
 } from 'react-hook-form';
 import { InputWithAddon } from '@components/Input';
+import { XIcon } from 'lucide-react';
 
 const movieFormSchema = z.object({
   movie: z.string().min(1, 'Cmon, add a movie'),
@@ -50,8 +50,11 @@ export const MovieForm = () => {
       <div className="flex flex-col gap-2">
         <div>
           <InputWithAddon placeholder="Add a movie!" {...register('movie')}>
-            <Button.Wrapper className="flex-1" onClick={() => reset()}>
-              <Icon.X />
+            <Button.Wrapper
+              className="flex-1 flex justify-center"
+              onClick={() => reset()}
+            >
+              <XIcon />
             </Button.Wrapper>
           </InputWithAddon>
           {errors.movie && (

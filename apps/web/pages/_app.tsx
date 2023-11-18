@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 
 const App = ({ Component, pageProps }: AppProps) => {
   useEffect(() => {
-    // @ts-expect-error - no types
     import('preline');
   }, []);
 
