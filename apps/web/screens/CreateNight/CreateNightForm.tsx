@@ -20,7 +20,6 @@ export const CreateNightForm = () => {
     handleSubmit,
     register,
     reset,
-    getValues,
     formState: { errors, isSubmitting },
   } = useForm<CreateNightFormValues>({
     resolver: zodResolver(createNightSchema),
@@ -35,7 +34,6 @@ export const CreateNightForm = () => {
       [createNight, reset],
     );
 
-  console.log(errors, getValues());
   return (
     <div
       style={{
@@ -49,7 +47,7 @@ export const CreateNightForm = () => {
         <div>
           <label
             htmlFor="date"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900"
           >
             Date
           </label>
@@ -63,7 +61,7 @@ export const CreateNightForm = () => {
         <div>
           <label
             htmlFor="theme"
-            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+            className="block mb-2 text-sm font-medium text-gray-900"
           >
             Theme
           </label>

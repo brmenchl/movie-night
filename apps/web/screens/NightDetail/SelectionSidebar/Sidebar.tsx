@@ -7,7 +7,7 @@ export const Sidebar = ({
 }) => (
   <div
     id={id}
-    className="hs-overlay hs-overlay-open:translate-x-0 translate-x-full fixed top-0 end-0 transition-all duration-300 transform h-full max-w-xs w-full z-[60] bg-white border-s dark:bg-gray-800 dark:border-gray-700 hidden pb-6 pt-8 overflow-y-auto overflow-x-hidden"
+    className="hs-overlay hidden hs-overlay-open:-translate-x-64 translate-x-full transition-all duration-300 transform fixed top-0 -right-64 bottom-0 z-[60] w-64 bg-white pt-2 pb-10 overflow-y-auto overflow-x-hidden border-l-2 hs-overlay-backdrop-open:bg-transparent"
   >
     <div className="px-6">{children}</div>
   </div>

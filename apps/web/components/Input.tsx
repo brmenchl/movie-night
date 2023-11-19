@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { type ReactNode } from 'react';
 
 type InputProps = JSX.IntrinsicElements['input'];
 
@@ -8,7 +8,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     <input
       type="text"
       className={classNames(
-        'py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400',
+        'py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500',
         className,
       )}
       ref={ref}
@@ -17,21 +17,26 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ),
 );
 
-export const InputWithAddon = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, children, ...props }, ref) => (
-    <div className="flex rounded-md items-stretch">
+export const InputWithAddon = React.forwardRef<
+  HTMLInputElement,
+  InputProps & { subText?: ReactNode }
+>(({ className, children, subText, ...props }, ref) => (
+  <div className="flex rounded-md">
+    <div className="flex flex-col rounded-l-md border-2 border-gray-200 items-stretch">
       <input
         type="text"
         ref={ref}
         className={classNames(
-          'py-3 px-4 block h-12 w-full border-gray-200 rounded-l-md text-sm focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400',
+          'py-3 px-4 block h-12 w-full border-0 text-sm focus:border-blue-500 focus:ring-blue-500',
+          subText ? 'rounded-tl-md' : 'rounded-l-md',
           className,
         )}
         {...props}
       />
-      <div className="flex h-12 flex-shrink-0 justify-center items-center w-8 rounded-r-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
-        {children}
-      </div>
+      {subText}
     </div>
-  ),
-);
+    <div className="flex flex-shrink-0 justify-center items-center w-8 rounded-r-md border border-transparent font-semibold bg-blue-500 text-white hover:bg-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all text-sm">
+      {children}
+    </div>
+  </div>
+));

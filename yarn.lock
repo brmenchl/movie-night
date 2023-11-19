@@ -1503,10 +1503,10 @@
   resolved "https://registry.yarnpkg.com/@pothos/plugin-with-input/-/plugin-with-input-3.10.1.tgz#5b22f991f6f3d23a4f85950fb4a4e4971ae41013"
   integrity sha512-1Vz1EWMgNO/F37LHxkMr6V5w7lqiDiIvkonSZvOAbLUzOpwbrAgf36j2NrXFWahTN8Q6lPt4x9pNHnBeH18pAg==
 
-"@preline/overlay@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@preline/overlay/-/overlay-2.0.0.tgz#ad1d9ccba15ae5a9ad0df56b1beab23fc7cd1a4b"
-  integrity sha512-YLm8Hhez4i6E4/upYZYyqp0uUcJVOKsoSz/pITh2s8/uLDGK4hjNWoAoWgzrSHD9W+0uqybU20/OEzOv/DBwVw==
+"@preline/overlay@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@preline/overlay/-/overlay-1.4.0.tgz#4aaa9844e7ff4d6567dc084e653ccc13fb0ccc62"
+  integrity sha512-K3Ybp1jGkonimWIlS986Lzz/4ezuYNqQNTK2ZS0tDka69hzutA10CraAeflEHG2A1n7EzWkZE1vjLuy7s7pgjg==
 
 "@prisma/client@^5.6.0":
   version "5.6.0"
@@ -5033,10 +5033,10 @@ postcss@8.4.31, postcss@^8.4.23, postcss@^8.4.31:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
-preline@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/preline/-/preline-2.0.0.tgz#e81f785372e77d403bb763265920ec3a40072a25"
-  integrity sha512-zVStaGooj2iruZgklAOTBvkJK1MR8P7/zn14EwFk+icpbaRxQBKsFMB9Qrc+3+CcaJZS6sFYvdvUvTtu1MWQuQ==
+preline@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/preline/-/preline-1.9.0.tgz#b872c9e0d472242cb6f019c329f1edaa0511596e"
+  integrity sha512-zvOexsDBood9gBAQYSwz7iY8TaomtRD0/qxvCnJl3caq5pif6frl8Oe4b4DsxHHD3Clzl4I5RmVKTq9XjMvNJA==
   dependencies:
     "@popperjs/core" "^2.11.2"
 
