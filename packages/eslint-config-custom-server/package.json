@@ -13,6 +13,6 @@
     "eslint": "^8.54.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-turbo": "^1.10.14",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.5"
   }
 }

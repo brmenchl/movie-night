@@ -11,20 +11,20 @@
     "codegen": "graphql-codegen --config codegen.config.ts"
   },
   "dependencies": {
-    "@apollo/client": "^3.8.7",
+    "@apollo/client": "^3.10.4",
     "@as-integrations/next": "^3.0.0",
-    "@hookform/resolvers": "^3.3.1",
+    "@hookform/resolvers": "^3.6.0",
     "@mobily/ts-belt": "^3.13.1",
     "@preline/overlay": "^1.4.0",
-    "classnames": "^2.3.2",
-    "date-fns": "^2.30.0",
-    "lucide-react": "^0.292.0",
-    "next": "^14.0.3",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-hook-form": "^7.48.2",
+    "classnames": "^2.5.1",
+    "date-fns": "^3.6.0",
+    "lucide-react": "^0.390.0",
+    "next": "^14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.51.5",
     "server": "*",
-    "zod": "^3.22.2"
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",

@@ -6,10 +6,10 @@ import {
   getNightsQuery,
 } from './queries';
 import { createInput } from '@core/apollo';
-import { formatISO } from 'date-fns';
 import { useCallback } from 'react';
 import { A, D, O, pipe } from '@mobily/ts-belt';
 import { useNightId } from './nightIdUtils';
+import { formatISO } from 'date-fns/formatISO';
 
 export const useCreateNight = () => {
   const [mutate] = useMutation(createNightMutation);

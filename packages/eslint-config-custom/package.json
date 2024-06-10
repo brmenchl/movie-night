@@ -11,7 +11,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-turbo": "^1.10.14",
     "eslint-plugin-react": "^7.33.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.5"
   },
   "publishConfig": {
     "access": "public"

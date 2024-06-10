@@ -1,9 +1,9 @@
 import { prismaClient } from 'database';
 
 import builder from '../builder';
-import isFuture from 'date-fns/isFuture';
-import isToday from 'date-fns/isToday';
 import { O, pipe } from '@mobily/ts-belt';
+import { isFuture } from 'date-fns/isFuture';
+import { isToday } from 'date-fns/isToday';
 
 export const Night = builder.prismaObject('Night', {
   fields: (t) => ({

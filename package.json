@@ -8,11 +8,11 @@
     "prepare": "lefthook install"
   },
   "devDependencies": {
-    "@evilmartians/lefthook": "^1.5.0",
+    "lefthook": "^1.6.15",
     "eslint": "^8.54.0",
-    "prettier": "^3.1.0",
-    "turbo": "^1.10.14",
-    "typescript": "^5.2.2"
+    "prettier": "^3.3.1",
+    "turbo": "^1.13.4",
+    "typescript": "^5.4.5"
   },
   "name": "turbo",
   "workspaces": [
