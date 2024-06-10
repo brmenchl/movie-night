@@ -6,83 +6,72 @@ import { type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
-const createNightSchema = z.object({
+const formSchema = z.object({
   theme: z.string().min(1, 'Gotta add a theme!'),
-  date: z.coerce.date({ required_error: 'Enter a date' }),
+  date: z.string({ required_error: 'Enter a date' }).date(),
 });
-type CreateNightFormValues = z.infer<typeof createNightSchema>;
+type FormValues = z.infer<typeof formSchema>;
 
 export const CreateNightForm = () => {
   const createNight = useCreateNight();
 
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<CreateNightFormValues>({
-    resolver: zodResolver(createNightSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
   });
 
-  const createNightFromInput: SubmitHandler<CreateNightFormValues> =
-    useCallback(
-      ({ date, theme }) => {
-        createNight({ theme, date: new Date(date) });
-        reset();
-      },
-      [createNight, reset],
-    );
+  const createNightFromInput: SubmitHandler<FormValues> = useCallback(
+    ({ date, theme }) => {
+      createNight({ theme, date: new Date(date) });
+      form.reset();
+    },
+    [createNight, form],
+  );
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginTop: 80,
-      }}
-    >
-      <form onSubmit={handleSubmit(createNightFromInput)}>
-        <div>
-          <label
-            htmlFor="date"
-            className="block mb-2 text-sm font-medium text-gray-900"
-          >
-            Date
-          </label>
-          <Input type="date" id="date" {...register('date')} />
-          {errors.date && (
-            <span className="text-red-800 block mt-2">
-              {errors.date.message}
-            </span>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(createNightFromInput)}>
+        <FormField
+          control={form.control}
+          name="date"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Date</FormLabel>
+              <FormControl>
+                <Input type="date" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-        </div>
-        <div>
-          <label
-            htmlFor="theme"
-            className="block mb-2 text-sm font-medium text-gray-900"
-          >
-            Theme
-          </label>
-          <Input
-            id="theme"
-            placeholder="Pick a good one"
-            {...register('theme')}
-          />
-          {errors.theme && (
-            <span className="text-red-800 block mt-2">
-              {errors.theme.message}
-            </span>
+        />
+        <FormField
+          control={form.control}
+          name="theme"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Theme</FormLabel>
+              <FormControl>
+                <Input placeholder="Pick a good one" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-        </div>
-        <Button type="submit" disabled={isSubmitting}>
+        />
+        <Button type="submit" disabled={form.formState.isSubmitting}>
           Submit
         </Button>
         <Link href="/" passHref>
           <Button variant="destructive">Cancel</Button>
         </Link>
       </form>
-    </div>
+    </Form>
   );
 };
