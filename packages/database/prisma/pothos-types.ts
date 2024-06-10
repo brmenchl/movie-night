@@ -17,6 +17,7 @@ export default interface PrismaTypes {
             movieSelections: {
                 Shape: MovieSelection[];
                 Name: "MovieSelection";
+                Nullable: false;
             };
         };
     };
@@ -36,6 +37,7 @@ export default interface PrismaTypes {
             movieSelections: {
                 Shape: MovieSelection[];
                 Name: "MovieSelection";
+                Nullable: false;
             };
         };
     };
@@ -55,10 +57,12 @@ export default interface PrismaTypes {
             movieSelections: {
                 Shape: MovieSelection[];
                 Name: "MovieSelection";
+                Nullable: false;
             };
             winningSelection: {
                 Shape: MovieSelection | null;
                 Name: "MovieSelection";
+                Nullable: true;
             };
         };
     };
@@ -78,18 +82,22 @@ export default interface PrismaTypes {
             friend: {
                 Shape: Friend;
                 Name: "Friend";
+                Nullable: false;
             };
             movie: {
                 Shape: Movie;
                 Name: "Movie";
+                Nullable: false;
             };
             night: {
                 Shape: Night;
                 Name: "Night";
+                Nullable: false;
             };
             winningNight: {
                 Shape: Night | null;
                 Name: "Night";
+                Nullable: true;
             };
         };
     };
