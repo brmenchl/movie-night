@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
-import { usePickWinnerByIndex } from '@packages/movies';
-import { useNightId } from '@packages/nights';
+import { usePickWinnerByIndex } from '@/packages/movies';
+import { useNightId } from '@/packages/nights';
 
 export const useOnWheelSpinComplete = (itemAngle: number) => {
   const nightId = useNightId();

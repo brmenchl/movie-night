@@ -15,14 +15,16 @@
       }
     ],
     "paths": {
-      "@gql/*": ["./gql/*"],
-      "@core/*": ["./core/*"],
-      "@packages/*": ["./packages/*"],
-      "@components/*": ["./components/*"],
-      "@screens/*": ["./screens/*"],
-      "@styles/*": ["./styles/*"]
+      "@/*": ["./*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", "next-env.d.ts", ".next/types/**/*.ts"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "components/utton.tsxB",
+    "components/utton.tsxB"
+  ],
   "exclude": ["node_modules", "generated/*"]
 }

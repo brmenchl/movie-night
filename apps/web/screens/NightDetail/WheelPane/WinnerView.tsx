@@ -1,7 +1,7 @@
 import { O } from '@mobily/ts-belt';
 
-import { useWinner } from '@packages/movies';
-import { useNightId } from '@packages/nights';
+import { useWinner } from '@/packages/movies';
+import { useNightId } from '@/packages/nights';
 
 export const WinnerView = () => {
   const nightId = useNightId();

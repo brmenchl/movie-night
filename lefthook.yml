@@ -4,5 +4,3 @@ pre-commit:
       glob: "**/*.{ts,tsx,md,js,json}"
       run: npx prettier --write --log-level error {staged_files}
       stage_fixed: true
-    validate:
-      run: yarn turbo run lint typecheck

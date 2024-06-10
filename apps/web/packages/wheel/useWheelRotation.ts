@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
 
-import { useRequestAnimationFrame } from '@core/utils/hooks';
+import { useRequestAnimationFrame } from '@/core/utils/hooks';
 
 import { stopSpin, useIsWheelSpinning, useWheelProperties } from './state';
 

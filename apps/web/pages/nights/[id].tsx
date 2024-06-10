@@ -1,4 +1,4 @@
-import { NightDetail } from '@screens/NightDetail';
+import { NightDetail } from '@/screens/NightDetail';
 
 const NightDetailPage = () => <NightDetail />;
 

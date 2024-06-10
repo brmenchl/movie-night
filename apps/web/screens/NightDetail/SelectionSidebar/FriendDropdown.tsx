@@ -1,4 +1,4 @@
-import { Select } from '@components/Select';
+import { Select } from '@/components/Select';
 import { useFriendsFormData } from './useFriendsFormData';
 
 export const FriendDropdown = (props: {
@@ -8,11 +8,10 @@ export const FriendDropdown = (props: {
   const data = useFriendsFormData();
 
   return (
-    <Select
-      onChange={(e) => props.onChange(e.target.value)}
-      placeholder="Who are you?"
-    >
-      <option value="">Who are you?</option>
+    <Select onChange={(e) => props.onChange(e.target.value)}>
+      <option selected value="">
+        Who are you?
+      </option>
       {data.map(({ label, value, disabled }) => (
         <option key={value} value={value} disabled={disabled}>
           {label}

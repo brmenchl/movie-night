@@ -6,7 +6,7 @@ import {
   getFriendQuery,
   getFriendsQuery,
 } from './queries';
-import { createInput } from '@core/apollo';
+import { createInput } from '@/core/apollo';
 
 export const useFriend = (id: string) => {
   const { data } = useQuery(getFriendQuery, createInput({ id }));

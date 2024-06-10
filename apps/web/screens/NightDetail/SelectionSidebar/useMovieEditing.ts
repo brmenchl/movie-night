@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react';
 
-import { useUpdateMovieSelection } from '@packages/movies';
+import { useUpdateMovieSelection } from '@/packages/movies';
 
 export const useMovieEditing = ({
   friendId,

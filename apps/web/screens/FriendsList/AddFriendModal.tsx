@@ -1,61 +1,81 @@
-import { Button } from '@components/Button';
-import { Input } from '@components/Input';
-import { Modal } from '@components/Modal';
+import { Input } from '@/components/ui/input';
+import {
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useCreateFriend } from '@packages/friends';
+import { useCreateFriend } from '@/packages/friends';
 import { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
-const addFriendFormSchema = z.object({
+const formSchema = z.object({
   name: z.string().trim().min(1, 'Enter a name!'),
 });
-type AddFriendFormValues = z.infer<typeof addFriendFormSchema>;
+
+type FormValues = z.infer<typeof formSchema>;
 
 export const AddFriendModal = () => {
   const createFriend = useCreateFriend();
 
-  const {
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors },
-  } = useForm<AddFriendFormValues>({
-    resolver: zodResolver(addFriendFormSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+    },
   });
 
   const createFriendFromInput = useCallback(
-    ({ name }: AddFriendFormValues) => {
+    ({ name }: FormValues) => {
       createFriend(name);
-      reset();
+      form.reset();
     },
-    [createFriend, reset],
+    [createFriend, form],
   );
 
   return (
-    <Modal id="add-friend">
-      <form
-        onSubmit={handleSubmit(createFriendFromInput)}
-        className="flex flex-col bg-white border shadow-sm rounded-xl"
-      >
-        <div className="flex justify-between items-center py-3 px-4 border-b">
-          <h3 className="font-bold text-gray-800">Add friend</h3>
-        </div>
-        <div className="p-4 overflow-y-auto">
-          <Input {...register('name')} autoFocus />
-          {errors.name && (
-            <span className="text-red-800 block mt-2">
-              {errors.name.message}
-            </span>
-          )}
-        </div>
-        <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
-          <Button.Solid data-hs-overlay="#add-friend">Close</Button.Solid>
-          <Button.Solid type="submit" data-hs-overlay="#add-friend">
-            Save
-          </Button.Solid>
-        </div>
-      </form>
-    </Modal>
+    <DialogContent>
+      <Form {...form}>
+        <DialogHeader>
+          <DialogTitle>Add friend</DialogTitle>
+        </DialogHeader>
+        <form
+          onSubmit={form.handleSubmit(createFriendFromInput)}
+          className="space-y-2"
+        >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button variant="secondary">Close</Button>
+            </DialogClose>
+            <Button type="submit">Save</Button>
+          </DialogFooter>
+        </form>
+      </Form>
+    </DialogContent>
   );
 };

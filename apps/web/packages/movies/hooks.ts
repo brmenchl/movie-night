@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { A, O, pipe } from '@mobily/ts-belt';
 import { useCallback } from 'react';
 
-import { createInput } from '@core/apollo';
+import { createInput } from '@/core/apollo';
 
 import {
   deselectMovieMutation,

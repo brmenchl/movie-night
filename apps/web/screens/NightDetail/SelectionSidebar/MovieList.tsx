@@ -1,7 +1,7 @@
-import { useMovieSelections } from '@packages/movies';
+import { useMovieSelections } from '@/packages/movies';
 
 import { MovieListItem } from './MovieListItem';
-import { useNightId } from '@packages/nights';
+import { useNightId } from '@/packages/nights';
 
 export const MovieList = () => {
   const nightId = useNightId();

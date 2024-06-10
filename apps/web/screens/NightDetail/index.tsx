@@ -1,4 +1,4 @@
-import { NightIdGuard } from '@packages/nights';
+import { NightIdGuard } from '@/packages/nights';
 import { WheelPane } from './WheelPane';
 import { SelectionSidebar } from './SelectionSidebar';
 

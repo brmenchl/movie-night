@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
 
-import { useSelectMovie } from '@packages/movies';
-import { useNightId } from '@packages/nights';
+import { useSelectMovie } from '@/packages/movies';
+import { useNightId } from '@/packages/nights';
 
 import { FriendDropdown } from './FriendDropdown';
-import { Button } from '@components/Button';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -13,8 +12,9 @@ import {
   useController,
   useForm,
 } from 'react-hook-form';
-import { InputWithAddon } from '@components/Input';
 import { XIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 const movieFormSchema = z.object({
   movie: z.string().min(1, 'Cmon, add a movie'),
@@ -49,14 +49,14 @@ export const MovieForm = () => {
     <form onSubmit={handleSubmit(addMovieSelectionFromInput)}>
       <div className="flex flex-col gap-2">
         <div>
-          <InputWithAddon placeholder="Add a movie!" {...register('movie')}>
-            <Button.Wrapper
+          <Input placeholder="Add a movie!" {...register('movie')}>
+            <Button
               className="flex-1 flex justify-center"
               onClick={() => reset()}
             >
               <XIcon />
-            </Button.Wrapper>
-          </InputWithAddon>
+            </Button>
+          </Input>
           {errors.movie && (
             <span className="text-red-800 block mt-2">
               {errors.movie.message}
@@ -71,9 +71,9 @@ export const MovieForm = () => {
             </span>
           )}
         </div>
-        <Button.Solid type="submit" disabled={isSubmitting} className="w-full">
+        <Button type="submit" disabled={isSubmitting} className="w-full">
           Add
-        </Button.Solid>
+        </Button>
       </div>
     </form>
   );

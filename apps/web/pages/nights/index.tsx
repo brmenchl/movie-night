@@ -1,4 +1,4 @@
-import { NightsList } from '@screens/NightsList';
+import { NightsList } from '@/screens/NightsList';
 
 const NightsListPage = () => <NightsList />;
 

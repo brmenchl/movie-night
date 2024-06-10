@@ -1,11 +1,11 @@
-import { useCreateNight } from '@packages/nights';
+import { useCreateNight } from '@/packages/nights';
 import Link from 'next/link';
 import { useCallback } from 'react';
-import { Button } from '@components/Button';
 import { z } from 'zod';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@components/Input';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 
 const createNightSchema = z.object({
   theme: z.string().min(1, 'Gotta add a theme!'),
@@ -76,11 +76,11 @@ export const CreateNightForm = () => {
             </span>
           )}
         </div>
-        <Button.Solid type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting}>
           Submit
-        </Button.Solid>
+        </Button>
         <Link href="/" passHref>
-          <Button.Solid>Cancel</Button.Solid>
+          <Button variant="destructive">Cancel</Button>
         </Link>
       </form>
     </div>
