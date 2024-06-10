@@ -46,6 +46,7 @@ export const useMovieEditing = ({
   const escFunction = useCallback(
     (event: globalThis.KeyboardEvent) => {
       if (event.key === 'Escape') {
+        event.preventDefault();
         cancel();
       }
     },

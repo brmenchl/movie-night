@@ -1,13 +1,13 @@
 import { NightIdGuard } from '@/packages/nights';
 import { WheelPane } from './WheelPane';
-import { SelectionSidebar } from './SelectionSidebar';
+import { SelectionDialog } from './SelectionDialog';
 import { Dialog } from '@/components/ui/dialog';
 
 export const NightDetail = () => (
   <NightIdGuard>
     <Dialog>
       <WheelPane />
-      <SelectionSidebar />
+      <SelectionDialog />
     </Dialog>
   </NightIdGuard>
 );

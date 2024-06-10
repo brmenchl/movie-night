@@ -4,8 +4,9 @@ import { Button } from '@/components/ui/button';
 import { DialogContent, DialogHeader } from '@/components/ui/dialog';
 import { DialogTrigger } from '@radix-ui/react-dialog';
 import { MovieForm } from './MovieForm';
+import { MovieList } from './MovieList';
 
-export const SelectionSidebar = () => (
+export const SelectionDialog = () => (
   <>
     <DialogTrigger asChild>
       <Button variant="outline">
@@ -17,7 +18,7 @@ export const SelectionSidebar = () => (
         <NightHeader />
       </DialogHeader>
       <MovieForm />
-      {/* <MovieList /> */}
+      <MovieList />
     </DialogContent>
   </>
 );
