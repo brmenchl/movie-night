@@ -3,91 +3,98 @@ import { useCallback } from 'react';
 import { useSelectMovie } from '@/packages/movies';
 import { useNightId } from '@/packages/nights';
 
-import { FriendDropdown } from './FriendDropdown';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  type Control,
-  type SubmitHandler,
-  useController,
-  useForm,
-} from 'react-hook-form';
-import { Cross1Icon } from '@radix-ui/react-icons';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from '@/components/ui/form';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useFriendsFormData } from './useFriendsFormData';
 
-const movieFormSchema = z.object({
+const formSchema = z.object({
   movie: z.string().min(1, 'Cmon, add a movie'),
   friendId: z.string({ required_error: 'Wait, who are you?' }),
 });
-type MovieFormValues = z.infer<typeof movieFormSchema>;
+type FormValues = z.infer<typeof formSchema>;
 
 export const MovieForm = () => {
   const nightId = useNightId();
   const selectMovie = useSelectMovie(nightId);
+  const friends = useFriendsFormData();
 
-  const {
-    control,
-    handleSubmit,
-    register,
-    reset,
-    formState: { errors, isSubmitting },
-  } = useForm<MovieFormValues>({
-    resolver: zodResolver(movieFormSchema),
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
   });
 
-  const addMovieSelectionFromInput: SubmitHandler<MovieFormValues> =
-    useCallback(
-      ({ friendId, movie }) => {
-        selectMovie({ friendId, title: movie });
-        reset();
-      },
-      [reset, selectMovie],
-    );
+  const addMovieSelectionFromInput: SubmitHandler<FormValues> = useCallback(
+    ({ friendId, movie }) => {
+      selectMovie({ friendId, title: movie });
+      form.reset();
+    },
+    [selectMovie, form],
+  );
 
   return (
-    <form onSubmit={handleSubmit(addMovieSelectionFromInput)}>
-      <div className="flex flex-col gap-2">
-        <div>
-          <Input placeholder="Add a movie!" {...register('movie')}>
-            <Button
-              className="flex-1 flex justify-center"
-              onClick={() => reset()}
-            >
-              <Cross1Icon />
-            </Button>
-          </Input>
-          {errors.movie && (
-            <span className="text-red-800 block mt-2">
-              {errors.movie.message}
-            </span>
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(addMovieSelectionFromInput)}
+        className="space-y-2"
+      >
+        <FormField
+          control={form.control}
+          name="movie"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Add a movie!" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-        </div>
-        <div>
-          <FriendDropdownFormControl control={control} />
-          {errors.friendId && (
-            <span className="text-red-800 block mt-2">
-              {errors.friendId.message}
-            </span>
+        />
+        <FormField
+          control={form.control}
+          name="friendId"
+          render={({ field }) => (
+            <FormItem>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Who are you?" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectGroup>
+                    {friends.map(({ label, value, disabled }) => (
+                      <SelectItem key={value} value={value} disabled={disabled}>
+                        {label}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
           )}
-        </div>
-        <Button type="submit" disabled={isSubmitting} className="w-full">
+        />
+        <Button type="submit" disabled={form.formState.isSubmitting}>
           Add
         </Button>
-      </div>
-    </form>
+      </form>
+    </Form>
   );
-};
-
-const FriendDropdownFormControl = ({
-  control,
-}: {
-  control: Control<MovieFormValues>;
-}) => {
-  const { field } = useController({
-    control,
-    name: 'friendId',
-  });
-
-  return <FriendDropdown friendId={field.value} onChange={field.onChange} />;
 };

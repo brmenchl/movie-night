@@ -27,11 +27,11 @@ export const FriendsList = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            <TableRow>
-              {friends.map((friend) => (
-                <TableCell key={friend.id}>{friend.name}</TableCell>
-              ))}
-            </TableRow>
+            {friends.map((friend) => (
+              <TableRow key={friend.id}>
+                <TableCell>{friend.name}</TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
         <DialogTrigger asChild>
