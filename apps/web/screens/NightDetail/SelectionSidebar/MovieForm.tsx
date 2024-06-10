@@ -12,7 +12,7 @@ import {
   useController,
   useForm,
 } from 'react-hook-form';
-import { XIcon } from 'lucide-react';
+import { Cross1Icon } from '@radix-ui/react-icons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -54,7 +54,7 @@ export const MovieForm = () => {
               className="flex-1 flex justify-center"
               onClick={() => reset()}
             >
-              <XIcon />
+              <Cross1Icon />
             </Button>
           </Input>
           {errors.movie && (

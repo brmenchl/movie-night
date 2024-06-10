@@ -2,7 +2,7 @@ import { MovieForm } from './MovieForm';
 import { MovieList } from './MovieList';
 import { Sidebar } from './Sidebar';
 import { NightHeader } from './NightHeader';
-import { MenuIcon } from 'lucide-react';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 
 export const SelectionSidebar = () => (
   <>
@@ -11,7 +11,7 @@ export const SelectionSidebar = () => (
       data-hs-overlay="#movie-selection-sidebar"
       aria-controls="movie-selection-sidebar"
     >
-      <MenuIcon />
+      <HamburgerMenuIcon />
     </button>
     <Sidebar id="movie-selection-sidebar">
       <NightHeader />

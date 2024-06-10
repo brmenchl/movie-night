@@ -2,9 +2,9 @@ import { useCallback } from 'react';
 
 import { useDeselectMovie } from '@/packages/movies';
 
+import { TrashIcon } from '@radix-ui/react-icons';
 import { useMovieEditing } from './useMovieEditing';
 import { useFriend } from '@/packages/friends';
-import { Trash2Icon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
@@ -39,7 +39,7 @@ export const MovieListItem = ({
       onKeyUp={handleKeyPress}
     >
       <Button className="flex-1 p-2" onClick={handleDeselectMovieClick}>
-        <Trash2Icon />
+        <TrashIcon />
       </Button>
       <div className="border-t-2 border-slate-400 px-4">
         <p className="text-gray-400">{friend?.name}</p>
