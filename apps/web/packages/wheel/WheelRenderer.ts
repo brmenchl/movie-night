@@ -10,9 +10,12 @@ const duration = 10000;
 const margin = 50;
 
 export class WheelRenderer {
-  private itemAngle = 360 / this.options.length;
+  private options: readonly string[] = [];
+  private itemAngle: number = 0;
 
-  private getColor = makeColorGenerator(this.options.length);
+  private get getColor() {
+    return makeColorGenerator(this.options.length);
+  }
   private radius: number;
   private dpr: number = window.devicePixelRatio || 1;
   private isSpinning: boolean = false;
@@ -20,10 +23,7 @@ export class WheelRenderer {
   private startTime: number | null = null;
   private speed: number = 0;
 
-  constructor(
-    private ctx: CanvasRenderingContext2D,
-    private options: readonly string[],
-  ) {
+  constructor(private ctx: CanvasRenderingContext2D) {
     // Adjust the size of the canvas's drawing buffer to match the device pixel ratio
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const parent = this.ctx.canvas.parentElement!;
@@ -35,7 +35,22 @@ export class WheelRenderer {
 
     this.radius =
       Math.min(this.ctx.canvas.height, this.ctx.canvas.width) / 2 - margin;
-    this.draw();
+  }
+
+  public updateOptions(options: readonly string[]) {
+    if (
+      options.length === this.options.length &&
+      options.every((value, index) => value === this.options[index])
+    ) {
+      return;
+    }
+    this.options = options;
+    this.itemAngle = 360 / this.options.length;
+    this.rotation = 0;
+    this.stopSpin();
+    if (this.options.length) {
+      this.draw();
+    }
   }
 
   public draw() {

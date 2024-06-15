@@ -10,28 +10,31 @@ export const Wheel = ({
   options: readonly string[];
   onSpinComplete: (itemIndex: number) => void;
 }) => {
+  const renderer = useRef<WheelRenderer>();
   const ref = useRef<HTMLCanvasElement>(null);
-  const [renderer, setRenderer] = useState<WheelRenderer>();
   const [isWheelSpinning, setIsWheelSpinning] = useState(false);
 
   useEffect(() => {
     if (ref.current) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const ctx = ref.current.getContext('2d')!;
-      const r = new WheelRenderer(ctx, options);
-      setRenderer(r);
+      renderer.current = new WheelRenderer(ctx);
     }
+  }, []);
+
+  useEffect(() => {
+    renderer.current?.updateOptions(options);
   }, [options]);
 
   useEffect(() => {
-    if (renderer) {
+    if (renderer.current) {
       if (isWheelSpinning) {
-        renderer.spin((itemIndex) => {
+        renderer.current.spin((itemIndex) => {
           setIsWheelSpinning(false);
           onSpinComplete(itemIndex);
         });
       } else {
-        renderer.stopSpin();
+        renderer.current.stopSpin();
       }
     }
   }, [isWheelSpinning, onSpinComplete, renderer]);
