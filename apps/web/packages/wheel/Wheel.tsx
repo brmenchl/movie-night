@@ -1,55 +1,54 @@
-import { F } from '@mobily/ts-belt';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-import { type Dimensions } from './models';
-import { useOnWheelSpinComplete } from './useOnWheelSpinComplete';
-import { useWheelSpin } from './useWheelRotation';
-import { drawWheel, getItemAngle } from './wheelRendering';
+import { WheelRenderer } from './WheelRenderer';
+import { Button } from '@/components/ui/button';
 
 export const Wheel = ({
   options,
-  radius,
+  onSpinComplete,
 }: {
   options: readonly string[];
-  radius: number;
+  onSpinComplete: (itemIndex: number) => void;
 }) => {
   const ref = useRef<HTMLCanvasElement>(null);
-  const [ctx, setCtx] = useState<CanvasRenderingContext2D>();
-
-  const dimensions = useMemo<Dimensions>(() => {
-    const margin = 50;
-    const bound = radius * 2 + margin * 2;
-    return {
-      bounds: [bound, bound],
-      center: [margin + radius, margin + radius],
-      radius,
-    };
-  }, [radius]);
+  const [renderer, setRenderer] = useState<WheelRenderer>();
+  const [isWheelSpinning, setIsWheelSpinning] = useState(false);
 
   useEffect(() => {
     if (ref.current) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      setCtx(ref.current.getContext('2d')!);
+      const ctx = ref.current.getContext('2d')!;
+      const r = new WheelRenderer(ctx, options);
+      setRenderer(r);
     }
-  }, []);
+  }, [options]);
 
   useEffect(() => {
-    if (ref.current) {
-      ref.current.height = dimensions.bounds[0];
-      ref.current.width = dimensions.bounds[1];
+    if (renderer) {
+      if (isWheelSpinning) {
+        renderer.spin((itemIndex) => {
+          setIsWheelSpinning(false);
+          onSpinComplete(itemIndex);
+        });
+      } else {
+        renderer.stopSpin();
+      }
     }
-  }, [dimensions]);
+  }, [isWheelSpinning, onSpinComplete, renderer]);
 
-  const handleWheelSpinComplete = useOnWheelSpinComplete(
-    getItemAngle(options.length),
+  return (
+    <div
+      style={{
+        height: '70%',
+        width: '70%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <Button onClick={() => setIsWheelSpinning(true)}>Spin that wheel!</Button>
+      <canvas ref={ref} style={{ height: '100%', width: '100%' }} />
+    </div>
   );
-
-  const draw = useMemo(
-    () => (ctx ? drawWheel(ctx, dimensions, options) : F.ignore),
-    [ctx, dimensions, options],
-  );
-
-  useWheelSpin(draw, handleWheelSpinComplete);
-
-  return <canvas ref={ref}></canvas>;
 };

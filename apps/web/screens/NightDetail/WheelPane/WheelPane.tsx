@@ -1,15 +1,17 @@
-import { Wheel, spin } from '@/packages/wheel';
+import { Wheel } from '@/packages/wheel';
 
 import { useGetMovieWheelOptions } from './hooks';
-import { Button } from '@/components/ui/button';
+import { useNightId } from '@/packages/nights';
+import { usePickWinnerByIndex } from '@/packages/movies';
 
 export const WheelPane = () => {
   const movieSelections = useGetMovieWheelOptions();
+  const nightId = useNightId();
+  const pickWinnerByIndex = usePickWinnerByIndex(nightId);
 
   return movieSelections.length > 0 ? (
-    <div className="flex flex-col items-center p-10">
-      <Wheel options={movieSelections} radius={500} />
-      <Button onClick={spin}>Spin</Button>
+    <div className="h-full w-full flex items-center justify-center">
+      <Wheel options={movieSelections} onSpinComplete={pickWinnerByIndex} />
     </div>
   ) : null;
 };
