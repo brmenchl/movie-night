@@ -41,7 +41,7 @@ export const Wheel = ({
       }}
     >
       <Button onClick={() => renderer.current?.spin(onSpinComplete)}>
-        Spin that wheel!
+        SPIN THAT WHEEL
       </Button>
       <canvas ref={ref} style={{ height: '100%', width: '100%' }} />
     </div>
