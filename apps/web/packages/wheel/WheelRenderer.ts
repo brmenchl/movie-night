@@ -25,6 +25,7 @@ export class WheelRenderer {
   constructor(
     private ctx: CanvasRenderingContext2D,
     private options: readonly string[],
+    private onSpinComplete: (itemIndex: number) => void,
   ) {
     // Adjust the size of the canvas's drawing buffer to match the device pixel ratio
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -33,6 +34,7 @@ export class WheelRenderer {
 
     // Add an event listener for the window's resize event
     window.addEventListener('resize', () => this.onWindowResize(parent));
+    this.ctx.canvas.addEventListener('click', () => this.spin());
 
     this.radius =
       Math.min(this.ctx.canvas.height, this.ctx.canvas.width) / 2 - margin;
@@ -91,35 +93,15 @@ export class WheelRenderer {
       this.ctx.fillStyle = this.getColor(i);
       this.ctx.fill();
 
-      // Calculate midpoint angle of slice
-      const midAngle = start + (end - start) / 2;
-
-      // Set text properties
-      this.ctx.fillStyle = 'black'; // Or any color you want for the text
-      const fontSize = Math.floor(this.radius * 0.03); // 0.03 is a good starting point
-      this.ctx.font = `${fontSize * this.dpr}px Helvetica`;
-      this.ctx.textBaseline = 'middle'; // Center the text vertically
-      this.ctx.textAlign = 'center'; // Center the text horizontally
-
       // Calculate text position
-      const textRadius = this.radius / 2; // Adjust as needed
-      const xPos = textRadius * Math.cos(degToRad(midAngle));
-      const yPos = textRadius * Math.sin(degToRad(midAngle));
-
-      // Save the context state
-      this.ctx.save();
-
-      // Translate and rotate the context
-      this.ctx.translate(xPos, yPos);
-      this.ctx.rotate(degToRad(midAngle));
-
-      this.ctx.scale(0.9, 1.5);
-
-      // Draw text
-      this.ctx.fillText(option, 0, 0);
-
-      // Restore the context state
-      this.ctx.restore();
+      const angle = start + (end - start) / 2;
+      const textRadius = this.radius / 2;
+      this.renderText(option, {
+        x: textRadius * Math.cos(degToRad(angle)),
+        y: textRadius * Math.sin(degToRad(angle)),
+        angle,
+        size: 'big',
+      });
     });
 
     this.ctx.restore();
@@ -129,18 +111,15 @@ export class WheelRenderer {
     this.ctx.resetTransform();
   }
 
-  public spin(onSpinComplete: (endRotation: number) => void) {
+  public spin() {
     this.isSpinning = true;
     this.speed = initialSpeed;
     this.startTime = null;
 
-    requestAnimationFrame(this.drawFrame.bind(this, onSpinComplete));
+    requestAnimationFrame(this.drawFrame.bind(this));
   }
 
-  private drawFrame(
-    onSpinComplete: (endRotation: number) => void,
-    currentTime: number,
-  ) {
+  private drawFrame(currentTime: number) {
     this.draw();
 
     if (!this.isSpinning) {
@@ -161,21 +140,17 @@ export class WheelRenderer {
       this.isSpinning = false;
       this.startTime = null;
       this.speed = 0;
-      onSpinComplete(this.itemIndexFromRotation(this.rotation));
+      this.onSpinComplete(this.itemIndexFromRotation(this.rotation));
     } else {
       // Otherwise, continue the animation
-      requestAnimationFrame(this.drawFrame.bind(this, onSpinComplete));
+      requestAnimationFrame(this.drawFrame.bind(this));
     }
   }
 
   private drawTicker() {
-    const arcRadius = 20;
-    const needleToCenter = 80;
+    const arcRadius = 100;
 
     this.ctx.save();
-
-    // Translate the context to the center of the arc
-    this.ctx.translate(0, -this.radius + needleToCenter);
 
     // Set the color of the slice
     this.ctx.fillStyle = '#FFFFFF'; // Or any color you want for the slice
@@ -183,14 +158,15 @@ export class WheelRenderer {
 
     // Draw the slice
     this.ctx.beginPath();
-    this.ctx.moveTo(0, 0);
-    this.ctx.lineTo(-arcRadius, -needleToCenter);
-    this.ctx.arc(0, -needleToCenter, arcRadius, degToRad(180), degToRad(0));
+    this.ctx.arc(0, 0, arcRadius, degToRad(-135), degToRad(-45), true);
+    this.ctx.lineTo(0, -(arcRadius + 30));
     this.ctx.closePath();
 
     // Fill and outline the slice
     this.ctx.fill();
     this.ctx.stroke();
+
+    this.renderText('SPIN\nTHAT\nWHEEL');
 
     this.ctx.restore();
   }
@@ -207,5 +183,35 @@ export class WheelRenderer {
     const normalizedRotation = rotation % 360;
     const backwardsIndices = Math.floor(normalizedRotation / this.itemAngle);
     return lastIndex - backwardsIndices;
+  }
+
+  private renderText(
+    text: string,
+    options: Partial<{
+      x: number;
+      y: number;
+      angle: number;
+      size: 'big' | 'small';
+    }> = {},
+  ) {
+    // Save the context state
+    this.ctx.save();
+    // Set text properties
+    this.ctx.fillStyle = 'black'; // Or any color you want for the text
+    const fontSize = Math.floor(
+      this.radius * (options.size === 'big' ? 0.03 : 0.014),
+    );
+    this.ctx.font = `${fontSize * this.dpr}px Helvetica`;
+    this.ctx.textBaseline = 'middle'; // Center the text vertically
+    this.ctx.textAlign = 'center'; // Center the text horizontally
+    this.ctx.fontStretch = 'ultra-condensed';
+
+    // Translate and rotate the context
+    this.ctx.translate(options.x ?? 0, options.y ?? 0);
+    this.ctx.rotate(degToRad(options.angle ?? 0));
+    this.ctx.scale(1, 1.5);
+    // Restore the context state
+    this.ctx.fillText(text, 0, 0);
+    this.ctx.restore();
   }
 }
