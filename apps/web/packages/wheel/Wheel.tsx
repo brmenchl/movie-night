@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { WheelRenderer } from './WheelRenderer';
 import { Button } from '@/components/ui/button';
+import { A, F } from '@mobily/ts-belt';
 
 export const Wheel = ({
   options,
@@ -10,34 +11,23 @@ export const Wheel = ({
   options: readonly string[];
   onSpinComplete: (itemIndex: number) => void;
 }) => {
+  const lastOptions = useRef<readonly string[]>();
   const renderer = useRef<WheelRenderer>();
   const ref = useRef<HTMLCanvasElement>(null);
-  const [isWheelSpinning, setIsWheelSpinning] = useState(false);
 
   useEffect(() => {
     if (ref.current) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const ctx = ref.current.getContext('2d')!;
-      renderer.current = new WheelRenderer(ctx);
-    }
-  }, []);
-
-  useEffect(() => {
-    renderer.current?.updateOptions(options);
-  }, [options]);
-
-  useEffect(() => {
-    if (renderer.current) {
-      if (isWheelSpinning) {
-        renderer.current.spin((itemIndex) => {
-          setIsWheelSpinning(false);
-          onSpinComplete(itemIndex);
-        });
-      } else {
-        renderer.current.stopSpin();
+      if (
+        !lastOptions.current ||
+        !A.eq(options, lastOptions.current, F.equals)
+      ) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const ctx = ref.current.getContext('2d')!;
+        lastOptions.current = options;
+        renderer.current = new WheelRenderer(ctx, options);
       }
     }
-  }, [isWheelSpinning, onSpinComplete, renderer]);
+  }, [options]);
 
   return (
     <div
@@ -50,7 +40,9 @@ export const Wheel = ({
         flexDirection: 'column',
       }}
     >
-      <Button onClick={() => setIsWheelSpinning(true)}>Spin that wheel!</Button>
+      <Button onClick={() => renderer.current?.spin(onSpinComplete)}>
+        Spin that wheel!
+      </Button>
       <canvas ref={ref} style={{ height: '100%', width: '100%' }} />
     </div>
   );

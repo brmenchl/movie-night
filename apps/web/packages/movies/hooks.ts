@@ -68,7 +68,6 @@ export const usePickWinnerByIndex = (nightId: string) => {
       const winningSelection = movieSelections[index];
       pickWinner({
         ...createInput({ nightId, friendId: winningSelection.friendId }),
-        refetchQueries: [getWinnerQuery],
       });
     },
     [movieSelections, nightId, pickWinner],

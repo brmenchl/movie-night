@@ -10,8 +10,7 @@ const duration = 10000;
 const margin = 50;
 
 export class WheelRenderer {
-  private options: readonly string[] = [];
-  private itemAngle: number = 0;
+  private itemAngle: number = 360 / this.options.length;
 
   private get getColor() {
     return makeColorGenerator(this.options.length);
@@ -23,10 +22,24 @@ export class WheelRenderer {
   private startTime: number | null = null;
   private speed: number = 0;
 
-  constructor(private ctx: CanvasRenderingContext2D) {
+  constructor(
+    private ctx: CanvasRenderingContext2D,
+    private options: readonly string[],
+  ) {
     // Adjust the size of the canvas's drawing buffer to match the device pixel ratio
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const parent = this.ctx.canvas.parentElement!;
+    this.resizeCanvas(parent);
+
+    // Add an event listener for the window's resize event
+    window.addEventListener('resize', () => this.onWindowResize(parent));
+
+    this.radius =
+      Math.min(this.ctx.canvas.height, this.ctx.canvas.width) / 2 - margin;
+    this.draw();
+  }
+
+  private resizeCanvas(parent: HTMLElement) {
     const width = parent.offsetWidth;
     const height = parent.offsetHeight;
 
@@ -37,20 +50,9 @@ export class WheelRenderer {
       Math.min(this.ctx.canvas.height, this.ctx.canvas.width) / 2 - margin;
   }
 
-  public updateOptions(options: readonly string[]) {
-    if (
-      options.length === this.options.length &&
-      options.every((value, index) => value === this.options[index])
-    ) {
-      return;
-    }
-    this.options = options;
-    this.itemAngle = 360 / this.options.length;
-    this.rotation = 0;
-    this.stopSpin();
-    if (this.options.length) {
-      this.draw();
-    }
+  private onWindowResize(parent: HTMLElement) {
+    this.resizeCanvas(parent);
+    this.draw();
   }
 
   public draw() {
@@ -94,8 +96,8 @@ export class WheelRenderer {
 
       // Set text properties
       this.ctx.fillStyle = 'black'; // Or any color you want for the text
-      const dpr = window.devicePixelRatio || 1;
-      this.ctx.font = `${16 * dpr}px Helvetica`;
+      const fontSize = Math.floor(this.radius * 0.03); // 0.03 is a good starting point
+      this.ctx.font = `${fontSize * this.dpr}px Helvetica`;
       this.ctx.textBaseline = 'middle'; // Center the text vertically
       this.ctx.textAlign = 'center'; // Center the text horizontally
 
@@ -135,12 +137,6 @@ export class WheelRenderer {
     requestAnimationFrame(this.drawFrame.bind(this, onSpinComplete));
   }
 
-  public stopSpin() {
-    this.isSpinning = false;
-    this.startTime = null;
-    this.speed = 0;
-  }
-
   private drawFrame(
     onSpinComplete: (endRotation: number) => void,
     currentTime: number,
@@ -163,6 +159,8 @@ export class WheelRenderer {
     );
     if (this.speed < 0.01) {
       this.isSpinning = false;
+      this.startTime = null;
+      this.speed = 0;
       onSpinComplete(this.itemIndexFromRotation(this.rotation));
     } else {
       // Otherwise, continue the animation
