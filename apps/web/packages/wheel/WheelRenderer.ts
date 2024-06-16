@@ -67,12 +67,13 @@ export class WheelRenderer {
 
     // Draw each option
     this.options.forEach((option, i) => {
+      this.ctx.save();
       const start = rotationOffset + this.itemAngle * i;
       const end = start + this.itemAngle;
-      this.ctx.beginPath();
 
       // Line to start of arc
       this.ctx.moveTo(0, 0);
+      this.ctx.beginPath();
       this.ctx.lineTo(
         this.radius * Math.cos(degToRad(start)),
         this.radius * Math.sin(degToRad(start)),
@@ -82,26 +83,28 @@ export class WheelRenderer {
       this.ctx.moveTo(0, 0);
       this.ctx.arc(0, 0, this.radius, degToRad(start), degToRad(end));
 
-      // Line to end of arc
-      this.ctx.moveTo(0, 0);
-      this.ctx.lineTo(
-        this.radius * Math.cos(degToRad(end)),
-        this.radius * Math.sin(degToRad(end)),
-      );
+      this.ctx.closePath();
 
-      this.ctx.stroke();
       this.ctx.fillStyle = this.getColor(i);
       this.ctx.fill();
 
-      // Calculate text position
       const angle = start + (end - start) / 2;
-      const textRadius = this.radius / 2;
-      this.renderText(option, {
-        x: textRadius * Math.cos(degToRad(angle)),
-        y: textRadius * Math.sin(degToRad(angle)),
-        angle,
-        size: 'big',
-      });
+      const textRadius = this.radius - 60;
+      this.ctx.translate(
+        textRadius * Math.cos(degToRad(angle)),
+        textRadius * Math.sin(degToRad(angle)),
+      );
+      this.ctx.rotate(degToRad(angle + 180));
+      this.ctx.scale(1, 1.5);
+
+      this.ctx.fillStyle = 'white';
+      this.ctx.font = `${this.radius * 0.03 * this.dpr}px Helvetica`;
+      this.ctx.fontStretch = 'ultra-condensed';
+      this.ctx.textAlign = 'start';
+      this.ctx.textBaseline = 'middle';
+      this.ctx.fillText(option, 0, 0);
+
+      this.ctx.restore();
     });
 
     this.ctx.restore();
@@ -148,25 +151,23 @@ export class WheelRenderer {
   }
 
   private drawTicker() {
-    const arcRadius = 100;
-
     this.ctx.save();
 
-    // Set the color of the slice
-    this.ctx.fillStyle = '#FFFFFF'; // Or any color you want for the slice
-    this.ctx.strokeStyle = '#000000'; // Or any color you want for the outline
-
-    // Draw the slice
+    const arcRadius = 100;
     this.ctx.beginPath();
     this.ctx.arc(0, 0, arcRadius, degToRad(-135), degToRad(-45), true);
     this.ctx.lineTo(0, -(arcRadius + 30));
     this.ctx.closePath();
-
-    // Fill and outline the slice
+    this.ctx.fillStyle = 'white';
     this.ctx.fill();
-    this.ctx.stroke();
 
-    this.renderText('SPIN\nTHAT\nWHEEL');
+    this.ctx.fillStyle = 'black';
+    this.ctx.font = `${this.radius * 0.014 * this.dpr}px Helvetica`;
+    this.ctx.fontStretch = 'ultra-condensed';
+    this.ctx.textAlign = 'center';
+    this.ctx.textBaseline = 'middle';
+    this.ctx.scale(1, 1.5);
+    this.ctx.fillText('SPIN THAT WHEEL', 0, 0);
 
     this.ctx.restore();
   }
@@ -183,35 +184,5 @@ export class WheelRenderer {
     const normalizedRotation = rotation % 360;
     const backwardsIndices = Math.floor(normalizedRotation / this.itemAngle);
     return lastIndex - backwardsIndices;
-  }
-
-  private renderText(
-    text: string,
-    options: Partial<{
-      x: number;
-      y: number;
-      angle: number;
-      size: 'big' | 'small';
-    }> = {},
-  ) {
-    // Save the context state
-    this.ctx.save();
-    // Set text properties
-    this.ctx.fillStyle = 'black'; // Or any color you want for the text
-    const fontSize = Math.floor(
-      this.radius * (options.size === 'big' ? 0.03 : 0.014),
-    );
-    this.ctx.font = `${fontSize * this.dpr}px Helvetica`;
-    this.ctx.textBaseline = 'middle'; // Center the text vertically
-    this.ctx.textAlign = 'center'; // Center the text horizontally
-    this.ctx.fontStretch = 'ultra-condensed';
-
-    // Translate and rotate the context
-    this.ctx.translate(options.x ?? 0, options.y ?? 0);
-    this.ctx.rotate(degToRad(options.angle ?? 0));
-    this.ctx.scale(1, 1.5);
-    // Restore the context state
-    this.ctx.fillText(text, 0, 0);
-    this.ctx.restore();
   }
 }
