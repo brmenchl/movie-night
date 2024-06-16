@@ -25,8 +25,8 @@ export const MovieSelectionCell = ({
     useMovieEditing(movieSelection);
 
   return (
-    <div className="flex w-full max-w-sm items-center space-x-2">
-      {friend?.name}
+    <div className="flex flex-1 items-center space-x-2">
+      <p className="w-[70px]">{friend?.name}</p>
       <Input
         ref={inputRef}
         value={title}

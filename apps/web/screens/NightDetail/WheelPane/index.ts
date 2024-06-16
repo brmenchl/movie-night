@@ -1,1 +1,0 @@
-export { WheelPane } from './WheelPane';
