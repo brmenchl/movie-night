@@ -14,6 +14,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { useRouter } from 'next/router';
 
 const formSchema = z.object({
   theme: z.string().min(1, 'Gotta add a theme!'),
@@ -26,14 +27,20 @@ export const CreateNightForm = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      theme: '',
+      date: '',
+    },
   });
 
+  const router = useRouter();
   const createNightFromInput: SubmitHandler<FormValues> = useCallback(
     ({ date, theme }) => {
       createNight({ theme, date: new Date(date) });
       form.reset();
+      router.push('/nights');
     },
-    [createNight, form],
+    [createNight, form, router],
   );
 
   return (
