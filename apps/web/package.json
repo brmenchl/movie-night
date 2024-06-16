@@ -13,6 +13,7 @@
   "dependencies": {
     "@apollo/client": "^3.10.4",
     "@as-integrations/next": "^3.0.0",
+    "@ctrl/tinycolor": "^4.1.0",
     "@hookform/resolvers": "^3.6.0",
     "@mobily/ts-belt": "^3.13.1",
     "@radix-ui/react-dialog": "^1.0.5",

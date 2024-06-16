@@ -75,9 +75,7 @@
     @apply bg-background text-foreground;
   }
 
-  html,
-  body,
-  #__next {
-    @apply flex flex-col h-screen;
+  html {
+    font-stretch: ultra-condensed;
   }
 }

@@ -1,6 +1,7 @@
 import { degToRad } from '@/core/utils/angles';
 
 import { makeColorGenerator } from './wheelColorGenerator';
+import { mostReadable } from '@ctrl/tinycolor';
 
 // Start 0 at top rather than right
 const rotationOffset = -90;
@@ -85,7 +86,8 @@ export class WheelRenderer {
 
       this.ctx.closePath();
 
-      this.ctx.fillStyle = this.getColor(i);
+      const sliceColor = this.getColor(i);
+      this.ctx.fillStyle = sliceColor;
       this.ctx.fill();
 
       const angle = start + (end - start) / 2;
@@ -97,7 +99,11 @@ export class WheelRenderer {
       this.ctx.rotate(degToRad(angle + 180));
       this.ctx.scale(1, 1.5);
 
-      this.ctx.fillStyle = 'white';
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.ctx.fillStyle = mostReadable(sliceColor, [
+        '#000',
+        '#fff',
+      ])!.toHexString();
       this.ctx.font = `${this.radius * 0.03 * this.dpr}px Helvetica`;
       this.ctx.fontStretch = 'ultra-condensed';
       this.ctx.textAlign = 'start';
@@ -160,14 +166,6 @@ export class WheelRenderer {
     this.ctx.closePath();
     this.ctx.fillStyle = 'white';
     this.ctx.fill();
-
-    this.ctx.fillStyle = 'black';
-    this.ctx.font = `${this.radius * 0.014 * this.dpr}px Helvetica`;
-    this.ctx.fontStretch = 'ultra-condensed';
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
-    this.ctx.scale(1, 1.5);
-    this.ctx.fillText('SPIN THAT WHEEL', 0, 0);
 
     this.ctx.restore();
   }
