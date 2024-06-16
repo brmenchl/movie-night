@@ -38,6 +38,10 @@ export const MovieForm = () => {
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      movie: '',
+      friendId: '',
+    },
   });
 
   const addMovieSelectionFromInput: SubmitHandler<FormValues> = useCallback(
@@ -71,7 +75,7 @@ export const MovieForm = () => {
           name="friendId"
           render={({ field }) => (
             <FormItem>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Who are you?" />
