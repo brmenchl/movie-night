@@ -30,7 +30,7 @@ export const spin = (options: {
         0,
       );
 
-      if (speed < 0.1) {
+      if (speed < 0.01) {
         resolve(rotation);
       } else {
         // Otherwise, continue the animation
