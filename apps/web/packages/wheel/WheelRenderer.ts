@@ -35,7 +35,6 @@ export class WheelRenderer {
 
     // Add an event listener for the window's resize event
     window.addEventListener('resize', () => this.onWindowResize(parent));
-    this.ctx.canvas.addEventListener('click', () => this.spin());
 
     this.radius =
       Math.min(this.ctx.canvas.height, this.ctx.canvas.width) / 2 - margin;
@@ -115,8 +114,6 @@ export class WheelRenderer {
 
     this.ctx.restore();
 
-    this.drawTicker();
-
     this.ctx.resetTransform();
   }
 
@@ -154,20 +151,6 @@ export class WheelRenderer {
       // Otherwise, continue the animation
       requestAnimationFrame(this.drawFrame.bind(this));
     }
-  }
-
-  private drawTicker() {
-    this.ctx.save();
-
-    const arcRadius = 100;
-    this.ctx.beginPath();
-    this.ctx.arc(0, 0, arcRadius, degToRad(-135), degToRad(-45), true);
-    this.ctx.lineTo(0, -(arcRadius + 30));
-    this.ctx.closePath();
-    this.ctx.fillStyle = 'white';
-    this.ctx.fill();
-
-    this.ctx.restore();
   }
 
   private easeOutExpo(currentTime: number, totalSpeed: number) {

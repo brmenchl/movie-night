@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .font-ultra-condensed {
+    font-stretch: ultra-condensed;
+  }
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -75,7 +81,7 @@
     @apply bg-background text-foreground;
   }
 
-  html {
-    font-stretch: ultra-condensed;
+  p, button {
+    @apply uppercase font-ultra-condensed
   }
 }

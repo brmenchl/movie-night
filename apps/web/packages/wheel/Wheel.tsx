@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 
 import { WheelRenderer } from './WheelRenderer';
 import { A, F } from '@mobily/ts-belt';
-import { Button } from '@/components/ui/button';
 
 export const Wheel = ({
   options,
@@ -27,34 +26,23 @@ export const Wheel = ({
         renderer.current = new WheelRenderer(ctx, options, onSpinComplete);
       }
     }
-  }, [options]);
+  }, [onSpinComplete, options]);
 
   return (
-    <div
-      style={{
-        height: '90%',
-        width: '90%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <canvas
-        ref={ref}
-        style={{
-          height: '100%',
-          width: '100%',
-        }}
-      />
+    <div className="h-[90%] w-[90%] flex items-center justify-center">
+      <canvas ref={ref} className="w-full h-full" />
+
       <button
         onClick={() => renderer.current?.spin()}
-        style={{ position: 'absolute', height: 100, width: 100 }}
+        className="absolute h-[100px] w-[100px] rotate-45 bg-white drop-shadow-xl hover:drop-shadow-2xl duration-300 ease-in-out rounded-b-full rounded-tr-full"
       >
-        SPIN
-        <br />
-        THAT
-        <br />
-        WHEEL
+        <p className="-rotate-45">
+          spin
+          <br />
+          that
+          <br />
+          wheel
+        </p>
       </button>
     </div>
   );
