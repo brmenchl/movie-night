@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react';
-
-import { WheelRenderer } from './WheelRenderer';
-import { A, F } from '@mobily/ts-belt';
+import { useCallback, useEffect, useRef } from 'react';
+import { useCanvasResizer } from './canvasResizer';
+import { drawWheel } from './renderWheel';
+import { spin } from './spin';
+import { degToRad } from '@/core/utils/angles';
 
 export const Wheel = ({
   options,
@@ -10,22 +11,32 @@ export const Wheel = ({
   options: readonly string[];
   onSpinComplete: (itemIndex: number) => void;
 }) => {
-  const lastOptions = useRef<readonly string[]>();
-  const renderer = useRef<WheelRenderer>();
   const ref = useRef<HTMLCanvasElement>(null);
+  const spinAbortController = useRef<AbortController>();
+
+  useCanvasResizer(ref);
 
   useEffect(() => {
-    if (ref.current) {
-      if (
-        !lastOptions.current ||
-        !A.eq(options, lastOptions.current, F.equals)
-      ) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const ctx = ref.current.getContext('2d')!;
-        lastOptions.current = options;
-        renderer.current = new WheelRenderer(ctx, options, onSpinComplete);
-      }
-    }
+    spinAbortController.current?.abort();
+    drawWheel(ref, options);
+  }, [onSpinComplete, options]);
+
+  const onClick = useCallback(async () => {
+    spinAbortController.current = new AbortController();
+    const endRotation = await spin({
+      initialSpeed: 40,
+      duration: 10000,
+      onProgress: (rotation) => {
+        const ctx = ref.current?.getContext('2d');
+        if (!ctx) return;
+        ctx.save();
+        ctx.rotate(degToRad(rotation));
+        drawWheel(ref, options);
+        ctx.restore();
+      },
+      signal: spinAbortController.current.signal,
+    });
+    onSpinComplete(itemIndexFromRotation(360 / options.length, endRotation));
   }, [onSpinComplete, options]);
 
   return (
@@ -33,7 +44,7 @@ export const Wheel = ({
       <canvas ref={ref} className="w-full h-full" />
 
       <button
-        onClick={() => renderer.current?.spin()}
+        onClick={onClick}
         className="absolute h-[100px] w-[100px] rotate-45 bg-white drop-shadow-xl hover:drop-shadow-2xl duration-300 ease-in-out rounded-b-full rounded-tr-full"
       >
         <p className="-rotate-45">
@@ -46,4 +57,12 @@ export const Wheel = ({
       </button>
     </div>
   );
+};
+
+const itemIndexFromRotation = (itemAngle: number, rotation: number) => {
+  const lastIndex = 360 / itemAngle - 1;
+  // Rotation is going backwards through the array indices
+  const normalizedRotation = rotation % 360;
+  const backwardsIndices = Math.floor(normalizedRotation / itemAngle);
+  return lastIndex - backwardsIndices;
 };

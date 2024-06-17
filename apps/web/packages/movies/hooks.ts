@@ -12,6 +12,8 @@ import {
   selectMovieMutation,
   updateMovieSelectionMutation,
 } from './queries';
+import moize from 'moize';
+import type { GetMovieSelectionsQuery } from '@/gql/graphql';
 
 export const useSelectMovie = (nightId: string) => {
   const [mutate] = useMutation(selectMovieMutation, {
@@ -49,16 +51,20 @@ export const useUpdateMovieSelection = () => {
 
 export const useMovieSelections = (nightId: string) => {
   const { data } = useQuery(getMovieSelectionsQuery, createInput({ nightId }));
-  return O.mapWithDefault(
-    data?.movieSelections,
+  return lensSelections(data);
+};
+
+const lensSelections = moize((query?: GetMovieSelectionsQuery) =>
+  O.mapWithDefault(
+    query?.movieSelections,
     [],
     A.map(({ friend, movie, night }) => ({
       nightId: night.id,
       friendId: friend.id,
       title: movie.title,
     })),
-  );
-};
+  ),
+);
 
 export const usePickWinnerByIndex = (nightId: string) => {
   const [pickWinner] = useMutation(pickWinnerMutation);

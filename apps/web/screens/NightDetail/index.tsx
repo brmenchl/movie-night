@@ -2,13 +2,14 @@ import { NightIdGuard, useNightId } from '@/packages/nights';
 import { SelectionDialog, SelectionDialogTrigger } from './SelectionDialog';
 import { Dialog } from '@/components/ui/dialog';
 import { Layout } from '@/components/Layout';
-import { usePickWinnerByIndex } from '@/packages/movies';
+import { useMovieSelections, usePickWinnerByIndex } from '@/packages/movies';
 import { Wheel } from '@/packages/wheel';
-import { useGetMovieWheelOptions } from './hooks';
+import { A } from '@mobily/ts-belt';
+import moize from 'moize';
 
 export const NightDetail = () => {
-  const movieSelections = useGetMovieWheelOptions();
   const nightId = useNightId();
+  const movieSelections = lensTitle(useMovieSelections(nightId));
   const pickWinnerByIndex = usePickWinnerByIndex(nightId);
 
   return (
@@ -32,3 +33,5 @@ export const NightDetail = () => {
     </NightIdGuard>
   );
 };
+
+const lensTitle = moize(A.map((a: { title: string }) => a.title));
