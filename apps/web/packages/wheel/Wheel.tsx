@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useCanvasResizer } from './canvasResizer';
 import { drawWheel } from './renderWheel';
 import { spin } from './spin';
 import { degToRad } from '@/core/utils/angles';
+import { resizeCanvas } from './resizeCanvas';
 
 export const Wheel = ({
   options,
@@ -14,10 +14,9 @@ export const Wheel = ({
   const ref = useRef<HTMLCanvasElement>(null);
   const spinAbortController = useRef<AbortController>();
 
-  useCanvasResizer(ref);
-
   useEffect(() => {
     spinAbortController.current?.abort();
+    resizeCanvas(ref);
     drawWheel(ref, options);
   }, [onSpinComplete, options]);
 
