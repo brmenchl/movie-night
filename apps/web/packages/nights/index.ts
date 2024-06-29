@@ -1,2 +1,2 @@
-export { useNightId, NightIdGuard } from './nightIdUtils';
+export { useNightId } from './nightIdUtils';
 export { useNights, useCreateNight, useNextNightId } from './hooks';
