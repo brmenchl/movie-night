@@ -16,17 +16,11 @@ export const Wheel = ({
   const ref = useRef<HTMLCanvasElement>(null);
   const spinAbortController = useRef<AbortController>();
 
-  useEffect(() => {
-    spinAbortController.current?.abort();
-    resizeCanvas(ref);
-    drawWheel(ref, options);
-  }, [onSpinComplete, options]);
-
-  const onClick = useCallback(async () => {
+  const onSpinClick = useCallback(async () => {
     spinAbortController.current = new AbortController();
     const endRotation = await spin({
       initialSpeed: 40,
-      duration: 10000,
+      duration: 30000,
       onProgress: (rotation) => {
         const ctx = ref.current?.getContext('2d');
         if (!ctx) return;
@@ -40,13 +34,19 @@ export const Wheel = ({
     onSpinComplete(itemIndexFromRotation(360 / options.length, endRotation));
   }, [onSpinComplete, options]);
 
+  useEffect(() => {
+    spinAbortController.current?.abort();
+    resizeCanvas(ref);
+    drawWheel(ref, options);
+  }, [onSpinComplete, options]);
+
   return (
     <div className="h-[90%] w-[90%] flex items-center justify-center">
       <canvas ref={ref} className="w-full h-full" />
 
       {!disabled && (
         <button
-          onClick={onClick}
+          onClick={onSpinClick}
           className="absolute h-[100px] w-[100px] rotate-45 bg-white drop-shadow-xl hover:drop-shadow-2xl duration-300 ease-in-out rounded-b-full rounded-tr-full"
         >
           <p className="-rotate-45">
