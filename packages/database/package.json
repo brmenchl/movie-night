@@ -12,11 +12,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@prisma/client": "^5.15.0"
+    "@prisma/client": "^5.16.1"
   },
   "devDependencies": {
     "eslint-config-custom-server": "*",
-    "prisma": "^5.15.0",
+    "prisma": "^5.16.1",
     "ts-node": "^10.9.2",
     "tsconfig": "*"
   }
