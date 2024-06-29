@@ -4,13 +4,7 @@ import { A } from '@mobily/ts-belt';
 import moize from 'moize';
 import { useCallback } from 'react';
 
-export const WheelView = ({
-  hasWinner,
-  nightId,
-}: {
-  hasWinner: boolean;
-  nightId: string;
-}) => {
+export const WheelView = ({ nightId }: { nightId: string }) => {
   const movieSelections = useMovieSelections(nightId);
 
   const pickWinner = usePickWinner();
@@ -26,7 +20,6 @@ export const WheelView = ({
     <Wheel
       options={lensTitle(movieSelections)}
       onSpinComplete={pickWinnerByIndex}
-      disabled={hasWinner}
     />
   ) : null;
 };

@@ -7,11 +7,9 @@ import { resizeCanvas } from './resizeCanvas';
 export const Wheel = ({
   options,
   onSpinComplete,
-  disabled,
 }: {
   options: readonly string[];
   onSpinComplete: (itemIndex: number) => void;
-  disabled: boolean;
 }) => {
   const ref = useRef<HTMLCanvasElement>(null);
   const spinAbortController = useRef<AbortController>();
@@ -44,20 +42,18 @@ export const Wheel = ({
     <div className="h-[90%] w-[90%] flex items-center justify-center">
       <canvas ref={ref} className="w-full h-full" />
 
-      {!disabled && (
-        <button
-          onClick={onSpinClick}
-          className="absolute h-[100px] w-[100px] rotate-45 bg-white drop-shadow-xl hover:drop-shadow-2xl duration-300 ease-in-out rounded-b-full rounded-tr-full"
-        >
-          <p className="-rotate-45">
-            spin
-            <br />
-            that
-            <br />
-            wheel
-          </p>
-        </button>
-      )}
+      <button
+        onClick={onSpinClick}
+        className="absolute h-[100px] w-[100px] rotate-45 bg-white drop-shadow-xl hover:drop-shadow-2xl duration-300 ease-in-out rounded-b-full rounded-tr-full"
+      >
+        <p className="-rotate-45">
+          spin
+          <br />
+          that
+          <br />
+          wheel
+        </p>
+      </button>
     </div>
   );
 };

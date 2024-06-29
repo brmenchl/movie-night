@@ -6,11 +6,11 @@ import { parseISO } from 'date-fns/parseISO';
 export const NightHeader = () => {
   const night = useNight();
   return (
-    night && (
-      <>
-        <DrawerTitle>{format(parseISO(night.date), 'MMM d')}</DrawerTitle>
-        <DrawerDescription>{night.theme}</DrawerDescription>
-      </>
-    )
+    <>
+      <DrawerTitle>
+        {night ? format(parseISO(night.date), 'MMM d') : ''}
+      </DrawerTitle>
+      <DrawerDescription>{night ? night.theme : ''}</DrawerDescription>
+    </>
   );
 };

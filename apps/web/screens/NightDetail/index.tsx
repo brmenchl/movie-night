@@ -18,7 +18,7 @@ export const NightDetail = () => {
           <SelectionDialogTrigger />
         </div>
         <div className="flex-1 self-stretch flex items-center justify-center">
-          <WheelView nightId={nightId} hasWinner={O.isSome(winner)} />
+          <WheelView nightId={nightId} />
         </div>
         <SelectionDialog />
       </Dialog>

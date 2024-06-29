@@ -3,8 +3,8 @@ import { graphql } from '../../gql';
 export const createNightMutation = graphql(`
   mutation CreateNight($input: MutationCreateNightInput!) {
     createNight(input: $input) {
-      date
       id
+      date
       theme
     }
   }
@@ -13,8 +13,8 @@ export const createNightMutation = graphql(`
 export const getNightsQuery = graphql(`
   query GetNights {
     nights {
-      date
       id
+      date
       theme
     }
   }
@@ -24,8 +24,8 @@ export const getNightQuery = graphql(`
   query GetNight($input: QueryNightInput!) {
     night(input: $input) {
       id
-      theme
       date
+      theme
     }
   }
 `);
@@ -33,8 +33,8 @@ export const getNightQuery = graphql(`
 export const getNextNightQuery = graphql(`
   query GetNextNight {
     nextNight {
-      date
       id
+      date
       theme
     }
   }
