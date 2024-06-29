@@ -15,6 +15,3 @@ export const useNightId = () => {
     O.getWithDefault('' as string),
   );
 };
-
-export const NightIdGuard = (props: { children: React.ReactNode }) =>
-  useNightId() ? props.children : null;

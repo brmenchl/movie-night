@@ -6,15 +6,13 @@ import { MovieForm } from './MovieForm';
 import { MovieList } from './MovieList';
 
 export const SelectionDialog = () => (
-  <>
-    <DialogContent>
-      <DialogHeader>
-        <NightHeader />
-      </DialogHeader>
-      <MovieForm />
-      <MovieList />
-    </DialogContent>
-  </>
+  <DialogContent>
+    <DialogHeader>
+      <NightHeader />
+    </DialogHeader>
+    <MovieForm />
+    <MovieList />
+  </DialogContent>
 );
 
 export const SelectionDialogTrigger = () => (

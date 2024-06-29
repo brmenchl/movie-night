@@ -66,28 +66,28 @@ const lensSelections = moize((query?: GetMovieSelectionsQuery) =>
   ),
 );
 
-export const usePickWinnerByIndex = (nightId: string) => {
-  const [pickWinner] = useMutation(pickWinnerMutation);
-  const movieSelections = useMovieSelections(nightId);
-  return useCallback(
-    (index: number) => {
-      const winningSelection = movieSelections[index];
-      pickWinner({
-        ...createInput({ nightId, friendId: winningSelection.friendId }),
-      });
-    },
-    [movieSelections, nightId, pickWinner],
-  );
-};
-
 export const useWinner = (nightId: string) => {
   const { data } = useQuery(getWinnerQuery, createInput({ id: nightId }));
   return pipe(
     data?.night?.winningSelection,
     O.fromNullable,
     O.map((selection) => ({
-      friendId: selection.friend.id,
+      friend: selection.friend.name,
       title: selection.movie.title,
     })),
+  );
+};
+
+export const usePickWinner = () => {
+  const [pickWinner] = useMutation(pickWinnerMutation);
+
+  return useCallback(
+    (input: { nightId: string; friendId: string }) => {
+      pickWinner({
+        ...createInput(input),
+        refetchQueries: [getWinnerQuery],
+      });
+    },
+    [pickWinner],
   );
 };

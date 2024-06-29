@@ -5,6 +5,6 @@ export const Layout = (props: { children: React.ReactNode }) => (
     <Head>
       <title>Movie night | Spin the Wheel!</title>
     </Head>
-    <div className="h-full w-full flex flex-col">{props.children}</div>
+    <div className="h-screen w-full flex flex-col">{props.children}</div>
   </>
 );
