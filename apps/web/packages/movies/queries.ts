@@ -71,6 +71,14 @@ export const pickWinnerMutation = graphql(`
   }
 `);
 
+export const clearWinnerMutation = graphql(`
+  mutation ClearWinner($input: MutationClearWinnerInput!) {
+    clearWinner(input: $input) {
+      id
+    }
+  }
+`);
+
 export const getMovieSelectionsQuery = graphql(`
   query GetMovieSelections($input: QueryMovieSelectionsInput!) {
     movieSelections(input: $input) {

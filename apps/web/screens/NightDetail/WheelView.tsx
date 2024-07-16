@@ -1,4 +1,8 @@
-import { useMovieSelections, usePickWinner } from '@/packages/movies';
+import {
+  useClearWinner,
+  useMovieSelections,
+  usePickWinner,
+} from '@/packages/movies';
 import { Wheel } from '@/packages/wheel';
 import { A } from '@mobily/ts-belt';
 import moize from 'moize';
@@ -7,6 +11,7 @@ import { useCallback } from 'react';
 export const WheelView = ({ nightId }: { nightId: string }) => {
   const movieSelections = useMovieSelections(nightId);
 
+  const clearWinner = useClearWinner(nightId);
   const pickWinner = usePickWinner();
   const pickWinnerByIndex = useCallback(
     (index: number) => {
@@ -19,6 +24,7 @@ export const WheelView = ({ nightId }: { nightId: string }) => {
   return movieSelections.length > 0 ? (
     <Wheel
       options={lensTitle(movieSelections)}
+      onSpinStart={clearWinner}
       onSpinComplete={pickWinnerByIndex}
     />
   ) : null;

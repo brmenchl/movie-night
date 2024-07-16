@@ -111,4 +111,20 @@ builder.mutationFields((t) => ({
         },
       }),
   }),
+  clearWinner: t.prismaFieldWithInput({
+    type: Night,
+    input: {
+      nightId: t.input.string({ required: true }),
+    },
+    resolve: (mutation, _, { input: { nightId } }) =>
+      prismaClient.night.update({
+        ...mutation,
+        where: { id: nightId },
+        data: {
+          winningSelection: {
+            disconnect: true,
+          },
+        },
+      }),
+  }),
 }));

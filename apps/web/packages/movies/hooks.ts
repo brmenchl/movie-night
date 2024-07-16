@@ -5,6 +5,7 @@ import { useCallback } from 'react';
 import { createInput } from '@/core/apollo';
 
 import {
+  clearWinnerMutation,
   deselectMovieMutation,
   getMovieSelectionsQuery,
   getWinnerQuery,
@@ -90,4 +91,15 @@ export const usePickWinner = () => {
     },
     [pickWinner],
   );
+};
+
+export const useClearWinner = (nightId: string) => {
+  const [clearWinner] = useMutation(clearWinnerMutation);
+
+  return useCallback(() => {
+    clearWinner({
+      ...createInput({ nightId }),
+      refetchQueries: [getWinnerQuery],
+    });
+  }, [clearWinner, nightId]);
 };

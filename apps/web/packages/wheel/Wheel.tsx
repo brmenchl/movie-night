@@ -6,9 +6,11 @@ import { resizeCanvas } from './resizeCanvas';
 
 export const Wheel = ({
   options,
+  onSpinStart,
   onSpinComplete,
 }: {
   options: readonly string[];
+  onSpinStart: () => void;
   onSpinComplete: (itemIndex: number) => void;
 }) => {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -16,6 +18,7 @@ export const Wheel = ({
 
   const onSpinClick = useCallback(async () => {
     spinAbortController.current = new AbortController();
+    onSpinStart();
     const endRotation = await spin({
       initialSpeed: 40,
       duration: 30000,
@@ -30,7 +33,7 @@ export const Wheel = ({
       signal: spinAbortController.current.signal,
     });
     onSpinComplete(itemIndexFromRotation(360 / options.length, endRotation));
-  }, [onSpinComplete, options]);
+  }, [onSpinComplete, onSpinStart, options]);
 
   useEffect(() => {
     spinAbortController.current?.abort();

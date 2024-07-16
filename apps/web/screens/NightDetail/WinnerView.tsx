@@ -24,7 +24,6 @@ export const WinnerView = ({
         onClick={() => setIsRunning(false)}
       >
         <motion.div
-          // ref={scope}
           className="rounded-md bg-white flex-col items-center"
           animate={{
             scale: 3,
