@@ -15,8 +15,14 @@ export const useCreateNight = () => {
   const [mutate] = useMutation(createNightMutation);
 
   return useCallback(
-    (data: { theme: string; date: Date }) =>
-      mutate(createInput({ theme: data.theme, date: formatISO(data.date) })),
+    (data: { theme: string; date: Date; spinAgainCount: number }) =>
+      mutate(
+        createInput({
+          theme: data.theme,
+          date: formatISO(data.date),
+          spinAgainCount: data.spinAgainCount,
+        }),
+      ),
     [mutate],
   );
 };

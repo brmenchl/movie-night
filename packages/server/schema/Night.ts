@@ -10,6 +10,7 @@ export const Night = builder.prismaObject('Night', {
     id: t.exposeString('id'),
     theme: t.exposeString('theme'),
     date: t.exposeString('date'),
+    spinAgainCount: t.exposeInt('spinAgainCount'),
     selections: t.relation('movieSelections'),
     winningSelection: t.relation('winningSelection', { nullable: true }),
   }),
@@ -63,11 +64,12 @@ builder.mutationFields((t) => ({
     input: {
       date: t.input.string({ required: true }),
       theme: t.input.string({ required: true }),
+      spinAgainCount: t.input.int({ required: true }),
     },
-    resolve: (mutation, _, { input: { date, theme } }) =>
+    resolve: (mutation, _, { input: { date, theme, spinAgainCount } }) =>
       prismaClient.night.create({
         ...mutation,
-        data: { date, theme },
+        data: { date, theme, spinAgainCount },
       }),
   }),
   deselectMovie: t.prismaFieldWithInput({

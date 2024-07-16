@@ -26,6 +26,7 @@ export const getNightQuery = graphql(`
       id
       date
       theme
+      spinAgainCount
     }
   }
 `);

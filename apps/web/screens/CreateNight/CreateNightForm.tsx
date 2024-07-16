@@ -19,7 +19,9 @@ import { useRouter } from 'next/router';
 const formSchema = z.object({
   theme: z.string().min(1, 'Gotta add a theme!'),
   date: z.string({ required_error: 'Enter a date' }).date(),
+  spinAgainCount: z.coerce.number().nonnegative(),
 });
+
 type FormValues = z.infer<typeof formSchema>;
 
 export const CreateNightForm = () => {
@@ -30,13 +32,14 @@ export const CreateNightForm = () => {
     defaultValues: {
       theme: '',
       date: '',
+      spinAgainCount: 0,
     },
   });
 
   const router = useRouter();
   const createNightFromInput: SubmitHandler<FormValues> = useCallback(
-    ({ date, theme }) => {
-      createNight({ theme, date: new Date(date) });
+    ({ date, theme, spinAgainCount }) => {
+      createNight({ theme, date: new Date(date), spinAgainCount });
       form.reset();
       router.push('/nights');
     },
@@ -67,6 +70,19 @@ export const CreateNightForm = () => {
               <FormLabel>Theme</FormLabel>
               <FormControl>
                 <Input placeholder="Pick a good one" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="spinAgainCount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Spin agains</FormLabel>
+              <FormControl>
+                <Input type="number" {...field} min={0} />
               </FormControl>
               <FormMessage />
             </FormItem>

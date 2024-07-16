@@ -34,11 +34,11 @@ model Night {
   /// ISO string
   date                     String           @unique
   theme                    String
+  spinAgainCount           Int              @default(0)
   winningSelectionFriendId String?
   winningSelectionNightId  String?
   movieSelections          MovieSelection[] @relation("MovieSelections")
   winningSelection         MovieSelection?  @relation("WinningSelection", fields: [winningSelectionFriendId, winningSelectionNightId], references: [friendId, nightId])
-
   @@unique([winningSelectionFriendId, winningSelectionNightId])
 }
 
